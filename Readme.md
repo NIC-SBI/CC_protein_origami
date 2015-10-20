@@ -6,6 +6,7 @@ Other dependencies:
 
 * Modeller
 * Chimera
+* Snakemake (only python 3+)
 
 
 The Anaconda python distribution is recommended. 
