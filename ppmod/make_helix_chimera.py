@@ -17,6 +17,10 @@ parser.add_argument('-o','--out-file',
           help='Output file name.', 
           default='helix.pdb', type=str)
 
+parser.add_argument('-e','--auto-exit', 
+          help='Exit at the end of script', 
+          type =bool, default=True)
+
 a = parser.parse_args()
 
 #trim quotes and spaces
@@ -34,3 +38,5 @@ placePeptide(a.seq, [(-57, -47)] * len(a.seq), rotlib="Richardson.mode")
 mol = chimera.openModels.list()[-1]
 Midas.write(mol, None, a.out_file)
 
+if a.auto_exit:
+    exit()

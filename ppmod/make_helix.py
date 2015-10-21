@@ -37,6 +37,9 @@ parser.add_argument('-j','--json',
           help='Json file from which to load aminoacid sequnce.', 
           type =str)
 
+parser.add_argument('-e','--auto-exit', 
+          help='Exit at the end of script', 
+          type =bool, default=True)
 
 a = parser.parse_args()
 
@@ -48,7 +51,7 @@ if not a.json is None:
 
 chimera_path = 'chimera'
 script_dir = os.path.dirname(os.path.realpath(__file__))
-chimera_flags = "--nogui"
+chimera_flags = ""#"--nogui"
 
 
 
@@ -56,8 +59,8 @@ chimera_flags = "--nogui"
 if a.debug:
   chimera_flags += " --debug"
 
-cmd = "bash -c \"{path} {flags} --script '{script_dir}/make_helix_chimera.py --out-file={out_file} --seq={seq}'\"".format(
-       path=chimera_path, flags=chimera_flags, script_dir=script_dir, out_file=a.out_file, seq=a.seq)
+cmd = "bash -c \"{path} {flags} --script '{script_dir}/make_helix_chimera.py --out-file={out_file} --seq={seq} --auto-exit={ae} '\"".format(
+       path=chimera_path, flags=chimera_flags, script_dir=script_dir, out_file=a.out_file, seq=a.seq, ae=a.auto_exit)
 
 if a.fake:
     print cmd
