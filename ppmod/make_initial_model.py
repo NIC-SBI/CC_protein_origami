@@ -122,7 +122,7 @@ for i in range(len(d.pairs)):  #pairs are formed in the same order as written in
 
 #----------------------------------------------------
 #one final optimization run
-out_name=a.out_dir+"/02-final-initial-min"
+out_name=args.out_dir+"/02-final-initial-min"
 
 trcfil = open(out_name+'.log', 'w')
 md.optimize(atmsel, max_iterations=run_md_steps, friction=float(args.friction), temperature=float(args.temp), init_velocities = True,            
