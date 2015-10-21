@@ -33,16 +33,32 @@ parser.add_argument('-f','--fake',
           help='Only print command but do not execute it.', 
           default=False, action='store_true')
 
+parser.add_argument('-j','--json', 
+          help='Json file from which to load aminoacid sequnce.', 
+          type =str)
+
+
 a = parser.parse_args()
+
+
+if not a.json is None:
+    import utils as u
+    d = u.load_json_data(a.json)
+    a.seq = d.entire_sequence
 
 chimera_path = 'chimera'
 script_dir = os.path.dirname(os.path.realpath(__file__))
 chimera_flags = "--nogui"
+
+
+
+
 if a.debug:
   chimera_flags += " --debug"
 
 cmd = "bash -c \"{path} {flags} --script '{script_dir}/make_helix_chimera.py --out-file={out_file} --seq={seq}'\"".format(
        path=chimera_path, flags=chimera_flags, script_dir=script_dir, out_file=a.out_file, seq=a.seq)
+
 if a.fake:
     print cmd
 else:
