@@ -34,8 +34,8 @@ env = environ()
 os.getcwd()
 log.verbose()    # request verbose output
 
-if a.out_dir is None:
-    a.out_dir=d.name + 
+if args.out_dir is None:
+    args.out_dir=d.name + u.id_generator()
 
 # Read parameters (needed to build models from internal coordinates)
 env.libs.topology.read('${LIB}/top_heav.lib') 
@@ -63,7 +63,7 @@ for seg in d.segments:
 
 #--------------------------------------------------------------------------------
 for i in range(len(d.pairs)):  #pairs are formed in the same order as written in .json file
-    out_name = a.out_dir+'/01-{:02d}-{:.3s}-initial'.format((i+1),d.pairs[i][0]) 
+    out_name = args.out_dir+'/01-{:02d}-{:.3s}-initial'.format((i+1),d.pairs[i][0]) 
     
     for n in range(len(d.segments)):
         if d.segments[n]['name'] == d.pairs[i][0]:
@@ -122,7 +122,7 @@ for i in range(len(d.pairs)):  #pairs are formed in the same order as written in
 
 #----------------------------------------------------
 #one final optimization run
-out_name=a.out_dir"/02-final-initial-min"
+out_name=a.out_dir+"/02-final-initial-min"
 
 trcfil = open(out_name+'.log', 'w')
 md.optimize(atmsel, max_iterations=run_md_steps, friction=float(args.friction), temperature=float(args.temp), init_velocities = True,            
