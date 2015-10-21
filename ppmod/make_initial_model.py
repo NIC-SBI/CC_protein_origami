@@ -34,7 +34,8 @@ env = environ()
 os.getcwd()
 log.verbose()    # request verbose output
 
-if 
+if a.out_dir is None:
+    a.out_dir=d.name + 
 
 # Read parameters (needed to build models from internal coordinates)
 env.libs.topology.read('${LIB}/top_heav.lib') 
@@ -62,7 +63,7 @@ for seg in d.segments:
 
 #--------------------------------------------------------------------------------
 for i in range(len(d.pairs)):  #pairs are formed in the same order as written in .json file
-    out_name = a.out_dir+'/01-{:02d}-{:.3s}'.format((i+1),d.pairs[i][0]) 
+    out_name = a.out_dir+'/01-{:02d}-{:.3s}-initial'.format((i+1),d.pairs[i][0]) 
     
     for n in range(len(d.segments)):
         if d.segments[n]['name'] == d.pairs[i][0]:
@@ -113,9 +114,8 @@ for i in range(len(d.pairs)):  #pairs are formed in the same order as written in
     md.optimize(atmsel, max_iterations=run_md_steps, friction=float(args.friction), temperature=float(args.temp), init_velocities=True,            
             cap_atom_shift=float(args.shift), md_time_step=float(args.time_step),
             #guide_time=40, guide_factor=1,
-            actions=[actions.charmm_trajectory(100, filename=out_name+'-md.dcd'),
-                     actions.trace(10, trcfil)])
-    mdl.write(file=out_name+'-md.pdb')
+            actions=[actions.charmm_trajectory(100, filename=out_name+'.dcd'),
+                     actions.trace(100, trcfil)])
     mpdf = atmsel.energy()
     mdl.write(file=out_name+'.pdb')
 
@@ -129,49 +129,7 @@ md.optimize(atmsel, max_iterations=run_md_steps, friction=float(args.friction), 
             cap_atom_shift=float(args.shift), md_time_step=float(args.time_step),
             #guide_time=40, guide_factor=1,
             actions=[actions.charmm_trajectory(100, filename=out_name+'-md.dcd'),
-                     actions.trace(10, trcfil)])
-mdl.write(file=out_name+'-md.pdb')
+                     actions.trace(100, trcfil)])
+
 cg.optimize(atmsel, max_iterations=500, actions=[actions.trace(10, trcfil)])
-
-# do the actual homology modelling
 mdl.write(file=out_name+'.pdb')
-
-class MyModel(automodel):
-    def special_restraints(self, aln):
-        rsr = self.restraints
-        at = self.atoms
-        for seg in d.segments:
-            print seg.name, seg.start, seg.end
-            rsr.add(secondary_structure.alpha(self.residue_range(str(seg.start), str(seg.end))))
-
-#determine knowns and target sequence            
-knowns = ()
-with open(args.alnfile,'r') as f:
-    while True:
-        line = f.readline()
-        if not line: break
-        if line[:4] == '>P1;':
-            seqname = line[4:].rstrip('\n')
-            line = f.readline()            
-            if line.split(':')[0] == 'sequence':
-                sequence = seqname
-            else:
-                 knowns = knowns+(seqname,)
-                    
-a = MyModel(env,
-              alnfile=args.alnfile, 
-              knowns=knowns,     
-              sequence=sequence,        
-	      inifile='07a-final-min.pdb',
-              assess_methods=assess.DOPE)              
-
-a.max_var_iterations = int(args.max_var_iterations)         
-a.md_level = refine.slow 	
-#a.md_level = refine.slow_large 	
-a.repeat_optimization = int(args.repeat)
-a.initial_malign3d = True
-a.get_refine_actions()
-a.starting_model = int(args.startindex)                 
-a.ending_model = int(args.endindex)
-                                   
-a.make()                           
