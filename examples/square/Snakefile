@@ -1,0 +1,43 @@
+MODEL = "sqr-4SG"
+N = 2 
+TMPDIR = "out/"
+#script directory 
+SDIR = "D:/data/modeller/poly_modeller/ppmod"
+
+
+def ws(cmd):
+    """Warps shell comands into bash -c \"{cmd}\""""
+    #cmd = "bash -c \" {cmd} \" ".format(cmd=cmd)
+    print(cmd)
+    return cmd
+
+rule models:
+    input:
+        ["{m}-{i:02}/02-final-initial-min.pdb".format(i=i,m=MODEL) for i in range(N)]
+
+rule make_helix:
+    input:
+        MODEL+".json"
+    output:
+        MODEL+"-helix.pdb"
+    run: 
+        shell(ws("python {SDIR}/make_helix.py --json {input} --out-file {output}".format(
+            SDIR=SDIR,input=input[0], output=output[0])
+            ))
+#       shell(ws("echo {input}>{output}"))    
+
+#how to multiply a given task?
+
+rule make_initial_models:
+    input:
+        MODEL+"-helix.pdb"
+    output:
+        "{model}-{num}/02-final-initial-min.pdb"
+    run: 
+        shell("bash -c 'mkdir -p {wildcards.model}-{wildcards.num}'")
+        shell("python {SDIR}/make_initial_model.py --json {wildcards.model}.json --helix {input} --out-dir {wildcards.model}-{wildcards.num}")
+        #shell(ws("echo {input}>{output}"))
+        
+        
+
+

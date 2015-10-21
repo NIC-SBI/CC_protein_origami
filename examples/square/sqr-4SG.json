@@ -1,0 +1,134 @@
+{
+ "entire_sequence": "EIQQLEEEISQLEQKNSQLKEKNQQLKYGSGSGEIQSLEEKNSQLKQEISQLEEKNQQLKYGSGSGENQQLEQKNSQLKQEISQLEQEISQLEYGSGSGENSQLEEKISQLKQKNSQLKEEIQQLEYGSGSGKISQLKQKIQQLKQENQQLEEENSQLEYGSGSGKISQLKEENQQLEQKIQQLKEENSQLEYGSGSGKNSQLKEENSQLEEKIQQLKEKIQQLKYGSGSGKNSQLKEEIQQLEEENQQLEEKISQLKYG", 
+ "pair_types": [
+  "P", 
+  "P", 
+  "P", 
+  "P"
+ ], 
+ "pairs": [
+  [
+   "P3mS", 
+   "P4mS"
+  ], 
+  [
+   "P5mS", 
+   "P6mS"
+  ], 
+  [
+   "P7mS", 
+   "P8mS"
+  ], 
+  [
+   "P9mS", 
+   "P10mS"
+  ]
+ ], 
+ "segments": [
+  {
+   "end": 29, 
+   "id": 1, 
+   "len": 29, 
+   "name": "P3mS", 
+   "pair_id": 5, 
+   "pair_name": "P4mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "EIQQLEEEISQLEQKNSQLKEKNQQLKYG", 
+   "start": 1
+  }, 
+  {
+   "end": 62, 
+   "id": 2, 
+   "len": 29, 
+   "name": "P7mS", 
+   "pair_id": 6, 
+   "pair_name": "P8mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "EIQSLEEKNSQLKQEISQLEEKNQQLKYG", 
+   "start": 34
+  }, 
+  {
+   "end": 95, 
+   "id": 3, 
+   "len": 29, 
+   "name": "P9mS", 
+   "pair_id": 7, 
+   "pair_name": "P10mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "ENQQLEQKNSQLKQEISQLEQEISQLEYG", 
+   "start": 67
+  }, 
+  {
+   "end": 128, 
+   "id": 4, 
+   "len": 29, 
+   "name": "P5mS", 
+   "pair_id": 8, 
+   "pair_name": "P6mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "ENSQLEEKISQLKQKNSQLKEEIQQLEYG", 
+   "start": 100
+  }, 
+  {
+   "end": 161, 
+   "id": 5, 
+   "len": 29, 
+   "name": "P4mS", 
+   "pair_id": 1, 
+   "pair_name": "P3mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "KISQLKQKIQQLKQENQQLEEENSQLEYG", 
+   "start": 133
+  }, 
+  {
+   "end": 194, 
+   "id": 6, 
+   "len": 29, 
+   "name": "P8mS", 
+   "pair_id": 2, 
+   "pair_name": "P7mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "KISQLKEENQQLEQKIQQLKEENSQLEYG", 
+   "start": 166
+  }, 
+  {
+   "end": 227, 
+   "id": 7, 
+   "len": 29, 
+   "name": "P10mS", 
+   "pair_id": 3, 
+   "pair_name": "P9mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "KNSQLKEENSQLEEKIQQLKEKIQQLKYG", 
+   "start": 199
+  }, 
+  {
+   "end": 260, 
+   "id": 8, 
+   "len": 29, 
+   "name": "P6mS", 
+   "pair_id": 4, 
+   "pair_name": "P5mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "KNSQLKEEIQQLEEENQQLEEKISQLKYG", 
+   "start": 232
+  }
+ ], 
+ "tet_name": "sqr-4SG"
+}
