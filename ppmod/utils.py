@@ -48,3 +48,9 @@ def pair_ids_from_segments(segments):
                 pair_ids.append((n, n1))
     return pair_ids    
     
+
+import string
+import random
+#taken from http://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))    
