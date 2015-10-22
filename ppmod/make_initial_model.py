@@ -26,11 +26,18 @@ parser.add_argument('-t','--temp',help='set temperature during md run', default 
 parser.add_argument('-s','--shift',help='set limit of atomic shifts along an axis',default=0.39)
 parser.add_argument('--time-step',help='set time step size in md runs (in fs)', default=4.0)
 parser.add_argument('-o','--out-dir',help='output directory. Default is name+random-ppostfix', default=None, type=str)
+parser.add_argument('-r','--rand-seed',help='Random seed. For modeler it mist be between -2 and -50000. If none, a random number will be chosen', 
+                                       default=None, type=int)
 
 
 args = parser.parse_args()
+
+if args.rand_seed is None:
+    import random
+    args.rand_seed = random.randint(-2, -50000) 
+
 d = u.load_json_data(args.json)
-env = environ()
+env = environ(rand_seed=args.rand_seed)
 os.getcwd()
 log.verbose()    # request verbose output
 
