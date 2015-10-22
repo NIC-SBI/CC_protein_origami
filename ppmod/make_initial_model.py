@@ -34,7 +34,7 @@ args = parser.parse_args()
 
 if args.rand_seed is None:
     import random
-    args.rand_seed = random.randint(-2, -50000) 
+    args.rand_seed = random.randint(-50000, -2) 
 
 d = u.load_json_data(args.json)
 env = environ(rand_seed=args.rand_seed)
