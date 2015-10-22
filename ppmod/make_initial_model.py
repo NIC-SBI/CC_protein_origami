@@ -54,6 +54,9 @@ env.edat.dynamic_sphere = True
 # read model file
 mdl = complete_pdb(env, args.helix) 
 
+#write the psf topology
+mdl.write_psf(args.out_dir+'00.psf')
+
 # Select all atoms:
 atmsel = selection(mdl)
 at = mdl.chains[0].atoms
@@ -144,3 +147,5 @@ cg.optimize(atmsel, max_iterations=500, actions=[actions.trace(10, trcfil)])
 #move the model to the origin
 mdl.orient()
 mdl.write(file=out_name+'.pdb')
+#write the psf topology (it's the same as 00.psf)
+mdl.write_psf(file=out_name+'.psf'))
