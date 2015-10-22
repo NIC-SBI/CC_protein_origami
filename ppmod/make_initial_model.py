@@ -116,7 +116,7 @@ for i in range(len(d.pairs)):  #pairs are formed in the same order as written in
     md = molecular_dynamics(output='REPORT')
 
 # Open a file to get basic stats on each optimization
-    trcfil = open(out_name+'.log', 'w')
+    trcfil = open(out_name+'.ener', 'w')
     cg.optimize(atmsel, max_iterations=100, actions=[actions.trace(10, trcfil)])       
     md.optimize(atmsel, max_iterations=run_md_steps, friction=float(args.friction), temperature=float(args.temp), init_velocities=True,            
             cap_atom_shift=float(args.shift), md_time_step=float(args.time_step),
@@ -131,7 +131,7 @@ for i in range(len(d.pairs)):  #pairs are formed in the same order as written in
 #one final optimization run
 out_name=args.out_dir+"/02-final-initial-min"
 
-trcfil = open(out_name+'.log', 'w')
+trcfil = open(out_name+'.ener', 'w')
 md.optimize(atmsel, max_iterations=run_md_steps, friction=float(args.friction), temperature=float(args.temp), init_velocities = True,            
             cap_atom_shift=float(args.shift), md_time_step=float(args.time_step),
             #guide_time=40, guide_factor=1,
