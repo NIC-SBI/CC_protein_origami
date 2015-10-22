@@ -139,4 +139,8 @@ md.optimize(atmsel, max_iterations=run_md_steps, friction=float(args.friction), 
                      actions.trace(100, trcfil)])
 
 cg.optimize(atmsel, max_iterations=500, actions=[actions.trace(10, trcfil)])
+
+
+#move the model to the origin
+mdl.orient()
 mdl.write(file=out_name+'.pdb')
