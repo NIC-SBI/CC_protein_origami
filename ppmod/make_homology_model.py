@@ -19,10 +19,12 @@ parser=argparse.ArgumentParser(__doc__)
 parser.add_argument("-j","--json",default='out/data.json',help='specify path to json file')
 parser.add_argument('-i','--initial-model', help='Initial model in pdb format')
 parser.add_argument('-a','--alnfile', help='secify path to alignemnt file')
-parser.add_argument('-mvi','--max-var-iterations', help='set max number of iterations for conjugate gradiens optimization method', default=100)
+parser.add_argument('-mvi','--max-var-iterations', help='set max number of iterations for conjugate gradiens optimization method', default=500)
 parser.add_argument('-nr','--repeat', help='number of optimization repeats', default=1)
+parser.add_argument('-md','--md-level', 
+            help='How much MD optimization is performed', default=1)
 parser.add_argument('-smi','--start-index', help='set starting model index',default=1)
-parser.add_argument('-emi','--end-index', help='set ending model index',default=10)
+parser.add_argument('-emi','--end-index', help='set ending model index',default=1)
 parser.add_argument('-o','--out-dir',help='output directory. Default is name+random-ppostfix', default=None, type=str)
 parser.add_argument('-r','--rand-seed',help='Random seed. For modeler it mist be between -2 and -50000. If none, a random number will be chosen', 
                                        default=None, type=int)
@@ -48,9 +50,6 @@ env.libs.parameters.read('${LIB}/par.lib')
 env.io.atom_files_directory = ['./out','./building_blocks'] #where to read atom files
 env.edat.dynamic_sphere = True
 
-# read model file
-mdl = complete_pdb(env, args.helix) 
-
 class AlphaModel(automodel):
     def special_restraints(self, aln):
         rsr = self.restraints
@@ -62,7 +61,7 @@ class AlphaModel(automodel):
 
 #determine knowns and target sequence            
 
-sequnce, knowns = u.sequnce_and_knowns(args.alnfile)
+sequence, knowns = u.sequnce_and_knowns(args.alnfile)
                     
 a = AlphaModel(env,
               alnfile=args.alnfile, 
@@ -72,7 +71,7 @@ a = AlphaModel(env,
               assess_methods=[assess.DOPE, assess.GA341, assess.normalized_dope])              
 
 a.max_var_iterations = int(args.max_var_iterations)         
-a.md_level = refine.slow    
+a.md_level = refine.slow   
 #a.md_level = refine.slow_large     
 a.repeat_optimization = int(args.repeat)
 a.initial_malign3d = True
