@@ -54,3 +54,24 @@ import random
 #taken from http://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))    
+
+
+def sequnce_and_knowns(alnfile):
+    """Parses the IDs of the known strucutes and the sequnces from the alignment file.
+    Returns a tuple:
+      (seq, (known1, known2 ...))
+
+    """
+    knowns = ()
+    with open(alnfile,'r') as f:
+        while True:
+            line = f.readline()
+            if not line: break
+            if line[:4] == '>P1;':
+                seqname = line[4:].rstrip('\n')
+                line = f.readline()            
+                if line.split(':')[0] == 'sequence':
+                    sequence = seqname
+                else:
+                     knowns = knowns+(seqname,)
+    return (sequnce, knowns)                 
