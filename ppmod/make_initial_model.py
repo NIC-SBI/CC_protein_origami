@@ -73,7 +73,7 @@ for seg in d.segments:
 
 #--------------------------------------------------------------------------------
 for i in range(len(d.pairs)):  #pairs are formed in the same order as written in .json file
-    out_name = args.out_dir+'/01-{:02d}-{:.3s}-initial'.format((i+1),d.pairs[i][0]) 
+    out_name = args.out_dir+'/01-{:02d}-{}-{}-initial'.format((i+1),d.pairs[i][0], d.pairs[i][1]) 
     
     for n in range(len(d.segments)):
         if d.segments[n]['name'] == d.pairs[i][0]:
