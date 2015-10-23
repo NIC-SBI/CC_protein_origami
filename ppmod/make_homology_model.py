@@ -21,8 +21,8 @@ parser.add_argument('-i','--initial-model', help='Initial model in pdb format')
 parser.add_argument('-a','--alnfile', help='secify path to alignemnt file')
 parser.add_argument('-mvi','--max-var-iterations', help='set max number of iterations for conjugate gradiens optimization method', default=500)
 parser.add_argument('-nr','--repeat', help='number of optimization repeats', default=1)
-parser.add_argument('-md','--md-level', 
-            help='How much MD optimization is performed', default=1)
+parser.add_argument('-md','--md-level', help='How much MD optimization is performed', default = 'slow', 
+                 choices=['very_fast', 'fast', 'slow', 'very_slow', 'slow_large'])
 parser.add_argument('-smi','--start-index', help='set starting model index',default=1)
 parser.add_argument('-emi','--end-index', help='set ending model index',default=1)
 parser.add_argument('-o','--out-dir',help='output directory. Default is name+random-ppostfix', default=None, type=str)
@@ -50,6 +50,14 @@ env.libs.parameters.read('${LIB}/par.lib')
 env.io.atom_files_directory = ['./out','./building_blocks'] #where to read atom files
 env.edat.dynamic_sphere = True
 
+md_opt_dict = \
+    {'very_fast'  : refine.very_fast,
+     'fast'       : refine.fast,
+     'slow'       : refine.slow,
+     'very_slow'  : refine.very_slow,
+     'slow_large' : refine.slow_large,
+    }
+
 class AlphaModel(automodel):
     def special_restraints(self, aln):
         rsr = self.restraints
@@ -71,11 +79,11 @@ a = AlphaModel(env,
               assess_methods=[assess.DOPE, assess.GA341, assess.normalized_dope])              
 
 a.max_var_iterations = int(args.max_var_iterations)         
-a.md_level = refine.slow   
+a.md_level = md_opt_dict[args.md_level]
 #a.md_level = refine.slow_large     
 a.repeat_optimization = int(args.repeat)
 a.initial_malign3d = True
-a.get_refine_actions()
+
 a.starting_model = int(args.start_index)                 
 a.ending_model = int(args.end_index)
                                    
