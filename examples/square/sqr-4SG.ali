@@ -55,7 +55,7 @@ structureX:p7_p8.pdb:   1 :A:+56  :B:::-1.00:-1.00
 -----------------------------*
 
 >P1;p9_p10
-structureX:p7_p8.pdb:   1 :A:+56  :B:::-1.00:-1.00
+structureX:p9_p10.pdb:   1 :A:+56  :B:::-1.00:-1.00
 
 -----------------------------
 ----
@@ -75,7 +75,7 @@ structureX:p7_p8.pdb:   1 :A:+56  :B:::-1.00:-1.00
 
 
 
->P1;tet-5pbl
+>P1;sqr-4GS
 sequence:tet-5pbl:   1 :A:+261    : ::: 0.00: 0.00
 EIQQLEEEISQLEQKNSQLKEKNQQLKYG
 SGSG
