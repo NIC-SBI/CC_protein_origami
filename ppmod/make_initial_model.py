@@ -55,7 +55,7 @@ env.edat.dynamic_sphere = True
 mdl = complete_pdb(env, args.helix) 
 
 #write the psf topology
-mdl.write_psf(args.out_dir+'00.psf')
+mdl.write_psf(args.out_dir+'/00.psf')
 
 # Select all atoms:
 atmsel = selection(mdl)

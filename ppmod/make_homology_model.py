@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+
+"""
+Constructs a homology refined model from JSON config file and an initial polyhedral peptide model (see make_initial_model.py).
+
+The raw model is then polished by homology modeling. In this step structures of individual segment pairs are used
+to generate the final model. Multiple models are generated and evaluated according to their DOPE score and modeller
+objective function. It is assumed that the model with the lowest DOPE score is the best.
+"""
+import argparse
+import os
+import utils as u
+from modeller import *
+from modeller.scripts import complete_pdb
+from modeller.optimizers import conjugate_gradients, molecular_dynamics, quasi_newton, actions
+from modeller.automodel import *
+
+parser=argparse.ArgumentParser(__doc__)
+parser.add_argument("-j","--json",default='out/data.json',help='specify path to json file')
+parser.add_argument('-i','--initial-model', help='Initial model in pdb format')
+parser.add_argument('-a','--alnfile', help='secify path to alignemnt file')
+parser.add_argument('-mvi','--max-var-iterations', help='set max number of iterations for conjugate gradiens optimization method', default=100)
+parser.add_argument('-nr','--repeat', help='number of optimization repeats', default=1)
+parser.add_argument('-smi','--start-index', help='set starting model index',default=1)
+parser.add_argument('-emi','--end-index', help='set ending model index',default=10)
+parser.add_argument('-o','--out-dir',help='output directory. Default is name+random-ppostfix', default=None, type=str)
+parser.add_argument('-r','--rand-seed',help='Random seed. For modeler it mist be between -2 and -50000. If none, a random number will be chosen', 
+                                       default=None, type=int)
+
+args = parser.parse_args()
+
+if args.rand_seed is None:
+    import random
+    args.rand_seed = random.randint(-50000, -2) 
+
+d = u.load_json_data(args.json)
+env = environ(rand_seed=args.rand_seed)
+os.getcwd()
+log.verbose()    # request verbose output
+
+if args.out_dir is None:
+    args.out_dir=d.name + u.id_generator()
+
+# Read parameters (needed to build models from internal coordinates)
+env.libs.topology.read('${LIB}/top_heav.lib') 
+env.libs.parameters.read('${LIB}/par.lib')
+
+env.io.atom_files_directory = ['./out','./building_blocks'] #where to read atom files
+env.edat.dynamic_sphere = True
+
+# read model file
+mdl = complete_pdb(env, args.helix) 
+
+class AlphaModel(automodel):
+    def special_restraints(self, aln):
+        rsr = self.restraints
+        at = self.atoms
+        #add secondary alpha-helical restraints for each segement
+        for seg in d.segments:
+            #print seg.name, seg.start, seg.end
+            rsr.add(secondary_structure.alpha(self.residue_range(str(seg.start), str(seg.end))))
+
+#determine knowns and target sequence            
+
+sequnce, knowns = u.sequnce_and_knowns(args.alnfile)
+                    
+a = AlphaModel(env,
+              alnfile=args.alnfile, 
+              knowns=knowns,     
+              sequence=sequence,        
+              inifile=args.initial_model,
+              assess_methods=[assess.DOPE, assess.GA341, assess.normalized_dope])              
+
+a.max_var_iterations = int(args.max_var_iterations)         
+a.md_level = refine.slow    
+#a.md_level = refine.slow_large     
+a.repeat_optimization = int(args.repeat)
+a.initial_malign3d = True
+a.get_refine_actions()
+a.starting_model = int(args.start_index)                 
+a.ending_model = int(args.end_index)
+                                   
+a.make()                           
