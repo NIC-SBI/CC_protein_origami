@@ -37,17 +37,27 @@ if args.rand_seed is None:
 
 d = u.load_json_data(args.json)
 env = environ(rand_seed=args.rand_seed)
-os.getcwd()
+
 log.verbose()    # request verbose output
 
 if args.out_dir is None:
     args.out_dir=d.name + u.id_generator()
 
+if not os.path.exists(args.out_dir):
+    os.makedirs(args.out_dir)
+
+#convert to absolute path before chdir
+args.alnfile =  os.path.abspath(args.alnfile)
+
+os.chdir(args.out_dir)
+    
 # Read parameters (needed to build models from internal coordinates)
 env.libs.topology.read('${LIB}/top_heav.lib') 
 env.libs.parameters.read('${LIB}/par.lib')
 
-env.io.atom_files_directory = ['./out','./building_blocks'] #where to read atom files
+SDIR = os.path.dirname(os.path.realpath(__file__))
+
+env.io.atom_files_directory = ['.','..','../building_blocks', SDIR+'/../building_blocks'] #where to read atom files
 env.edat.dynamic_sphere = True
 
 md_opt_dict = \
@@ -58,6 +68,10 @@ md_opt_dict = \
      'slow_large' : refine.slow_large,
     }
 
+#print dir(automodel.get_model_filename)
+
+import shutil
+
 class AlphaModel(automodel):
     def special_restraints(self, aln):
         rsr = self.restraints
@@ -67,8 +81,13 @@ class AlphaModel(automodel):
             #print seg.name, seg.start, seg.end
             rsr.add(secondary_structure.alpha(self.residue_range(str(seg.start), str(seg.end))))
 
-#determine knowns and target sequence            
+    def get_model_filename(self, sequence, id1, id2, file_ext):
+        print self, sequence, id1, id2, file_ext
 
+        return "03-homology-model-{id2:02}{file_ext}".format(
+            outdir=args.out_dir, id1=id1, id2=id2, file_ext=file_ext)
+
+#determine knowns and target sequence            
 sequence, knowns = u.sequnce_and_knowns(args.alnfile)
                     
 a = AlphaModel(env,
