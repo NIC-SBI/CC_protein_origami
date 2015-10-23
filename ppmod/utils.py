@@ -57,7 +57,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 
 def sequnce_and_knowns(alnfile):
-    """Parses the IDs of the known strucutes and the sequnces from the alignment file.
+    """Parses the IDs of the known structures and the sequences from the alignment file.
     Returns a tuple:
       (seq, (known1, known2 ...))
 
@@ -74,4 +74,4 @@ def sequnce_and_knowns(alnfile):
                     sequence = seqname
                 else:
                      knowns = knowns+(seqname,)
-    return (sequnce, knowns)                 
+    return (sequence, knowns)                 
