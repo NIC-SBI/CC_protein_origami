@@ -1,0 +1,41 @@
+{
+ "entire_sequence": "ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLKGSGSGSELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK",
+ "name": "APHsh",
+ "pair_types": [
+  "A"
+ ],
+ "pairs": [
+  [
+   "APHshort",
+   "APHshort"
+  ]
+ ],
+ "segments": [
+  {
+   "end": 34,
+   "id": 1,
+   "len": 34,
+   "name": "APHshort",
+   "pair_id": 2,
+   "pair_name": "APHshort",
+   "pair_type": "A",
+   "pdb_chain": "",
+   "pdb_template": "APH.pdb",
+   "sequence": "ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK",
+   "start": 1
+  },
+  {
+   "end": 74,
+   "id": 2,
+   "len": 34,
+   "name": "APHshort",
+   "pair_id": 1,
+   "pair_name": "APHshort",
+   "pair_type": "A",
+   "pdb_chain": "",
+   "pdb_template": "APH.pdb",
+   "sequence": "ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK",
+   "start": 41
+  }
+ ]
+}
