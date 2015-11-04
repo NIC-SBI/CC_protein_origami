@@ -1,0 +1,196 @@
+{
+ "entire_sequence": "MRMKQLEDKVEELERKNYHLENEVSRLKKLVGGDGKGSPEDEIQSLEEKNSQLKQEISQLEEKNQQLKYGGKGDGELERAKQSIRRLEQEVNQERSRMQYLQTGKGDGRMKQLEDKVEELESKNYHLENEVSRLKKLVGGKGDGELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLKGKGDGSPEDEIQQLEEEISQLEQKNSQLKEKNQQLKYGGKGDGELERAKQSIRRLEQEVNQERSRMQYLQTGKGDGSPEDENSQLEEKISQLKQKNSQLKEEIQQLEYGGKGDGELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLKGKGDGSPEDKISQLKEENQQLEQKIQQLKEENSQLEYGGDGKGSPEDKNSQLKEEIQQLEEENQQLEEKISQLKYGGDGKGSPEDKISQLKQKIQQLKQENQQLEEENSQLEYGLEHHHHHHHH", 
+ "name": "tet-p5LD3", 
+ "pair_types": [
+  "A", 
+  "A", 
+  "P", 
+  "P", 
+  "P", 
+  "P"
+ ], 
+ "pairs": [
+  [
+   "APHshort", 
+   "APHshort"
+  ], 
+  [
+   "BCRmD", 
+   "BCRmD"
+  ], 
+  [
+   "P3mS", 
+   "P4mS"
+  ], 
+  [
+   "P5mS", 
+   "P6mS"
+  ], 
+  [
+   "GCN2", 
+   "GCN2"
+  ], 
+  [
+   "P7mS", 
+   "P8mS"
+  ]
+ ], 
+ "segments": [
+  {
+   "end": 32, 
+   "id": 1, 
+   "len": 31, 
+   "name": "GCN2", 
+   "pair_id": 4, 
+   "pair_name": "GCN2", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "RMKQLEDKVEELERKNYHLENEVSRLKKLVG", 
+   "start": 2
+  }, 
+  {
+   "end": 70, 
+   "id": 2, 
+   "len": 33, 
+   "name": "P7mS", 
+   "pair_id": 10, 
+   "pair_name": "P8mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDEIQSLEEKNSQLKQEISQLEEKNQQLKYG", 
+   "start": 38
+  }, 
+  {
+   "end": 103, 
+   "id": 3, 
+   "len": 28, 
+   "name": "BCRmD", 
+   "pair_id": 7, 
+   "pair_name": "BCRmD", 
+   "pair_type": "A", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "ELERAKQSIRRLEQEVNQERSRMQYLQT", 
+   "start": 76
+  }, 
+  {
+   "end": 139, 
+   "id": 4, 
+   "len": 31, 
+   "name": "GCN2", 
+   "pair_id": 1, 
+   "pair_name": "GCN2", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "RMKQLEDKVEELESKNYHLENEVSRLKKLVG", 
+   "start": 109
+  }, 
+  {
+   "end": 178, 
+   "id": 5, 
+   "len": 34, 
+   "name": "APHshort", 
+   "pair_id": 9, 
+   "pair_name": "APHshort", 
+   "pair_type": "A", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK", 
+   "start": 145
+  }, 
+  {
+   "end": 216, 
+   "id": 6, 
+   "len": 33, 
+   "name": "P3mS", 
+   "pair_id": 12, 
+   "pair_name": "P4mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDEIQQLEEEISQLEQKNSQLKEKNQQLKYG", 
+   "start": 184
+  }, 
+  {
+   "end": 249, 
+   "id": 7, 
+   "len": 28, 
+   "name": "BCRmD", 
+   "pair_id": 3, 
+   "pair_name": "BCRmD", 
+   "pair_type": "A", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "ELERAKQSIRRLEQEVNQERSRMQYLQT", 
+   "start": 222
+  }, 
+  {
+   "end": 287, 
+   "id": 8, 
+   "len": 33, 
+   "name": "P5mS", 
+   "pair_id": 11, 
+   "pair_name": "P6mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDENSQLEEKISQLKQKNSQLKEEIQQLEYG", 
+   "start": 255
+  }, 
+  {
+   "end": 326, 
+   "id": 9, 
+   "len": 34, 
+   "name": "APHshort", 
+   "pair_id": 5, 
+   "pair_name": "APHshort", 
+   "pair_type": "A", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK", 
+   "start": 293
+  }, 
+  {
+   "end": 364, 
+   "id": 10, 
+   "len": 33, 
+   "name": "P8mS", 
+   "pair_id": 2, 
+   "pair_name": "P7mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDKISQLKEENQQLEQKIQQLKEENSQLEYG", 
+   "start": 332
+  }, 
+  {
+   "end": 402, 
+   "id": 11, 
+   "len": 33, 
+   "name": "P6mS", 
+   "pair_id": 8, 
+   "pair_name": "P5mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDKNSQLKEEIQQLEEENQQLEEKISQLKYG", 
+   "start": 370
+  }, 
+  {
+   "end": 440, 
+   "id": 12, 
+   "len": 33, 
+   "name": "P4mS", 
+   "pair_id": 6, 
+   "pair_name": "P3mS", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDKISQLKQKIQQLKQENQQLEEENSQLEYG", 
+   "start": 408
+  }
+ ]
+}
