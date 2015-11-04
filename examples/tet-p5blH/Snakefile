@@ -1,0 +1,61 @@
+MODEL = "tet-p5bLH"
+
+N_fold = 10
+N_homology = 3 
+
+#script directory 
+SDIR = "D:/data/modeller/poly_modeller/ppmod"
+
+OUTPUT = ["{m}-{nf:02}/03-homology-model-{nh:02}.pdb".format(nf=nf, nh=nh, m=MODEL) for nf in range(N_fold) for nh in range(N_homology)]
+#print(OUTPUT)
+
+def ws(cmd):
+    """Warps shell comands into bash -c \"{cmd}\""""
+    #cmd = "bash -c \" {cmd} \" ".format(cmd=cmd)
+    print(cmd)
+    return cmd
+
+rule models:
+    input:
+        OUTPUT
+
+rule make_helix:
+    input:
+        MODEL+".json"
+    output:
+        MODEL+"-helix.pdb"
+    run: 
+        shell(ws("python {SDIR}/make_helix.py --json {input} --out-file {output}".format(
+            SDIR=SDIR,input=input[0], output=output[0])
+            ))
+#       shell(ws("echo {input}>{output}"))    
+
+#how to multiply a given task?
+
+rule make_initial_models:
+    input:
+        MODEL+"-helix.pdb"
+    output:
+        "{model}-{num}/02-final-initial-min.pdb"
+    log:
+        "{model}-{num}/01-initial-model.log"    
+    run: 
+        shell("bash -c 'mkdir -p {wildcards.model}-{wildcards.num}'")
+        shell("python {SDIR}/make_initial_model.py --json {wildcards.model}.json --helix {input} \
+            --mdsteps 20000 --out-dir {wildcards.model}-{wildcards.num} > {log}")
+        #shell(ws("echo {input}>{output}"))
+        
+rule make_homology_models:
+    input:
+        "{model}-{num}/02-final-initial-min.pdb"
+    output:
+        "{model}-{num}/03-homology-model-{hnum}.pdb"
+    log:
+        "{model}-{num}/03-homology-model-{hnum}.log"  
+    run: 
+        shell("python {SDIR}/make_homology_model.py --json {wildcards.model}.json --alnfile {wildcards.model}.ali --initial-model {input} \
+         -emi {wildcards.hnum} -smi {wildcards.hnum} -nr 3 -md slow --out-dir {wildcards.model}-{wildcards.num} > {log}")
+        
+        
+
+
