@@ -16,82 +16,80 @@ import utils as u
 import os
 import numpy as np
 from modeller import *
+global topology,position,args
 
-parser = argparse.ArgumentParser('Generate alignment file from information in JSON file',
+parser = argparse.ArgumentParser(__doc__,
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-j', '--json', help="json file name",default='data.json')
 parser.add_argument('-aln', '--alignment', help="alignment file name",default='alignment-file.ali')
-parser.add_argument('-p', '--path', help="path to template pdb files",default='building_blocks/')
+parser.add_argument('-p', '--path', help="path to template pdb files",default='../../building_blocks/')
 args = parser.parse_args()
 
-def score(p1f,seq,flag):
+def align(p1f,seq,j,jj):
+     i=0
+     ii=0
+     scoreold = score(p1f,seq)
+     for t in list(range(j)):   
+        for tt in list(range(jj)): 
+            scorenew = score(p1f[t:],seq[tt:])  
+            if scorenew > scoreold:
+                scoreold = scorenew
+                i = t
+                ii = tt
+     return (i,ii)
+
+def score(p1f,seq):
     "This function scores the quality of the alignment. Higher score means better alignment"
     total = 0
-    if flag == 0:
-        for i in list(range(8)):  #check the first ten residues
-            if p1f[i] == seq[i]:   #if p1f and seq have a matching residue on position i add a point
-                total = total+1  
-    else:
-        for i in list(range(-1,-9,-1)):  #check the last ten residues
-            if p1f[i] == seq[i]:          #if p1f and seq have a matching residue on position i add a point
-                total = total+1 
+    for i in list(range(8)):  #check the first ten residues
+        if p1f[i] == seq[i]:   #if p1f and seq have a matching residue on position i add a point
+            total = total+1  
     return total                          #return final score
 
+def find_pair(pair):
+    for n in range(len(d.segments)):
+        if d.segments[n]['name'] == pair:
+            p1 = d.segments[n]['id']-1         #get segment name
+            p2 = d.segments[n]['pair_id']-1
+            pdbname=d.segments[n]['pdb_template']   #get template pdb file name
+            break     
+    return p1,p2,pdbname
 
+def selres(i):
+    res=topology.select("resid {:d}".format(i))
+    return res
+
+def writepdb(i,l,pdbname):
+    chain0len = topology.chain(0).n_residues-1
+    topsub1 = topology.subset(list(range(selres(i)[0],selres(i+l-1)[-1])))
+    topsub2 = topology.subset(list(range(selres(chain0len+i+1)[0],selres(chain0len+i+l)[-1])))   
+    topsubjoin = topsub1.join(topsub2)
+    coord = np.concatenate((position[0,selres(i)[0]:selres(i+l-1)[-1],:]*10,position[0,selres(chain0len+i+1)[0]:selres(chain0len+l+i)[-1],:]*10),axis=0)
+    fpdb = md.formats.PDBTrajectoryFile(os.path.join(args.path, pdbname.rpartition('.')[0]+'-new.pdb'), mode='w', force_overwrite=True)
+    fpdb.write(coord,topsubjoin)
+    return
 
 d = u.load_json_data(args.json)         #read json file
 aln_str = d.entire_sequence
 
 with open(args.alignment,'w') as f1:
     for i in range(len(d.pairs)):  #go through all CC pairs
-        for n in range(len(d.segments)):
-            if d.segments[n]['name'] == d.pairs[i][0]:
-                p1 = d.segments[n]['id']-1         #get segment name
-                p2 = d.segments[n]['pair_id']-1
-                pdbname=d.segments[n]['pdb_template']   #get template pdb file name
-                break
+        p1,p2,pdbname=find_pair(d.pairs[i][0])
         topology = md.load(os.path.join(args.path, pdbname)).topology   #read topology
         position = md.load(os.path.join(args.path, pdbname)).xyz        #and position from pdb file  
         p1f = topology.to_fasta(0)
         p2f = topology.to_fasta(1)             #convert topology to fasta sequence
         
         #align template structures to target
-        i = 0            
-        j = -1
-        k = 0
-        l = -1
-        ii = 0
-        jj = -1
-        kk = 0
-        ll = -1
         #check weather the template sequence is to long and determine alignemnt positions by checking the quality
         #of different alignments
-        scoreold = score(p1f[i:],d.segments[p1]['sequence'][ii:],0)
-        for t in list(range(6)):   
-            for tt in list(range(6)): 
-                scorenew = score(p1f[t:],d.segments[p1]['sequence'][tt:],0)  
-                if scorenew > scoreold:
-                    scoreold = scorenew
-                    i = t
-                    ii = tt
-                    
-        scoreold = score(p1f[:],d.segments[p1]['sequence'][:],1)
-        for t in list(range(-1,-7,-1)):
-            for tt in list(range(-1,-7,-1)):
-                scorenew = score(p1f[:t],d.segments[p1]['sequence'][:tt],1)
-                if scorenew > scoreold:
-                    scoreold = scorenew
-                    j = t
-                    jj = tt
-       
+             
+        i,ii = align(p1f,d.segments[p1]['sequence'],6,6)            
+        l=len(min((p1f[i:],d.segments[p1]['sequence'][ii:]),key=len)) 
+
         #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file        
-        topsub1 = topology.subset(list(range(topology.select("resid {:d}".format(i))[0],topology.select("resid {:d}".format(topology.chain(0).n_residues+j))[-1])))
-        topsub2 = topology.subset(list(range(topology.select("resid {:d}".format(topology.chain(0).n_residues+i))[0],topology.select("resid {:d}".format(topology.n_residues+j))[-1])))   
-        topsubj = topsub1.join(topsub2)
-        coord = np.concatenate((position[0,topology.select("resid {:d}".format(i))[0]:topology.select("resid {:d}".format(topology.chain(0).n_residues+j))[-1],:]*10,position[0,topology.select("resid {:d}".format(topology.chain(0).n_residues+i))[0]:topology.select("resid {:d}".format(topology.n_residues+j))[-1],:]*10),axis=0)
-        fpdb = md.formats.PDBTrajectoryFile(os.path.join(args.path, pdbname.rpartition('.')[0]+'-new.pdb'), mode='w', force_overwrite=True)
-        fpdb.write(coord,topsubj)
-        
+        writepdb(i,l,pdbname)
+       
         #write the alignment file taking account previously determined alignemnt position
         count = 0
         f1.write('>P1;{}\n'.format(pdbname.rpartition('.')[0]))    
@@ -101,13 +99,13 @@ with open(args.alignment,'w') as f1:
         print('structureX:{}::A:::::-1.00:-1.00'.format(pdbname.rpartition('.')[0]+'-new.pdb'))
         while count < len(aln_str):
             if count == d.segments[p1]['start']-1+ii:
-                f1.write(p1f[i:len(p1f)+1+j])
-                print(p1f[i:len(p1f)+1+j])
-                count=count+len(p1f[i:len(p1f)+1+j])
+                f1.write(p1f[i:i+l])
+                print(p1f[i:i+l])
+                count=count+len(p1f[i:i+l])
             elif count == d.segments[p2]['start']-1+ii:
-                f1.write(p2f[i:len(p2f)+1+j])
-                print(p2f[i:len(p2f)+1+j])
-                count = count+len(p2f[i:len(p2f)+1+j])
+                f1.write(p2f[i:i+l])
+                print(p2f[i:i+l])
+                count = count+len(p2f[i:i+l])
             else:
                 f1.write("-")
                 print("-",end="")
