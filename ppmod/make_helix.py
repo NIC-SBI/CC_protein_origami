@@ -6,14 +6,16 @@ Chimera needs to be installed and available on the path
 """
 
 #names of columns, that have the fraction of native contacts for each cc segment
-cc_names = ['cc_0','cc_1','cc_2','cc_3','cc_4','cc_5']
 
+from __future__ import print_function
 import pandas as pd
 import numpy as np
 #command line arguments handling 
 import argparse 
 import os
 import subprocess
+
+cc_names = ['cc_0','cc_1','cc_2','cc_3','cc_4','cc_5']
 
 parser = argparse.ArgumentParser(description=__doc__, #uses the scripts docstring
                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -63,6 +65,6 @@ cmd = "bash -c \"{path} {flags} --script '{script_dir}/make_helix_chimera.py --o
        path=chimera_path, flags=chimera_flags, script_dir=script_dir, out_file=a.out_file, seq=a.seq, ae=a.auto_exit)
 
 if a.fake:
-    print cmd
+    print(cmd)
 else:
     subprocess.call(cmd, shell=True)

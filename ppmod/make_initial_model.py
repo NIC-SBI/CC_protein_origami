@@ -7,6 +7,7 @@ Json, alignment files and an initial model of the protein should be prepared bef
 in the form of an alpha helix. Initially the program treats segments as rigid bodies. 
 Several md runs are carried out in combination with harmonic restraints to bring the protein in roughly correct polyhedral shape.
 """
+from __future__ import print_function
 import argparse
 import os
 import utils as u
@@ -66,7 +67,7 @@ chain = ":A"   #name of chain
 
 #make rigid bodies
 for seg in d.segments:
-    print seg.name, seg.start, seg.end
+    print(seg.name, seg.start, seg.end)
     r = rigid_body(mdl.residue_range(str(seg.start)+chain, str(seg.end)+chain))
     mdl.restraints.rigid_bodies.append(r)
 
@@ -90,9 +91,9 @@ for i in range(len(d.pairs)):  #pairs are formed in the same order as written in
     p2_start = str(d.segments[p2].start)
     p2_end = str(d.segments[p2].end)
 
-    print "PAIR: {} and {}".format(d.segments[p1].name, d.segments[p2].name),d.pair_types[i]
-    print p1_start,p1_end
-    print p2_start,p2_end
+    print("PAIR: {} and {}".format(d.segments[p1].name, d.segments[p2].name),d.pair_types[i])
+    print(p1_start,p1_end)
+    print(p2_start,p2_end)
     
 #add restrain between segments belonging to the same pair
     if d.pair_types[i] == 'A':
