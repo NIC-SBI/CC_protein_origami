@@ -1,6 +1,6 @@
 MODEL = "tet-p5LD3"
 
-N_fold = 2
+N_fold = 10
 N_homology = 3 
 
 #script directory 
