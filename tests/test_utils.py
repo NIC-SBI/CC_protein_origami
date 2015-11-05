@@ -21,3 +21,21 @@ def test_sequnce_and_knowns_spaces():
   assert seq=='tet-p5LD3' 
   #use set so order is not important
   assert set(knowns)==set(['p3_p4', 'p5_p6', 'p7_p8', 'APHshort', 'BCRshort', 'GCN'])  
+
+def test_align():
+  i,ii = u.align('IQQLEEEIAQLEQKNAALKEKNQALKYG','SPEDEIKELEEEIKELEWKNEELKRKNEELKRG',6,6)
+  assert (i, ii) == (0, 5) 
+  i,ii = u.align('ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK','REKELQKIEEQKAQLQWKAQARKEKLAQLK',6,6)
+  assert (i, ii) == (5, 1) 
+  i, ii = u.align('ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK','ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLKEKL',6,6)
+  assert (i, ii) == (0,0)     
+                          
+def test_find_pair():
+  json = u.relative_to(__file__, 'data/data.json')
+  d = u.load_json_data(json)
+  p1, p2, pdb = u.find_pair('APHshE', d.segments)
+  assert p1 == d.segments[4]['id']-1
+
+def test_score():
+  score = u.score('KKLLLVQEI','LEELLEQEK')
+  assert score == 4
