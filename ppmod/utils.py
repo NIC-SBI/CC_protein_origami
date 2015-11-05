@@ -113,9 +113,10 @@ def align(p1f, seq, j, jj):
     scoreold = score(p1f, seq)
     for t in range(j):   
        for tt in range(jj): 
+           if t == tt: continue
            scorenew = score(p1f[t:], seq[tt:])  
            if scorenew > scoreold:
-               scoreold = scorenew
+               scoreold = scorenew               
                i = t
                ii = tt
     return (i, ii)
