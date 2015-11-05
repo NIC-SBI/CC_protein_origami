@@ -70,7 +70,7 @@ def sequnce_and_knowns(alnfile):
             line = f.readline()
             if not line: break
             if line[:4] == '>P1;':
-                seqname = line[4:].rstrip('\n')
+                seqname = line[4:].rstrip()
                 line = f.readline()            
                 if line.split(':')[0] == 'sequence':
                     sequence = seqname
