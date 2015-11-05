@@ -1,4 +1,4 @@
-MODEL = "tet-p5LD3"
+MODEL = "tet-p5bLH"
 
 N_fold = 10
 N_homology = 3 
@@ -7,7 +7,7 @@ N_homology = 3
 SDIR = "D:/data/modeller/poly_modeller/ppmod"
 
 OUTPUT = ["{m}-{nf:02}/03-homology-model-{nh:02}.pdb".format(nf=nf, nh=nh, m=MODEL) for nf in range(N_fold) for nh in range(N_homology)]
-print(OUTPUT)
+#print(OUTPUT)
 
 def ws(cmd):
     """Warps shell comands into bash -c \"{cmd}\""""

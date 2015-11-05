@@ -1,4 +1,6 @@
 #taken from http://hayd.github.io/2013/dotable-dictionaries/
+import os
+
 class Dotable(dict):
     """Generates nested dotable dicts from a json-like object. This makes is possible to write
     a.b[0].c
@@ -75,3 +77,10 @@ def sequnce_and_knowns(alnfile):
                 else:
                      knowns = knowns+(seqname,)
     return (sequence, knowns)                 
+
+def relative_to(file_dir, a_path):
+    """Returns the directory of file_dir and appends a_path"""
+    #os.path.realpath(
+    #os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    a_dir = os.path.dirname(file_dir)
+    return os.path.join(a_dir,a_path)
