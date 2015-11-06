@@ -1,12 +1,13 @@
 Scripts for modeling polypeptide polyhedra.
 
-Scripts require Python 2.7 or better with numpy and pandas.
+Scripts require Python 2.7 or Python 3.3+ with numpy and pandas.
 
 Other dependencies:
 
 * Modeller
 * Chimera
 * Snakemake (only python 3+)
+* MdTraj
 
 
 The Anaconda python distribution is recommended. 

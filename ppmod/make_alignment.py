@@ -30,17 +30,21 @@ if __name__ == "__main__":
 
     with open(args.alignment, 'w') as f1:       
         for pair, pair2 in d.pairs:  #go through all CC pairs
+
             pair_1_id, pair_2_id, pdbname = u.find_pair(pair, d.segments)
-            topology = md.load(os.path.join(args.path, pdbname)).topology   #read topology
-            position = md.load(os.path.join(args.path, pdbname)).xyz        #and position from pdb file  
-            pair_1_seq = topology.to_fasta(0)
-            pair_2_seq = topology.to_fasta(1)             #convert topology to fasta sequence
+
+            md_obj = md.load(os.path.join(args.path, pdbname)) 
+            topology = md_obj.topology   #read topology
+            position = md_obj.xyz        #and position from pdb file  
+
+            pair_1_seq = u.mdtraj_to_fasta(topology,0)
+            pair_2_seq = u.mdtraj_to_fasta(topology,1)           #convert topology to fasta sequence
             
             #align template structures to target check weather the template sequence is to long and determine alignemnt positions by checking the quality of different alignments
             template_start, target_start = u.align(pair_1_seq, d.segments[pair_1_id]['sequence'], 6, 6)            
             #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file
             min_length = len(min((pair_1_seq[template_start:], d.segments[pair_1_id]['sequence'][target_start:]), key=len)) #compare the length of aligned template and target sequence and get the length of teh shorter one
-            if len(pair_1_seq[:]) > min_length:
+            if len(pair_1_seq) > min_length:
                 pdbname = pair + '_' + str(template_start) + '_' + str(template_start + min_length) + '.pdb'
                 path = (os.path.join(args.path, pdbname)) #path to new pdb files      
                 u.writepdb(template_start, min_length-1, topology, position, path)

@@ -51,14 +51,16 @@ if not os.path.exists(args.out_dir):
 args.alnfile =  os.path.abspath(args.alnfile)
 
 os.chdir(args.out_dir)
+
+print("Blocks_file after chdir", os.path.abspath(u.relative_to(__file__,'../../building_blocks')))
     
 # Read parameters (needed to build models from internal coordinates)
 env.libs.topology.read('${LIB}/top_heav.lib') 
 env.libs.parameters.read('${LIB}/par.lib')
 
-SDIR = os.path.dirname(os.path.realpath(__file__))
 
-env.io.atom_files_directory = ['.','..','../building_blocks', SDIR+'/../building_blocks'] #where to read atom files
+env.io.atom_files_directory = ['.','..','building_blocks', 
+                               os.path.abspath(u.relative_to(__file__,'../../building_blocks'))] #where to read atom files
 env.edat.dynamic_sphere = True
 
 md_opt_dict = \
