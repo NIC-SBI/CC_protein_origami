@@ -87,6 +87,27 @@ def relative_to(file_dir, a_path):
     a_dir = os.path.dirname(file_dir)
     return os.path.join(a_dir,a_path)
 
+def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
+    """generates json file with information about the polypeptide polyhedra.
+    Segment parings are calculated, etc...
+
+    Parameters
+    ----------
+    name : str
+        The name of the polyhedral design.
+    entire_sequence : str
+        The whole sequnce, including his tags etc..
+    segments_str: str
+        A string of segment sequnces and segment names. The names must be tab separated.
+    pairs : dict
+        
+
+    Returns
+    -------
+      Does not return anything. By default generates an out_name file
+    """  
+    pass    
+    
 def align(p1f, seq, j, jj):
     """Align the template sequence to the target sequence
 
