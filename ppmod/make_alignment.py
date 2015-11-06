@@ -30,21 +30,21 @@ if __name__ == "__main__":
 
     with open(args.alignment, 'w') as f1:       
         for pair, pair2 in d.pairs:  #go through all CC pairs
-            p1, p2, pdbname = u.find_pair(pair, d.segments)
+            pair_1_id, pair_2_id, pdbname = u.find_pair(pair, d.segments)
             topology = md.load(os.path.join(args.path, pdbname)).topology   #read topology
             position = md.load(os.path.join(args.path, pdbname)).xyz        #and position from pdb file  
-            p1f = topology.to_fasta(0)
-            p2f = topology.to_fasta(1)             #convert topology to fasta sequence
+            pair_1_seq = topology.to_fasta(0)
+            pair_2_seq = topology.to_fasta(1)             #convert topology to fasta sequence
             
             #align template structures to target check weather the template sequence is to long and determine alignemnt positions by checking the quality of different alignments
-            i, ii = u.align(p1f, d.segments[p1]['sequence'], 6, 6)            
+            template_start, target_start = u.align(pair_1_seq, d.segments[pair_1_id]['sequence'], 6, 6)            
             
  
 
             #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file
-            l = len(min((p1f[i:], d.segments[p1]['sequence'][ii:]), key=len)) #compare the length of aligned template and target sequence and get the length of teh shorter one
+            min_length = len(min((pair_1_seq[template_start:], d.segments[pair_1_id]['sequence'][target_start:]), key=len)) #compare the length of aligned template and target sequence and get the length of teh shorter one
             path = (os.path.join(args.path, pair+'-new.pdb')) #path to new pdb files      
-            u.writepdb(i, l-1, topology, position, path)
+            u.writepdb(template_start, min_length-1, topology, position, path)
            
             #write the alignment file taking into account previously determined alignment position
             count = 0
@@ -54,14 +54,14 @@ if __name__ == "__main__":
             print('>P1;{}'.format(pair))    
             print('structureX:{}::A:::::-1.00:-1.00'.format(pair + '-new.pdb'))
             while count < len(aln_str):
-                if count == d.segments[p1]['start']-1 + ii:
-                    f1.write(p1f[i : i + l])
-                    print(p1f[i : i + l])
-                    count = count+len(p1f[i : i + l])
-                elif count == d.segments[p2]['start']-1 + ii:
-                    f1.write(p2f[i : i + l])
-                    print(p2f[i : i + l])
-                    count = count+len(p2f[i : i + l])
+                if count == d.segments[pair_1_id]['start']-1 + target_start:
+                    f1.write(pair_1_seq[template_start : template_start + min_length])
+                    print(pair_1_seq[template_start : template_start + min_length])
+                    count = count+len(pair_1_seq[template_start : template_start + min_length])
+                elif count == d.segments[pair_2_id]['start']-1 + target_start:
+                    f1.write(pair_2_seq[template_start : template_start + min_length])
+                    print(pair_2_seq[template_start : template_start + min_length])
+                    count = count+len(pair_2_seq[template_start : template_start + min_length])
                 else:
                     f1.write("-")
                     print("-", end="")
