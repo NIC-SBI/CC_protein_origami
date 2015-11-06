@@ -50,7 +50,6 @@ if not os.path.exists(args.out_dir):
 #convert to absolute path before chdir
 args.alnfile =  os.path.abspath(args.alnfile)
 
-exit
 os.chdir(args.out_dir)
 
 print("Blocks_file after chdir", os.path.abspath(u.relative_to(__file__,'../../building_blocks')))
