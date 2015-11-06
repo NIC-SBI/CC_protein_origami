@@ -7,6 +7,7 @@ The raw model is then polished by homology modeling. In this step structures of 
 to generate the final model. Multiple models are generated and evaluated according to their DOPE score and modeller
 objective function. It is assumed that the model with the lowest DOPE score is the best.
 """
+from __future__ import print_function
 import argparse
 import os
 import utils as u
@@ -82,7 +83,7 @@ class AlphaModel(automodel):
             rsr.add(secondary_structure.alpha(self.residue_range(str(seg.start), str(seg.end))))
 
     def get_model_filename(self, sequence, id1, id2, file_ext):
-        print self, sequence, id1, id2, file_ext
+        print(self, sequence, id1, id2, file_ext)
 
         return "03-homology-model-{id2:02}{file_ext}".format(
             outdir=args.out_dir, id1=id1, id2=id2, file_ext=file_ext)
