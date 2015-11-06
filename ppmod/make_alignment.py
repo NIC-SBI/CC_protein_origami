@@ -43,21 +43,23 @@ if __name__ == "__main__":
 
             #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file
             min_length = len(min((pair_1_seq[template_start:], d.segments[pair_1_id]['sequence'][target_start:]), key=len)) #compare the length of aligned template and target sequence and get the length of teh shorter one
-            path = (os.path.join(args.path, pair+'-new.pdb')) #path to new pdb files      
-            u.writepdb(template_start, min_length-1, topology, position, path)
+            if len(pair_1_seq[template_start:]) > min_length:
+                pdbname = pair + '_' + str(template_start) + '_' + str(template_start + min_length)
+                path = (os.path.join(args.path, pdbname)) #path to new pdb files      
+                u.writepdb(template_start, min_length-1, topology, position, path)
            
             #write the alignment file taking into account previously determined alignment position
             count = 0
             f1.write('>P1;{}\n'.format(pair))    
-            f1.write('structureX:{}::A:::::-1.00:-1.00\n'.format(pair + '-new.pdb'))
+            f1.write('structureX:{}::A:::::-1.00:-1.00\n'.format(pdbname))
             
             print('>P1;{}'.format(pair))    
-            print('structureX:{}::A:::::-1.00:-1.00'.format(pair + '-new.pdb'))
+            print('structureX:{}::A:::::-1.00:-1.00'.format(pdbname))
             while count < len(aln_str):
                 if count == d.segments[pair_1_id]['start']-1 + target_start:
-                    f1.write(pair_1_seq[template_start : template_start + min_length])
-                    print(pair_1_seq[template_start : template_start + min_length])
-                    count = count+len(pair_1_seq[template_start : template_start + min_length])
+                    f1.write(pair_1_seq[template_start : template_start + min_length] + "/")
+                    print(pair_1_seq[template_start : template_start + min_length] + "/")
+                    count = count+len(pair_1_seq[template_start : template_start + min_length]) + 1
                 elif count == d.segments[pair_2_id]['start']-1 + target_start:
                     f1.write(pair_2_seq[template_start : template_start + min_length])
                     print(pair_2_seq[template_start : template_start + min_length])
