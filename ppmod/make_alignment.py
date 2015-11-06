@@ -31,10 +31,14 @@ if __name__ == "__main__":
     with open(args.alignment, 'w') as f1:       
         for pair, pair2 in d.pairs:  #go through all CC pairs
             p1, p2, pdbname = u.find_pair(pair, d.segments)
-            topology = md.load(os.path.join(args.path, pdbname)).topology   #read topology
-            position = md.load(os.path.join(args.path, pdbname)).xyz        #and position from pdb file  
-            p1f = topology.to_fasta(0)
-            p2f = topology.to_fasta(1)             #convert topology to fasta sequence
+            
+            md_obj = md.load(os.path.join(args.path, pdbname)) 
+            topology = md_obj.topology   #read topology
+            position = md_obj.xyz        #and position from pdb file  
+
+            p1f = u.mdtraj_to_fasta(topology,0)
+            p2f = u.mdtraj_to_fasta(topology,1)             #convert topology to fasta sequence
+                
             
             #align template structures to target check weather the template sequence is to long and determine alignemnt positions by checking the quality of different alignments
             i, ii = u.align(p1f, d.segments[p1]['sequence'], 6, 6)            

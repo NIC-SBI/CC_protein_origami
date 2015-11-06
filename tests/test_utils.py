@@ -39,3 +39,13 @@ def test_find_pair():
 def test_score():
   score = u.score('KKLLLVQEI','LEELLEQEK')
   assert score == 4
+
+
+def test_mdtraj_to_fasta():
+    import mdtraj as md
+    topology = md.load(u.relative_to(__file__, 'data/p3_p4.pdb')).topology   #read topology
+    chain_A = u.mdtraj_to_fasta(topology,0)
+    chain_B = u.mdtraj_to_fasta(topology,1)
+    assert chain_A=="IQQLEEEIAQLEQKNAALKEKNQALKYG"
+    assert chain_B=="IAQLKQKIQALKQENQQLEEENAALEYG"
+    
