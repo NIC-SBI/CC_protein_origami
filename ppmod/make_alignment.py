@@ -38,23 +38,20 @@ if __name__ == "__main__":
             
             #align template structures to target check weather the template sequence is to long and determine alignemnt positions by checking the quality of different alignments
             template_start, target_start = u.align(pair_1_seq, d.segments[pair_1_id]['sequence'], 6, 6)            
-            
- 
-
             #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file
             min_length = len(min((pair_1_seq[template_start:], d.segments[pair_1_id]['sequence'][target_start:]), key=len)) #compare the length of aligned template and target sequence and get the length of teh shorter one
-            if len(pair_1_seq[template_start:]) > min_length:
-                pdbname = pair + '_' + str(template_start) + '_' + str(template_start + min_length)
+            if len(pair_1_seq[:]) > min_length:
+                pdbname = pair + '_' + str(template_start) + '_' + str(template_start + min_length) + '.pdb'
                 path = (os.path.join(args.path, pdbname)) #path to new pdb files      
                 u.writepdb(template_start, min_length-1, topology, position, path)
            
             #write the alignment file taking into account previously determined alignment position
             count = 0
             f1.write('>P1;{}\n'.format(pair))    
-            f1.write('structureX:{}::A:::::-1.00:-1.00\n'.format(pdbname))
+            f1.write('structureX:{}::A::B:::-1.00:-1.00\n'.format(pdbname))
             
             print('>P1;{}'.format(pair))    
-            print('structureX:{}::A:::::-1.00:-1.00'.format(pdbname))
+            print('structureX:{}::A::B:::-1.00:-1.00'.format(pdbname))
             while count < len(aln_str):
                 if count == d.segments[pair_1_id]['start']-1 + target_start:
                     f1.write(pair_1_seq[template_start : template_start + min_length] + "/")
@@ -73,10 +70,10 @@ if __name__ == "__main__":
             f1.write('*\n')
             f1.write('\n')
         f1.write('>P1;{}\n'.format(d.name))
-        f1.write('sequence:{}:1:A::::: 0.00:0.00\n'.format(d.name))
+        f1.write('sequence:{}:1:A::B::: 0.00:0.00\n'.format(d.name))
         f1.write(aln_str)
         f1.write('*\n')
         print('>P1;{}\n'.format(d.name), end="")
-        print('sequence:{}:1:A::::: 0.00:0.00\n'.format(d.name), end="")
+        print('sequence:{}:1:A::B::: 0.00:0.00\n'.format(d.name), end="")
         print(aln_str, end="")
         print('*\n', end="")
