@@ -4,7 +4,7 @@ N_fold = 20
 N_homology = 3 
 TMPDIR = "out/"
 #script directory 
-SDIR = "../../ppmod"
+SDIR = "../../../ppmod"
 
 OUTPUT = ["{m}-{nf:02}/03-homology-model-{nh:02}.pdb".format(nf=nf, nh=nh, m=MODEL) for nf in range(N_fold) for nh in range(N_homology)]
 print(OUTPUT)
