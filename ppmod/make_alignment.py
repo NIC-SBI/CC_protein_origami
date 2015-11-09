@@ -44,11 +44,13 @@ if __name__ == "__main__":
             template_start, target_start = u.align(pair_1_seq, d.segments[pair_1_id]['sequence'], 6, 6)            
             #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file
             min_length = len(min((pair_1_seq[template_start:], d.segments[pair_1_id]['sequence'][target_start:]), key=len)) #compare the length of aligned template and target sequence and get the length of teh shorter one
-            if len(pair_1_seq) > min_length:
+            if len(pair_1_seq) > min_length or pair_1_id > pair_2_id:
                 pdbname = pair + '_' + str(template_start) + '_' + str(template_start + min_length) + '.pdb'
-                path = (os.path.join(args.path, pdbname)) #path to new pdb files      
-                u.writepdb(template_start, min_length-1, topology, position, path)
-           
+                path = (os.path.join(args.path, pdbname)) #path to new pdb files 
+                u.writepdb(template_start, min_length-1, topology, position, path, pair_1_id, pair_2_id)
+                if pair_1_id > pair_2_id:
+                    pair_1_id, pair_2_id = pair_2_id, pair_1_id
+                    pair_1_seq, pair_2_seq = pair_2_seq, pair_1_seq
             #write the alignment file taking into account previously determined alignment position
             count = 0
             f1.write('>P1;{}\n'.format(pair))    
