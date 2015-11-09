@@ -22,9 +22,13 @@ if __name__ == "__main__":
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-j', '--json', help="json file name", default='data.json')
     parser.add_argument('-aln', '--alignment', help="alignment file name", default='alignment-file.ali')
-    parser.add_argument('-p', '--path', help="path to template pdb files", default='../../building_blocks/')
+    parser.add_argument('-p', '--path', help="path to template pdb files", default=None)
     args = parser.parse_args()
-
+    
+    if args.path is None:
+        #the default path should be raltive to the scripts directroy
+        args.path = u.relative_to(__file__,'../building_blocks')
+    
     d = u.load_json_data(args.json)         #read json file
     aln_str = d.entire_sequence
 
