@@ -23,12 +23,12 @@ def test_sequnce_and_knowns_spaces():
   assert set(knowns)==set(['p3_p4', 'p5_p6', 'p7_p8', 'APHshort', 'BCRshort', 'GCN'])  
 
 def test_align():
-  i,ii = u.align('IQQLEEEIAQLEQKNAALKEKNQALKYG','SPEDEIKELEEEIKELEWKNEELKRKNEELKRG',6,6)
+  i,ii = u.align('IQQLEEEIAQLEQKNAALKEKNQALKYG', 'SPEDEIKELEEEIKELEWKNEELKRKNEELKRG', 6, 6)
   assert (i, ii) == (0, 5) 
-  i,ii = u.align('ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK','REKELQKIEEQKAQLQWKAQARKEKLAQLK',6,6)
+  i,ii = u.align('ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK', 'REKELQKIEEQKAQLQWKAQARKEKLAQLK', 6, 6)
   assert (i, ii) == (5, 1) 
-  i, ii = u.align('ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK','ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLKEKL',6,6)
-  assert (i, ii) == (0,0)     
+  i, ii = u.align('ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK', 'ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLKEKL', 6, 6)
+  assert (i, ii) == (0, 0)     
                           
 def test_find_pair():
   json = u.relative_to(__file__, 'data/data.json')
@@ -37,9 +37,22 @@ def test_find_pair():
   assert p1 == d.segments[4]['id']-1
 
 def test_score():
-  score = u.score('KKLLLVQEI','LEELLEQEK')
+  score = u.score('KKLLLVQEI', 'LEELLEQEK')
   assert score == 4
 
+def test_writepdb():
+   import mdtraj as md
+   import os
+   md_obj = md.load('data/APH.pdb')
+   topology = md_obj.topology
+   positions = md_obj.xyz
+   seq_target = u.mdtraj_to_fasta(topology,0)[2:17]
+   u.writepdb(2, 14, topology, positions, 'data/APH1.pdb', 1, 2)
+   assert os.path.isfile('data/APH1.pdb')
+   md_obj = md.load('data/APH1.pdb')
+   topology = md_obj.topology
+   seq_test = u.mdtraj_to_fasta(topology,0)
+   assert seq_test == seq_target
 
 def test_mdtraj_to_fasta():
     import mdtraj as md
