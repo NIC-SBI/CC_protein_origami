@@ -1,7 +1,7 @@
 MODEL = "pyr-p7c-SH-L"
 
 N_fold = 20
-N_homology = 3 
+N_homology = 2 
 TMPDIR = "out/"
 #script directory 
 SDIR = "../../../ppmod"
@@ -18,6 +18,14 @@ def ws(cmd):
 rule models:
     input:
         OUTPUT
+
+rule make_config:
+    input:
+        "make_config.py"
+    output:
+        MODEL+".json"
+    run:
+        shell("python make_config.py")    
 
 rule make_helix:
     input:
@@ -51,7 +59,7 @@ rule make_initial_models:
     run: 
         shell("bash -c 'mkdir -p {wildcards.model}-{wildcards.num}'")
         shell("python {SDIR}/make_initial_model.py --json {wildcards.model}.json --helix {input} \
-            --mdsteps 10000 --out-dir {wildcards.model}-{wildcards.num} > {log}")
+            --mdsteps 50000 --out-dir {wildcards.model}-{wildcards.num} > {log}")
         #shell(ws("echo {input}>{output}"))
 
 rule make_homology_models:

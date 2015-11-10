@@ -7,6 +7,7 @@ from __future__ import print_function
 import utils as u
 import yaml
 import six
+import re
 
 def load_pairs(yaml_str):
     """Loads a yaml string and returns a list of pairs"""
@@ -73,12 +74,13 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
     entire_sequence=entire_sequence.replace(' ','')
     segments = segments_str.split('\n')    
     #ignore the linkers
-    segments = list(filter(lambda s: len(s.strip())>10, segments)) 
-    
+    segments = list(filter(lambda s: len(s.strip())>15, segments)) 
     pos_in_seq=0
     # split into seq name pairs
     for n, seg in enumerate(segments):
-        spl = seg.split('\t')
+
+        #split on ' ', ',' ';','|'    
+        spl = re.split('\s*[ |;,]\s*',seg)        
         seq = spl[0].replace(" ","")
         seg_name = spl[-1].strip()
         seq = seq.replace(" ","")        
