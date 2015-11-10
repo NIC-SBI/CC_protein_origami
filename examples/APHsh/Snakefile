@@ -19,6 +19,14 @@ rule models:
     input:
         OUTPUT
 
+rule make_config:
+    input:
+        "make_config.py"
+    output:
+        MODEL+".json"
+    run:
+        shell("python make_config.py")    
+
 rule make_helix:
     input:
         MODEL+".json"

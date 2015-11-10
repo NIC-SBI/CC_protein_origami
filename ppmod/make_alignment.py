@@ -17,6 +17,7 @@ import os
 import numpy as np
 from modeller import *
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(__doc__,
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -29,9 +30,10 @@ if __name__ == "__main__":
     aln_str = d.entire_sequence
 
     with open(args.alignment, 'w') as f1:       
-        for pair, pair2 in d.pairs:  #go through all CC pairs
+        for pair in d.pairs:  #go through all CC pairs
 
-            pair_1_id, pair_2_id, pdbname = u.find_pair(pair, d.segments)
+            pair_1_id, pair_2_id, pdbname = u.find_pair(pair['pair'][0], d.segments)
+            pair_name = d.segments[pair_1_id].name + "_" + d.segments[pair_2_id].name 
 
             md_obj = md.load(os.path.join(args.path, pdbname)) 
             topology = md_obj.topology   #read topology
@@ -42,19 +44,20 @@ if __name__ == "__main__":
             
             #align template structures to target check weather the template sequence is to long and determine alignemnt positions by checking the quality of different alignments
             template_start, target_start = u.align(pair_1_seq, d.segments[pair_1_id]['sequence'], 6, 6)            
-            #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file
-            min_length = len(min((pair_1_seq[template_start:], d.segments[pair_1_id]['sequence'][target_start:]), key=len)) #compare the length of aligned template and target sequence and get the length of teh shorter one
+            #compare the length of aligned template and target sequence and get the length of teh shorter one
+            min_length = len(min((pair_1_seq[template_start:], d.segments[pair_1_id]['sequence'][target_start:]), key=len)) 
             if len(pair_1_seq) > min_length:
-                pdbname = pair + '_' + str(template_start) + '_' + str(template_start + min_length) + '.pdb'
+                #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file
+                pdbname = pdbname.replace('.pdb','') + '_' + str(template_start) + '_' + str(template_start + min_length) + '.pdb'
                 path = (os.path.join(args.path, pdbname)) #path to new pdb files      
                 u.writepdb(template_start, min_length-1, topology, position, path)
            
             #write the alignment file taking into account previously determined alignment position
             count = 0
-            f1.write('>P1;{}\n'.format(pair))    
+            f1.write('>P1;{}\n'.format(pair_name))    
             f1.write('structureX:{}::A::B:::-1.00:-1.00\n'.format(pdbname))
             
-            print('>P1;{}'.format(pair))    
+            print('>P1;{}'.format(pair_name))    
             print('structureX:{}::A::B:::-1.00:-1.00'.format(pdbname))
             while count < len(aln_str):
                 if count == d.segments[pair_1_id]['start']-1 + target_start:
