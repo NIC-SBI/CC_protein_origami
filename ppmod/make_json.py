@@ -42,6 +42,14 @@ def get_other_segment_name(pair, segment_name):
     pair_name.remove(segment_name)                        
     pair_name=pair_name[0]
     return pair_name
+
+
+def get_segment_chain(pair, segment_name):
+    """Returns the chain belonging to the pair. 
+       If homodimers, returns the first chain, but this must be fixed later."""
+    ind = pair['pair'].index(segment_name)    
+    return pair['chains'][ind]
+
         
 def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
     """generates json file with information about the polypeptide polyhedra.
@@ -67,32 +75,22 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
     #ignore the linkers
     segments = list(filter(lambda s: len(s.strip())>10, segments)) 
     
-    
+    pos_in_seq=0
     # split into seq name pairs
     for n, seg in enumerate(segments):
         spl = seg.split('\t')
         seq = spl[0].replace(" ","")
-        name = spl[-1].strip()
-    
-        seq = seq.replace(" ","")
-        
-        #has a segment allready been found?
-        pos_in_seq=0
-        for n1 in range(n):
-            print(n1, n-1,name)
-            print(name)
-            print(segments[n1]['start'],segments[n1]['len'])
-            if segments[n1]['name']==name:
-                pos_in_seq=segments[n1]['start']+segments[n1]['len']
-                
+        seg_name = spl[-1].strip()
+        seq = seq.replace(" ","")        
 
-        start = entire_sequence.find(seq,pos_in_seq)
+        start = entire_sequence.find(seq, pos_in_seq)
+        pos_in_seq = start + len(seq)
+
+        pair = find_pair_by_segment_name(pairs, seg_name)
+        pair_name = get_other_segment_name(pair, seg_name)
+        chain = get_segment_chain(pair, seg_name)
         
-        pair = find_pair_by_segment_name(pairs, name)
-        pair_name = get_other_segment_name(pair, name)
-        
-        
-        segments[n]={"id":n+1, "name": name, 
+        segments[n]={"id":n+1, "name": seg_name, 
                      "sequence" :seq, 
                      "start" : start+1,
                      "len" : len(seq),
@@ -101,15 +99,36 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
                      "pair_name": pair_name,
                      "pair_type": pair['type'],
                      "pdb_template" : pair['template'],
-                     "pdb_chain" : ""
+                     "pdb_chain" : chain
                     }
        
     #find tha pair IDs
-    for n in range(len(segments)):
-        for n1 in range(n+1,len(segments)):
-            if segments[n]['name']==segments[n1]['pair_name']:
-                segments[n]['pair_id']=segments[n1]['id']      
-                segments[n1]['pair_id']=segments[n]['id']
+    for n1 in range(len(segments)):
+        for n2 in range(n1+1,len(segments)):
+            if segments[n1]['name'] == segments[n2]['pair_name']:
+                segments[n1]['pair_id'] = segments[n2]['id']      
+                segments[n2]['pair_id'] = segments[n1]['id']
+                
+                #correct chains for homodimers
+                if segments[n1]['name'] == segments[n2]['name']:
+                    #TODO: This is a hack! Now homodimers only support chains A and B                    
+                    segments[n1]['pdb_chain'] = "A"
+                    segments[n2]['pdb_chain'] = "B"
+                
+    import json            
+    if out_name is None:    
+        out_name = name+".json"
+    
+
+    #don't remember if pair_types are used anywhere
+    pair_types = [p['type'] for p in pairs]    
+    
+    with open(out_name, 'w') as outfile:
+        json.dump({"name":name,
+                   "entire_sequence": entire_sequence, 
+                   "pairs": pairs, 
+                   "pair_types": pair_types, 
+                   "segments":segments}, outfile, indent=True, sort_keys=True)            
 
 
 if __name__ == "main":
