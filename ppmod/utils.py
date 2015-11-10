@@ -86,27 +86,8 @@ def relative_to(file_dir, a_path):
     #os.path.join(os.getcwd(), os.path.dirname(__file__)))
     a_dir = os.path.dirname(file_dir)
     return os.path.join(a_dir,a_path)
-
-def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
-    """generates json file with information about the polypeptide polyhedra.
-    Segment parings are calculated, etc...
-
-    Parameters
-    ----------
-    name : str
-        The name of the polyhedral design.
-    entire_sequence : str
-        The whole sequnce, including his tags etc..
-    segments_str: str
-        A string of segment sequnces and segment names. The names must be tab separated.
-    pairs : dict
-        
-
-    Returns
-    -------
-      Does not return anything. By default generates an out_name file
-    """  
-    pass    
+                    
+    
     
 def align(template, target, n_template, n_target):
     """Align the template sequence to the target sequence
@@ -216,11 +197,11 @@ def writepdb(temp_start, temp_len, top, positions, path, pair_1_id, pair_2_id):
     templ_len : int
         Length of the aligned template sequence
     top : mdtraj topology
-        topology of the template 
+        topology of the template
     positions : md traj positions
-        atom positions in template 
+        atom positions in template
     path : str
-        path to folder where the pdb file will be saved   
+        path to folder where the pdb file will be saved
     """
     chainlength = top.chain(0).n_residues  #length of the first chain of a CC pair
     topsubset1 = top.subset(list(range(selres(temp_start, top)[0],selres(temp_start + temp_len, top)[-1]))) #topology of atoms in the first aligned chain of the CC segment
@@ -228,16 +209,17 @@ def writepdb(temp_start, temp_len, top, positions, path, pair_1_id, pair_2_id):
 
     coordinate1 = positions[0, selres(temp_start, top)[0]:selres(temp_start + temp_len, top)[-1], :]*10 #position of atoms in the first subset
     coordinate2 = positions[0, selres(chainlength + temp_start, top)[0]:selres(chainlength + temp_start + temp_len, top)[-1], :]*10 #position of atoms in the second subset
-    
-    if pair_1_id < pair_2_id: 
+
+    if pair_1_id < pair_2_id:
         topsubjoin = topsubset1.join(topsubset2) # join topology subsets
         coordinate = np.concatenate((coordinate1, coordinate2), axis=0) #join position subsets
     else:
         topsubjoin = topsubset2.join(topsubset1) # join topology subsets
-        coordinate = np.concatenate((coordinate2, coordinate1), axis=0) #join position subsets  
-    fpdb = md.formats.PDBTrajectoryFile(path, mode='w') 
+        coordinate = np.concatenate((coordinate2, coordinate1), axis=0) #join position subsets
+    fpdb = md.formats.PDBTrajectoryFile(path, mode='w')
     fpdb.write(coordinate, topsubjoin) #write to pdb
     return
+
 
 
 
