@@ -79,8 +79,8 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
     # split into seq name pairs
     for n, seg in enumerate(segments):
 
-        #split on ' ', ',' ';','|'    
-        spl = re.split('\s*[ |;,]\s*',seg)        
+        
+        spl = re.split('[\t|;,]*',seg)        
         seq = spl[0].replace(" ","")
         seg_name = spl[-1].strip()
         seq = seq.replace(" ","")        
