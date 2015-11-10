@@ -19,8 +19,8 @@ class Dotable(dict):
             return [cls.parse(i) for i in v]
         else:
             return v
-        
-        
+
+
 #taken from http://stackoverflow.com/a/13105359/952600
 def byteify(input):
     """Takes a jason-like structure and convets unicode str to str"""
@@ -31,8 +31,8 @@ def byteify(input):
     elif isinstance(input, unicode):
         return input.encode('utf-8')
     else:
-        return input        
-    
+        return input
+
 def load_json_data(file_name):
     """Loads data from json and returns a dotable dict with ascii strings"""
     import json
@@ -48,8 +48,8 @@ def pair_ids_from_segments(segments):
         for n1 in range(n+1,len(segments)):
             if segments[n]['name']==segments[n1]['pair_name']:
                 pair_ids.append((n, n1))
-    return pair_ids    
-    
+    return pair_ids
+
 
 import string
 import random
@@ -57,7 +57,7 @@ import numpy as np
 import mdtraj as md
 #taken from http://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))    
+    return ''.join(random.choice(chars) for _ in range(size))
 
 
 def sequnce_and_knowns(alnfile):
@@ -73,12 +73,12 @@ def sequnce_and_knowns(alnfile):
             if not line: break
             if line[:4] == '>P1;':
                 seqname = line[4:].rstrip()
-                line = f.readline()            
+                line = f.readline()
                 if line.split(':')[0] == 'sequence':
                     sequence = seqname
                 else:
                      knowns = knowns+(seqname,)
-    return (sequence, knowns)                 
+    return (sequence, knowns)
 
 def relative_to(file_dir, a_path):
     """Returns the directory of file_dir and appends a_path"""
@@ -100,14 +100,14 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
     segments_str: str
         A string of segment sequnces and segment names. The names must be tab separated.
     pairs : dict
-        
+
 
     Returns
     -------
       Does not return anything. By default generates an out_name file
-    """  
-    pass    
-    
+    """
+    pass
+
 def align(template, target, n_template, n_target):
     """Align the template sequence to the target sequence
 
@@ -118,26 +118,26 @@ def align(template, target, n_template, n_target):
     target : str
         Target sequence string
     n_template : int
-        How many different template sequences are checked for optimum alignment (different sequences are obtained by sequentially shortening p1f by one AA)  
-    n_target : int  
+        How many different template sequences are checked for optimum alignment (different sequences are obtained by sequentially shortening p1f by one AA)
+    n_target : int
         How many different target sequences are checked for optimum alignment (different sequences are obtained by sequentially shortening seq by one AA)
 
     Returns
     -------
     template_start : int
-        Start of the alignment on template sequence 
+        Start of the alignment on template sequence
     target_start : int
         Start of the alignment on target sequence
-    """    
+    """
     template_start = 0
     target_start = 0
     scoreold = score(template, target)
-    for t in range(n_template):   
-       for tt in range(n_target): 
+    for t in range(n_template):
+       for tt in range(n_target):
            if t == tt: continue
-           scorenew = score(template[t:], target[tt:])  
+           scorenew = score(template[t:], target[tt:])
            if scorenew > scoreold:
-               scoreold = scorenew               
+               scoreold = scorenew
                template_start = t
                target_start = tt
     return (template_start, target_start)
@@ -151,7 +151,7 @@ def score(template, target):
         Template sequence string
     target : str
         Target sequence string
-    
+
     Returns
     -------
     total : int
@@ -160,7 +160,7 @@ def score(template, target):
     total = 0
     for i in range(8):  #check the first ten residues
         if template[i] == target[i]:   #if p1f and seq have a matching residue on position i add a point
-            total = total+1  
+            total = total+1
     return total                          #return final score
 
 def find_pair(pair, segments):
@@ -170,11 +170,11 @@ def find_pair(pair, segments):
     ----------
     pair : str
         Name of CC segments
-    
+
     Returns
     -------
     pair1 : int
-        Id number of the CC segment 
+        Id number of the CC segment
     pair2 : int
         Pair_id number of the CC segment
     pdbname : str
@@ -185,7 +185,7 @@ def find_pair(pair, segments):
             pair_1 = s['id']-1         #get segment name
             pair_2 = s['pair_id']-1
             pdbname = s['pdb_template']   #get template pdb file name
-            break     
+            break
     return pair_1, pair_2, pdbname
 
 def selres(index, topology):
@@ -197,7 +197,7 @@ def selres(index, topology):
         Residue index
     topology : mdtraj topology
         Topology
-    
+
     Returns
     -------
     residue : mdtraj residue
@@ -216,11 +216,11 @@ def writepdb(temp_start, temp_len, top, positions, path, pair_1_id, pair_2_id):
     templ_len : int
         Length of the aligned template sequence
     top : mdtraj topology
-        topology of the template 
+        topology of the template
     positions : md traj positions
-        atom positions in template 
+        atom positions in template
     path : str
-        path to folder where the pdb file will be saved   
+        path to folder where the pdb file will be saved
     """
     chainlength = top.chain(0).n_residues  #length of the first chain of a CC pair
     topsubset1 = top.subset(list(range(selres(temp_start, top)[0],selres(temp_start + temp_len, top)[-1]))) #topology of atoms in the first aligned chain of the CC segment
@@ -228,14 +228,14 @@ def writepdb(temp_start, temp_len, top, positions, path, pair_1_id, pair_2_id):
 
     coordinate1 = positions[0, selres(temp_start, top)[0]:selres(temp_start + temp_len, top)[-1], :]*10 #position of atoms in the first subset
     coordinate2 = positions[0, selres(chainlength + temp_start, top)[0]:selres(chainlength + temp_start + temp_len, top)[-1], :]*10 #position of atoms in the second subset
-    
-    if pair_1_id < pair_2_id: 
+
+    if pair_1_id < pair_2_id:
         topsubjoin = topsubset1.join(topsubset2) # join topology subsets
         coordinate = np.concatenate((coordinate1, coordinate2), axis=0) #join position subsets
     else:
         topsubjoin = topsubset2.join(topsubset1) # join topology subsets
-        coordinate = np.concatenate((coordinate2, coordinate1), axis=0) #join position subsets  
-    fpdb = md.formats.PDBTrajectoryFile(path, mode='w') 
+        coordinate = np.concatenate((coordinate2, coordinate1), axis=0) #join position subsets
+    fpdb = md.formats.PDBTrajectoryFile(path, mode='w')
     fpdb.write(coordinate, topsubjoin) #write to pdb
     return
 
@@ -367,7 +367,7 @@ _AMINO_ACID_CODES =  {'ACE': None, 'NME':  None, '00C': 'C', '01W':  'X', '02K':
 'L', 'WPA':  'F', 'WRP': 'W',  'WVL': 'V', 'X2W':  'E', 'XCN': 'C',  'XCP': 'X',
 'XDT': 'T', 'XPL':  'O', 'XPR': 'P', 'XSN': 'N', 'XX1':  'K', 'YCM': 'C', 'YOF':
 'Y', 'YTH':  'T', 'Z01': 'A',  'ZAL': 'A', 'ZCL':  'F', 'ZFB': 'X',  'ZU0': 'T',
-'ZZJ': 'A'}        
+'ZZJ': 'A'}
 
 def mdtraj_to_fasta(topology, chain=None):
     """Convert this topology into FASTA string
@@ -380,7 +380,7 @@ def mdtraj_to_fasta(topology, chain=None):
     -------
     fasta : String or list of Strings
        A FASTA string for each chain specified.
-    """    
+    """
     fasta = lambda c: "".join([_AMINO_ACID_CODES[res.name] for res in c.residues
                                if res.is_protein and res.name is not None])
     if chain is not None:
@@ -389,4 +389,4 @@ def mdtraj_to_fasta(topology, chain=None):
         return fasta(topology._chains[chain])
     else:
         return [fasta(c) for c in topology._chains]
-        
+
