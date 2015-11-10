@@ -187,7 +187,7 @@ def selres(index, topology):
     residue = topology.select("resid {:d}".format(index))
     return residue
 
-def writepdb(temp_start, temp_len, top, positions, path):
+def writepdb(temp_start, temp_len, top, positions, path, pair_1_id, pair_2_id):
     """Write the aligned part of the template sequence to pdb
 
     Parameters
@@ -197,24 +197,29 @@ def writepdb(temp_start, temp_len, top, positions, path):
     templ_len : int
         Length of the aligned template sequence
     top : mdtraj topology
-        topology of the template 
+        topology of the template
     positions : md traj positions
-        atom positions in template 
+        atom positions in template
     path : str
-        path to folder where the pdb file will be saved   
+        path to folder where the pdb file will be saved
     """
     chainlength = top.chain(0).n_residues  #length of the first chain of a CC pair
     topsubset1 = top.subset(list(range(selres(temp_start, top)[0],selres(temp_start + temp_len, top)[-1]))) #topology of atoms in the first aligned chain of the CC segment
     topsubset2 = top.subset(list(range(selres(chainlength + temp_start, top)[0], selres(chainlength +temp_start + temp_len, top)[-1]))) #topology of atoms in the first aligned chain of the CC segment
-    topsubjoin = topsubset1.join(topsubset2) # join topology subsets
 
     coordinate1 = positions[0, selres(temp_start, top)[0]:selres(temp_start + temp_len, top)[-1], :]*10 #position of atoms in the first subset
     coordinate2 = positions[0, selres(chainlength + temp_start, top)[0]:selres(chainlength + temp_start + temp_len, top)[-1], :]*10 #position of atoms in the second subset
-    coordinate = np.concatenate((coordinate1, coordinate2), axis=0) #join position subsets
 
-    fpdb = md.formats.PDBTrajectoryFile(path, mode='w') 
+    if pair_1_id < pair_2_id:
+        topsubjoin = topsubset1.join(topsubset2) # join topology subsets
+        coordinate = np.concatenate((coordinate1, coordinate2), axis=0) #join position subsets
+    else:
+        topsubjoin = topsubset2.join(topsubset1) # join topology subsets
+        coordinate = np.concatenate((coordinate2, coordinate1), axis=0) #join position subsets
+    fpdb = md.formats.PDBTrajectoryFile(path, mode='w')
     fpdb.write(coordinate, topsubjoin) #write to pdb
     return
+
 
 
 

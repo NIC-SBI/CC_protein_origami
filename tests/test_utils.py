@@ -30,6 +30,7 @@ def test_align():
   i, ii = u.align('ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLK', 'ELKQLEEELQAIEEQLAQLQWKAQARKEKLAQLKEKL', 6, 6)
   assert (i, ii) == (0, 0)
 
+
 def test_find_pair():
   json = u.relative_to(__file__, 'data/data.json')
   d = u.load_json_data(json)
@@ -47,6 +48,7 @@ def writepdb():
 
    pdbname = u.relative_to(__file__,'data/APH.pdb')
    pdbname1 = u.relative_to(__file__,'data/APH1.pdb')
+
 
    md_obj = md.load(pdbname)
    topology = md_obj.topology
@@ -66,3 +68,4 @@ def test_mdtraj_to_fasta():
     chain_B = u.mdtraj_to_fasta(topology,1)
     assert chain_A=="IQQLEEEIAQLEQKNAALKEKNQALKYG"
     assert chain_B=="IAQLKQKIQALKQENQQLEEENAALEYG"
+

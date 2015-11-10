@@ -1,0 +1,258 @@
+{
+ "entire_sequence": "MSPEDENQALEQEIAQLEQEIAALEQKNAQLKYGRGDGSPEDEIKELEEEIKELEWKNEELKRKNEELKRGRGDGDIEQELERAKQSIEELEREVNQERSRMQYLQTRLSRGDGSPEDKNEELKREIKELEWENEELERKIEELKRGRGDGELEELERELQEIEEQLEQLQWKAQERKEKLEQLKERGDGSPEDKIEELKRKIEELKWENEELERENEELERGRGDGSPEDRMKQLEDKVEELERKNYHLENEVERLKKEVRGDGSPEDKNAQLKEKIAALKEKIQQLKEENQALEYGRGDGELEELERELQEIEEQLEQLQWKAQERKEKLEQLKERGDGSPEDEIQALEEENAQLEQENAALEEEIAQLEYGRGDGSPEDEIKELEWKNEELKREIKELEEKNEELKRGRGDGDIEQELERAKQSIEELEREVNQERSRMQYLQTRLSRGDGSPEDRMKQLEDKVEELERKNYHLENEVERLKKEVRGDGSPEDKIEELKRENEELEWKIEELKRENEELEKGRGDGSPEDENEKLEEKIWELKRKNEELKREIKELEEGRGDGSPEDKIAQLKEKNAALKEKNQQLKEKIQALKYGLEHHHHHHHH", 
+ "name": "pyr-p7c-SH-L", 
+ "pair_types": [
+  "A", 
+  "A", 
+  "P", 
+  "P", 
+  "P", 
+  "P", 
+  "P", 
+  "P"
+ ], 
+ "pairs": [
+  [
+   "APHshE", 
+   "APHshE"
+  ], 
+  [
+   "BCRmSH", 
+   "BCRmSH"
+  ], 
+  [
+   "P1SH", 
+   "P2SH"
+  ], 
+  [
+   "P3SH", 
+   "P4SH"
+  ], 
+  [
+   "P5SH", 
+   "P6SH"
+  ], 
+  [
+   "GCNH3", 
+   "GCNH3"
+  ], 
+  [
+   "P7SH", 
+   "P8SH"
+  ], 
+  [
+   "P11SH", 
+   "P12SH"
+  ]
+ ], 
+ "segments": [
+  {
+   "end": 34, 
+   "id": 1, 
+   "len": 33, 
+   "name": "P11SH", 
+   "pair_id": 8, 
+   "pair_name": "P12SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDENQALEQEIAQLEQEIAALEQKNAQLKYG", 
+   "start": 2
+  }, 
+  {
+   "end": 71, 
+   "id": 2, 
+   "len": 33, 
+   "name": "P3SH", 
+   "pair_id": 6, 
+   "pair_name": "P4SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDEIKELEEEIKELEWKNEELKRKNEELKRG", 
+   "start": 39
+  }, 
+  {
+   "end": 110, 
+   "id": 3, 
+   "len": 35, 
+   "name": "BCRmSH", 
+   "pair_id": 12, 
+   "pair_name": "BCRmSH", 
+   "pair_type": "A", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "DIEQELERAKQSIEELEREVNQERSRMQYLQTRLS", 
+   "start": 76
+  }, 
+  {
+   "end": 147, 
+   "id": 4, 
+   "len": 33, 
+   "name": "P6SH", 
+   "pair_id": 15, 
+   "pair_name": "P5SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDKNEELKREIKELEWENEELERKIEELKRG", 
+   "start": 115
+  }, 
+  {
+   "end": 186, 
+   "id": 5, 
+   "len": 35, 
+   "name": "APHshE", 
+   "pair_id": 9, 
+   "pair_name": "APHshE", 
+   "pair_type": "A", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "ELEELERELQEIEEQLEQLQWKAQERKEKLEQLKE", 
+   "start": 152
+  }, 
+  {
+   "end": 223, 
+   "id": 6, 
+   "len": 33, 
+   "name": "P4SH", 
+   "pair_id": 2, 
+   "pair_name": "P3SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDKIEELKRKIEELKWENEELERENEELERG", 
+   "start": 191
+  }, 
+  {
+   "end": 261, 
+   "id": 7, 
+   "len": 34, 
+   "name": "GCNH3", 
+   "pair_id": 13, 
+   "pair_name": "GCNH3", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDRMKQLEDKVEELERKNYHLENEVERLKKEV", 
+   "start": 228
+  }, 
+  {
+   "end": 298, 
+   "id": 8, 
+   "len": 33, 
+   "name": "P12SH", 
+   "pair_id": 1, 
+   "pair_name": "P11SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDKNAQLKEKIAALKEKIQQLKEENQALEYG", 
+   "start": 266
+  }, 
+  {
+   "end": 337, 
+   "id": 9, 
+   "len": 35, 
+   "name": "APHshE", 
+   "pair_id": 5, 
+   "pair_name": "APHshE", 
+   "pair_type": "A", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "ELEELERELQEIEEQLEQLQWKAQERKEKLEQLKE", 
+   "start": 303
+  }, 
+  {
+   "end": 374, 
+   "id": 10, 
+   "len": 33, 
+   "name": "P1SH", 
+   "pair_id": 16, 
+   "pair_name": "P2SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDEIQALEEENAQLEQENAALEEEIAQLEYG", 
+   "start": 342
+  }, 
+  {
+   "end": 411, 
+   "id": 11, 
+   "len": 33, 
+   "name": "P7SH", 
+   "pair_id": 14, 
+   "pair_name": "P8SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDEIKELEWKNEELKREIKELEEKNEELKRG", 
+   "start": 379
+  }, 
+  {
+   "end": 450, 
+   "id": 12, 
+   "len": 35, 
+   "name": "BCRmSH", 
+   "pair_id": 3, 
+   "pair_name": "BCRmSH", 
+   "pair_type": "A", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "DIEQELERAKQSIEELEREVNQERSRMQYLQTRLS", 
+   "start": 416
+  }, 
+  {
+   "end": 488, 
+   "id": 13, 
+   "len": 34, 
+   "name": "GCNH3", 
+   "pair_id": 7, 
+   "pair_name": "GCNH3", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDRMKQLEDKVEELERKNYHLENEVERLKKEV", 
+   "start": 455
+  }, 
+  {
+   "end": 525, 
+   "id": 14, 
+   "len": 33, 
+   "name": "P8SH", 
+   "pair_id": 11, 
+   "pair_name": "P7SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDKIEELKRENEELEWKIEELKRENEELEKG", 
+   "start": 493
+  }, 
+  {
+   "end": 562, 
+   "id": 15, 
+   "len": 33, 
+   "name": "P5SH", 
+   "pair_id": 4, 
+   "pair_name": "P6SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDENEKLEEKIWELKRKNEELKREIKELEEG", 
+   "start": 530
+  }, 
+  {
+   "end": 599, 
+   "id": 16, 
+   "len": 33, 
+   "name": "P2SH", 
+   "pair_id": 10, 
+   "pair_name": "P1SH", 
+   "pair_type": "P", 
+   "pdb_chain": "", 
+   "pdb_template": "", 
+   "sequence": "SPEDKIAQLKEKNAALKEKNQQLKEKIQALKYG", 
+   "start": 567
+  }
+ ]
+}
