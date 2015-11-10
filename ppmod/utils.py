@@ -372,3 +372,31 @@ def mdtraj_to_fasta(topology, chain=None):
     else:
         return [fasta(c) for c in topology._chains]
         
+
+#TODO add tests
+def next_char(char):
+    """Returns the next char"""
+    return chr(ord(char) + 1)
+
+#TODO add tests"
+def vertex_to_segmet(vt):
+    """Returns an array of segments if given an array of verticies"""
+    curr_char = 'a'
+    edges = {}
+    #container for result
+    r = []
+    for n in range(len(vt)-1):
+        #parallel
+        #print((vt[n],vt[n+1]))
+        if (vt[n],vt[n+1]) in edges:
+            r.append(edges[(vt[n],vt[n+1])])
+        #anti
+        elif (vt[n+1],vt[n]) in edges:
+            r.append(edges[(vt[n+1],vt[n])].upper())
+        else:        
+            #first occurnace
+            edges[(vt[n],vt[n+1])]=curr_char
+            r.append(curr_char)
+            curr_char = next_char(curr_char)
+    
+    return r
