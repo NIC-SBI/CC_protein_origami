@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
             pair_1_id, pair_2_id, pdbname = u.find_pair(pair['pair'][0], d.segments)
             pair_name = d.segments[pair_1_id].name + "_" + d.segments[pair_2_id].name
-
+            
             md_obj = md.load(os.path.join(args.path, pdbname))
             topology = md_obj.topology   #read topology
             position = md_obj.xyz        #and position from pdb file
@@ -50,7 +50,7 @@ if __name__ == "__main__":
             template_start, target_start = u.align(pair_1_seq, d.segments[pair_1_id]['sequence'], 6, 6)
             #compare the length of aligned template and target sequence and get the length of teh shorter one
             min_length = len(min((pair_1_seq[template_start:], d.segments[pair_1_id]['sequence'][target_start:]), key=len))
-            if len(pair_1_seq) > min_length:
+            if len(pair_1_seq) > min_length or pair_1_id > pair_2_id:
                 #shorten the template sequence if needed and write the topology and the coordinates to a new pdb file
                 pdbname = pdbname.replace('.pdb','') + '_' + str(template_start) + '_' + str(template_start + min_length) + '.pdb'
                 path = (os.path.join(args.path, pdbname)) #path to new pdb files
