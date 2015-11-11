@@ -63,9 +63,19 @@ def writepdb():
 
 def test_mdtraj_to_fasta():
     import mdtraj as md
-    topology = md.load(u.relative_to(__file__, 'data/p3_p4.pdb')).topology   #read topology
+    topology = md.load(u.relative_to(__file__, 'data/p3_p4.pdb')).topology   
     chain_A = u.mdtraj_to_fasta(topology,0)
     chain_B = u.mdtraj_to_fasta(topology,1)
     assert chain_A=="IQQLEEEIAQLEQKNAALKEKNQALKYG"
     assert chain_B=="IAQLKQKIQALKQENQQLEEENAALEYG"
 
+def test_mdtraj_to_fasta_bcr():
+    """Test for reading MSE residue"""
+    import mdtraj as md    
+    topology = md.load(u.relative_to(__file__, 'data/BCR.pdb')).topology   
+    
+    chain_A = u.mdtraj_to_fasta(topology,0)
+    chain_B = u.mdtraj_to_fasta(topology,1)
+    
+    assert chain_A=="DIEQELERAKASIRRLEQEVNQERFRMIYLQTLLAK"
+    assert chain_B=="DIEQELERAKASIRRLEQEVNQERFRMIYLQTLLAK"

@@ -1,4 +1,5 @@
 #taken from http://hayd.github.io/2013/dotable-dictionaries/
+from __future__ import print_function
 import os
 
 class Dotable(dict):
@@ -364,7 +365,8 @@ def mdtraj_to_fasta(topology, chain=None):
        A FASTA string for each chain specified.
     """    
     fasta = lambda c: "".join([_AMINO_ACID_CODES[res.name] for res in c.residues
-                               if res.is_protein and res.name is not None])
+                               if res.name is not None])
+
     if chain is not None:
         if not isinstance(chain, int):
             raise ValueError('chain must be an Integer.')
