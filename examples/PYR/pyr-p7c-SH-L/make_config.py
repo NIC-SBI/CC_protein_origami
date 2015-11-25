@@ -70,12 +70,7 @@ pairs = """
 - pair : P7SH:P8SH
   type : P  
   chains : A:B
-  template : p7_p8.pdb        
-
-- pair : P7SH:P8SH
-  type : P  
-  chains : A:B
-  template : p7_p8.pdb        
+  template : p7_p8.pdb           
 
 - pair : P11SH:P12SH
   type : P  

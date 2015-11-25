@@ -1,7 +1,7 @@
-MODEL = "pyr-p7c-SH-L"
+MODEL = "pyr-p6d-SH-L"
 
-N_fold = 20
-N_homology = 2 
+N_fold = 30
+N_homology = 1 
 TMPDIR = "out/"
 #script directory 
 SDIR = "../../../ppmod"
@@ -59,7 +59,7 @@ rule make_initial_models:
     run: 
         shell("bash -c 'mkdir -p {wildcards.model}-{wildcards.num}'")
         shell("python {SDIR}/make_initial_model.py --json {wildcards.model}.json --helix {input} \
-            --mdsteps 50000 --out-dir {wildcards.model}-{wildcards.num} > {log}")
+            --mdsteps 10000 --out-dir {wildcards.model}-{wildcards.num} > {log}")
         #shell(ws("echo {input}>{output}"))
 
 rule make_homology_models:
