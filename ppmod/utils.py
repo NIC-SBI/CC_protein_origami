@@ -162,12 +162,16 @@ def find_pair(pair, segments):
     pdbname : str
         Name of the pdb file where the CC segment is written
     """
+    pdbname = None    
     for s in segments:
         if s['name'] == pair:
             pair_1 = s['id']-1         #get segment name
             pair_2 = s['pair_id']-1
             pdbname = s['pdb_template']   #get template pdb file name
-            break     
+            break 
+    
+    if pdbname is None:
+        raise  Exception('Pair ' + str(pair) + ' not found in segments \n'+repr(segments))
     return pair_1, pair_2, pdbname
 
 def selres(index, topology):
