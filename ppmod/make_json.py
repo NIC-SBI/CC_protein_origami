@@ -84,10 +84,16 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
         seq = spl[0].replace(" ","")
         seg_name = spl[-1].strip()
         seq = seq.replace(" ","")        
-
+        
+        #print (seg_name," ", seq, " ", pos_in_seq)
         start = entire_sequence.find(seq, pos_in_seq)
+
+        if start == -1:
+            raise Exception("Sequnce of {seg_name} could not be found \n Seq: {seq} \n Entire seq : {entire_sequence}". 
+                          format(**locals()))
         pos_in_seq = start + len(seq)
 
+       
         pair = find_pair_by_segment_name(pairs, seg_name)
         pair_name = get_other_segment_name(pair, seg_name)
         chain = get_segment_chain(pair, seg_name)
