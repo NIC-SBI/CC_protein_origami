@@ -12,6 +12,7 @@ import argparse
 parser = argparse.ArgumentParser(description="Script for calculating approximate volume of the polyhedra")
 parser.add_argument('-m', '--model', help='Input file name (pdb)', type=str)
 parser.add_argument('-j', '--json', help='JSON file defining segments configuration', type=str)
+parser.add_argument('-o', '--out', help='Name of the outputted Bild file', type=str)
 args = parser.parse_args()
 
 #read input files
@@ -49,8 +50,10 @@ for pair in d.pairs:  #go through all CC pairs
     points.append(avg2)
 points = np.array(points)
 hull = ConvexHull(points, qhull_options='Qt')
-print(hull.volume)
+print("{} nm³".format(hull.volume))
 #for simplex in hull.simplices:
 #    print(points[simplex, 0], points[simplex, 1], points[simplex, 2])     
+f = open(args.out, 'w')
+f.write(".color red\n")
 for simplex in hull.vertices:
-    print(points[simplex, 0], points[simplex, 1], points[simplex, 2])   
+    f.write(".dot {:6.3f} {:6.3f} {:6.3f}\n".format(points[simplex, 0]*10, points[simplex, 1]*10, points[simplex, 2]*10))   
