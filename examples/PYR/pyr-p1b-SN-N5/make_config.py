@@ -42,50 +42,51 @@ pairs = """
   type : A  
   chains : A:B
   template : APH.pdb  
-  color : #D62728
+  color : '#D62728'
 
 - pair : BCRmSN:BCRmSN
   type : A  
   chains : A:B
   template : BCR.pdb  
-  color : #2CA02C
+  color : '#2CA02C'
 
 - pair : P1mSN:P2mSN
   type : P  
   chains : A:B
   template : p1_p2.pdb  
-  color : #E377C2
+  color : '#E377C2'
 
 - pair : P3mSN:P4mSN
   type : P  
   chains : A:B
   template : p3_p4.pdb  
-  color : #1F77B4
+  color : '#1F77B4'
 
 - pair : P5mSN:P6mSN
   type : P  
   chains : A:B
   template : p5_p6.pdb  
-  color : #FF7F0E
+  color : '#FF7F0E'
   
 
 - pair : GCNshmSN:GCNshmSN
   type : P  
   chains : A:B
   template : GCN.pdb 
-  color : #8C564B     
+  color : '#8C564B'
 
 - pair : P7mSN:P8mSN
   type : P  
   chains : A:B
   template : p7_p8.pdb        
-  color : #9467BD
+  color : '#9467BD'
 
 - pair : P9mSN:P10mSN
   type : P  
   chains : A:B
   template : p9_p10.pdb
-  color : #BCBD22        
+  color : '#BCBD22'
+    
 """   
 
 
