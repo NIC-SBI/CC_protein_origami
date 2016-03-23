@@ -48,6 +48,14 @@ rule make_alignment:
         shell(ws("python {SDIR}/make_alignment.py --json {input} -aln {output} > out.log"))
 #       shell(ws("echo {input}>{output}"))  
 
+rule make_color_script:
+    input:
+        MODEL+".json"
+    output:
+        MODEL+".chimera"
+    run: 
+        shell(ws("python {SDIR}/make_color_script.py --json {input} -o {MODEL}"))
+
 rule make_initial_models:
     input:
         MODEL+"-helix.pdb"
