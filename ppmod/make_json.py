@@ -98,6 +98,8 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
         pair_name = get_other_segment_name(pair, seg_name)
         chain = get_segment_chain(pair, seg_name)
         
+
+
         segments[n]={"id":n+1, "name": seg_name, 
                      "sequence" :seq, 
                      "start" : start+1,
@@ -107,7 +109,8 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
                      "pair_name": pair_name,
                      "pair_type": pair['type'],
                      "pdb_template" : pair['template'],
-                     "pdb_chain" : chain
+                     "pdb_chain" : chain,
+                     "color" : pair.get('color',"")
                     }
        
     #find tha pair IDs
