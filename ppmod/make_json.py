@@ -71,6 +71,7 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
     -------
       Does not return anything. By default generates an file with name {name}.json
     """  
+    
     entire_sequence=entire_sequence.replace(' ','')
     segments = segments_str.split('\n')    
     #ignore the linkers
@@ -95,6 +96,7 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
 
        
         pair = find_pair_by_segment_name(pairs, seg_name)
+
         pair_name = get_other_segment_name(pair, seg_name)
         chain = get_segment_chain(pair, seg_name)
         
