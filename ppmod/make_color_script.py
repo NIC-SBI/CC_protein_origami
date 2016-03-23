@@ -25,7 +25,9 @@ def chimera_color(json_file, out_file, model_number="", verbose=True, color_map=
 
             line = template.format(**s)
             if verbose:
+                print("#"+s.name)
                 print(line)
+            f.write("#"+s.name+"\n")
             f.write(line+"\n")
 
 
