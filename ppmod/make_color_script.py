@@ -9,7 +9,15 @@ import yaml
 import six
 import re
 
-def chimera_color(json_file, out_file, model_number="", verbose=True, color_map=None, default_color="#d2d2b4b48c8c"):
+def print_and_write(line, file, verbose=True):
+    """prints to std out and also writes to file. Only printed if verbose us True"""
+    if verbose:
+        print(line)
+    file.write(line+"\n")
+
+def chimera_color(json_file, out_file, model_number="", verbose=True, color_map=None, default_color="#d2d2b4b48c8c", add_surface=True):
+    
+
     d=u.load_json_data(json_file)
 
     with open(out_file+'.chimera', 'w') as f:        
@@ -24,12 +32,16 @@ def chimera_color(json_file, out_file, model_number="", verbose=True, color_map=
                 s['color']=s.get('color', default_color)
 
             line = template.format(**s)
-            if verbose:
-                print("#"+s.name)
-                print(line)
-            f.write("#"+s.name+"\n")
-            f.write(line+"\n")
+            print_and_write("#"+s.name, f, verbose)
+            print_and_write(line, f, verbose)
 
+        if add_surface:    
+            print_and_write("", f, verbose)
+            line = "surface probeRadius 3   vertexDensity 2 allComponents false  protein"
+            print_and_write(line, f, verbose)
+            line = "surface probeRadius 3   vertexDensity 2 allComponents false  protein"
+            line = "transparency 80,s #{model}:".format(model=model_number)
+            print_and_write(line, f, verbose)
 
 if __name__ == "__main__":
     import argparse    
