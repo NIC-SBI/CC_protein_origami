@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """
 Given a JSON file generate scripts for coloring the representation in Chimera and VMD.
@@ -80,13 +79,15 @@ def chimera_color(json_file, out_file, model_number="", verbose=True, color_map=
                     printed_segments_ids.extend([s.id, s.pair_id])            
 
 if __name__ == "__main__":
+
+
     import argparse    
     parser=argparse.ArgumentParser(__doc__)
     parser.add_argument("-j","--json", default='data.json', help='specify path to json file')
     parser.add_argument("-o","--out-file", default=None, help='Output name (without extension) of the coloring script. Default taken from json')
     parser.add_argument("-v","--verbose", default=True, help='print scripts to screen')
     parser.add_argument("-m","--color-map", default=None, help='colormap to override colors given in the json. Works even if no colors are present in the Json')
-    parser.add_argument("-t","--thick_vdw", default=False, help='Print specification for thicker segments (for movie creation). Not printed if None')
+    parser.add_argument("-t","--thick_vdw", default=True, help='Print specification for thicker segments (for movie creation).')
 
     a = parser.parse_args()
     
@@ -96,6 +97,8 @@ if __name__ == "__main__":
     if not a.color_map is None:
         a.color_map = u.load_json_data(a.color_map)
     chimera_color(a.json, a.out_file, verbose=a.verbose, color_map=a.color_map, print_thick_vdw=a.thick_vdw)
+
+    
 
  
 
