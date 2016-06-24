@@ -9,7 +9,7 @@ ELKQLEE ELQAIEE QLAQLQW KAQARKE KLAQLK 		APHshort
 
 pairs = """
 - pair : APHshort:APHshort
-  type : P  
+  type : A  
   chains : A:B
   template : APH.pdb  
 """   
