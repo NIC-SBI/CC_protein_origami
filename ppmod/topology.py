@@ -1,9 +1,71 @@
 #!/usr/bin/python
 from __future__ import print_function, division
 
+#####################################
+###Ajasja Ljubetic (ajasja.ljubetic@gmail.com) ##################
 ###utilities for dealing with topologies
+import ppmod.utils as u
+
+import collections
+def permute_segment_left(segs, n=1):
+    """Permutes a segment to the left for n movements"""
+    q = collections.deque(segs)
+    q.rotate(-n)
+    return list(q)
 
 
+def permute_vertices_left(verts, n=1):
+    """Permutes a segment to the left for n movements"""
+    q = collections.deque(verts)
+    #last vertex is same as first
+    last = q.pop()
+    q.rotate(-n)
+    q.append(q[0])
+    return list(q)
+
+def get_permutation_name(basename, permutation=1):
+    """gets the name for the permutation with a, b, c...
+    Currently does not work for negative"""
+    return str(basename)+"."+str(permutation)    
+
+def get_segment_distances(segment_topology):
+    """given an array of char as segments find the distance between pairs in the sequnce.
+    Antipralalel are given a shorter distance than parallel."""
+    stl = [c.lower() for c in segment_topology]
+    #delete duplicates
+    blocks = sorted(list(set(stl)))
+    
+    dist = []
+    for block in blocks:
+        inds = [i for i, x in enumerate(segment_topology) if x.lower() == block]
+        #print(inds)
+        assert len(inds) == 2, block+ " does not have a pair: "+ str(len(inds))
+        
+        #if they are difftent case they are antiprallel
+        #print(segment_topology[inds[0]],segment_topology[inds[1]]) 
+        if segment_topology[inds[0]]!=segment_topology[inds[1]]:
+            #antiparallel are shorter distance
+            dist.append(abs(inds[1]-inds[0]-1))
+        else:
+            dist.append(abs(inds[1]-inds[0]))
+    return dist    
+
+def name_of_topology(top, top_list):
+    """Given a list of topologies (as dict or dataframe), return the "name" of the topology from the list"""
+    res = []
+    s_top = standard(top)
+    
+    for index, row in top_list.iterrows():
+        #print(index)
+        s_form = standard(row['segs'].replace("-",""))
+        #print (s_form, s_top)
+        if s_form  == s_top:
+            res.append(index)
+
+    assert len(res) == 1
+    return res[0]    
+#####################################
+#####################################
 
 # Some additions for the Biomathematics afternoon in Ljubljana 2016
 # February 17,2016.
@@ -11,9 +73,12 @@ from __future__ import print_function, division
 bipyramid = ["ahf","Abc","egF","gbI","dic","eDh"]
 triprism = ["abc","def","bifH","cgeI","ahdG"] #Triangular prism
 tetrahedron = ["abc","adF","beD","cfE"] #Tetrahedron in the sphere
+tetra = tetrahedron
 bipyramid = ["adF","beD","cfE","agI","bhG","ciH"] #Double Tertahedron (triangular bipyramid in the sphere)
 octahedron = ["aeF","bfG","cgH","dhE","aiJ","bjK","ckL","dlI"] #Octahedron
 square_pyramid = ["aeF","bfG","cgH","dhE","ABCD"] #Pyramid
+pyramid = square_pyramid
+doubletetra = bipyramid 
 cube = ["abcd","ijkl","aeIH","bfJE","cgKF","dhLG"]
 
 # Modified for all embeddings.
@@ -73,6 +138,36 @@ def represent(poly,verbose = False):
     for j,t in enumerate(sup):
         crs.append(compare(rot0,rots[j]))
     return (sup,crs)
+
+def same_crossings(poly,verbose=False, crossings=None):
+    """all topologies with the same crossings."""
+    ga = generateall(poly)
+    gar = [oriented_canonical(x[::-1]) for x in ga]
+    dic = {}
+    n = len(ga)
+    k = 0
+    for i in range(n):
+        (na,np) = noparallel(ga[i])
+        dic[na] = dic.get(na,0)+1
+        if ga[i] == gar[i]:
+            if verbose:
+                print(i,na,np,crossings,ga[i], "", sep=",")
+        else:
+            if verbose:
+                print(i,na,np,crossings,ga[i], "", sep=",")
+                print(i,na,np,crossings,gar[i],"R", sep=",")
+            k += 1
+    if not verbose:
+        print("Number of topologies ", n)
+        print("Number of reflexive topologies ",n-k)
+        print("Number of non-reflexive pairs ",k)
+        print()
+        print("Number of topologies by antiparallel dimers. \n (num AP, num topo)")
+        for k in dic:
+            print(k,dic[k])
+    return (n,k,dic,ga)        
+
+    
 
 def compare(rot0,rot):
     tot = 0
@@ -232,34 +327,6 @@ are transformed into strings."""
         sfaces.append(sf)
     return sfaces
         
-def same_crossings(poly,verbose=False, crossings=None):
-    """all topologies with the same crossings."""
-    ga = generateall(poly)
-    gar = [oriented_canonical(x[::-1]) for x in ga]
-    dic = {}
-    n = len(ga)
-    k = 0
-    for i in range(n):
-        (na,np) = noparallel(ga[i])
-        dic[na] = dic.get(na,0)+1
-        if ga[i] == gar[i]:
-            if verbose:
-                print(i,na,np,crossings,ga[i], "", sep=",")
-        else:
-            if verbose:
-                print(i,na,np,crossings,ga[i], "", sep=",")
-                print(i,na,np,crossings,gar[i],"R", sep=",")
-            k += 1
-    if not verbose:
-        print("Number of topologies ", n)
-        print("Number of reflexive topologies ",n-k)
-        print("Number of non-reflexive pairs ",k)
-        print()
-        print("Number of topologies by antiparallel dimers. \n (num AP, num topo)")
-        for k in dic:
-            print(k,dic[k])
-    return (n,k,dic,ga)        
-
 def generateall(poly):
     """ Generate all non-intersecting polypeptides with a given polyhedron."""
     res = []
@@ -629,9 +696,9 @@ def noparallel(sequ):
             n += 1
     return (n//2, (len(sequ)-n)//2)
     
-def np(lf):
-    """Same as noparallel except that for multiple faces"""
-    return noparallel(combine(lf))
+#def np(lf):
+#    """Same as noparallel except that for multiple faces"""
+#    return noparallel(combine(lf))
 
 def opposite(face):
     """Reverse the face orientation.""" 
@@ -1218,4 +1285,4 @@ def tist(poly=smallpolyhedra):
     return (poly,res)
         
 #(p,t) = tast()
-print("Try to run explore(tetra).")
+#print("Try to run explore(tetra).")
