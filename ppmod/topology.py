@@ -98,7 +98,7 @@ def calculate_TCO(top_dataframe):
     return df    
 
 
-def name_of_topology(top, top_list):
+def name_of_topology(top, top_list, verbose=False):
     """Given a list of topologies (as dict or dataframe), return the "name" of the topology from the list"""
     res = []
     s_top = standard(top)
@@ -106,11 +106,12 @@ def name_of_topology(top, top_list):
     for index, row in top_list.iterrows():
         #print(index)
         s_form = standard(row['segments'])
-        #print (s_form, s_top)
+        if verbose:
+            print (s_form, s_top)
         if s_form  == s_top:
             res.append(index)
 
-    assert len(res) == 1
+    assert len(res) > 1, str(res)
     return res[0]    
 #####################################
 #####################################
