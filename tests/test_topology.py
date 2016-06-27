@@ -90,3 +90,18 @@ def test_TCO():
        4.833333333333333, 5.166666666666667, 4.833333333333333,
        3.8333333333333335, 4.833333333333333, 5.166666666666667,
        4.833333333333333])
+
+def test_name_of_topology():    
+    tops = explore(tetrahedron)
+    named_tops = name_topologies_and_permutations(tops) 
+    df = calculate_TCO(named_tops)
+
+    pTet12 = "ABCDaEDBFEcF"
+    assert name_of_topology(pTet12, df)=='1.10'
+
+    p5 = "A-B-C-A-D-E-c-F-d-B-F-E".replace("-","")
+    name_of_topology(p5, df)
+    assert name_of_topology(p5, df)=='1.6'
+
+    p33a = "A-B-C-D-A-E-c-F-d-e-B-F".replace("-","")
+    assert name_of_topology(p33a, df)=='2.3'
