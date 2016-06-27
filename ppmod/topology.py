@@ -50,6 +50,54 @@ def get_segment_distances(segment_topology):
             dist.append(abs(inds[1]-inds[0]))
     return dist    
 
+
+def name_topologies_and_permutations(top_dataframe):
+    """Given a dataframe of topologies, enumerate all topologies"""
+    import pandas
+    import numpy as np
+    allpnames = []
+    for n, (i, row) in enumerate(top_dataframe.iterrows()):
+        
+        for p in range(len(row['topo'])):
+            allpnames.append(get_permutation_name(n+1,p+1))
+    
+    df = pandas.DataFrame(index=allpnames,columns="segments num_AP num_P num_cross reflected".split())
+    for n, (i, row) in enumerate(top_dataframe.iterrows()):
+        s = list(row['topo'])
+        #print(s)
+        for p in range(len(s)):
+            name = get_permutation_name(n+1,p+1)
+            ps = permute_segment_left(s, p)
+
+            df.loc[name, 'segments'] = "".join(ps)
+            df.loc[name, 'num_AP']    = row['num_AP']
+            df.loc[name, 'num_P']     = row['num_P']
+            df.loc[name, 'num_cross'] = row['num_cross']
+            df.loc[name, 'reflected'] = row['reflected']
+    return df
+
+def calculate_TCO(top_dataframe):
+    """Given a dataframe of topologies, enumerate all topologies"""
+    import pandas
+    import numpy as np
+    
+    df = pandas.DataFrame(index=top_dataframe.index,columns="min max TCO stdTCO segments num_AP num_P num_cross ref".split())
+    for n, (name, row) in enumerate(top_dataframe.iterrows()):
+        s = list(row['segments'])
+        dist = get_segment_distances(s)
+        
+        df.loc[name, 'min'] = np.min(dist)
+        df.loc[name, 'max'] = np.max(dist)
+        df.loc[name, 'TCO'] = np.mean(dist)
+        df.loc[name, 'stdTCO'] = np.std(dist)
+        df.loc[name, 'segments'] = row['segments']
+        df.loc[name, 'num_AP']    = row['num_AP']
+        df.loc[name, 'num_P']     = row['num_P']
+        df.loc[name, 'num_cross'] = row['num_cross']
+        df.loc[name, 'ref'] = row['reflected']
+    return df    
+
+
 def name_of_topology(top, top_list):
     """Given a list of topologies (as dict or dataframe), return the "name" of the topology from the list"""
     res = []
@@ -57,7 +105,7 @@ def name_of_topology(top, top_list):
     
     for index, row in top_list.iterrows():
         #print(index)
-        s_form = standard(row['segs'].replace("-",""))
+        s_form = standard(row['segments'])
         #print (s_form, s_top)
         if s_form  == s_top:
             res.append(index)
@@ -93,7 +141,11 @@ cube = ["abcd","ijkl","aeIH","bfJE","cgKF","dhLG"]
 from time import *
 from itertools import permutations
 
-def explore(poly,verbose=False):
+def explore(poly,verbose=False, return_dataframe = True):
+    """Returns all topologies of a given polyhedron. 
+    If returned as a Pandas dataframe it is sorted by 'num_cross', 'num_AP', 'topo', 'reflected'"""
+    #a list of hashes returned as result
+    top_data = []
     (sup,crs) = represent(poly,verbose)
     for i in range(len(sup)):
         if verbose:
@@ -101,8 +153,13 @@ def explore(poly,verbose=False):
         else:
             print("id,num_cross, super canonical")
             print(i,crs[i],sup[i],others(sup[i]))       
-        same_crossings([sup[i]], verbose=verbose, crossings=crs[i])
-    
+        same_crossings([sup[i]], verbose=verbose, crossings=crs[i], top_data=top_data)
+    if return_dataframe:
+        import pandas
+        top_data = pandas.DataFrame(data=top_data)
+        top_data.sort_values(by=['num_cross', 'num_AP', 'topo', 'reflected'], inplace=True)
+
+    return top_data
 
 def represent(poly,verbose = False):
     """should return all crossing non-equvalent representatives of a polyhedron."""
@@ -139,7 +196,7 @@ def represent(poly,verbose = False):
         crs.append(compare(rot0,rots[j]))
     return (sup,crs)
 
-def same_crossings(poly,verbose=False, crossings=None):
+def same_crossings(poly,verbose=False, crossings=None, top_data=None):
     """all topologies with the same crossings."""
     ga = generateall(poly)
     gar = [oriented_canonical(x[::-1]) for x in ga]
@@ -148,7 +205,11 @@ def same_crossings(poly,verbose=False, crossings=None):
     k = 0
     for i in range(n):
         (na,np) = noparallel(ga[i])
-        dic[na] = dic.get(na,0)+1
+        dic[na] = dic.get(na,0)+1 
+        result_dict = {"num_AP":na, "num_P":np, "num_cross":crossings,
+                        "topo":ga[i], "reflected":ga[i] == gar[i]}
+
+        top_data.append(result_dict)
         if ga[i] == gar[i]:
             if verbose:
                 print(i,na,np,crossings,ga[i], "", sep=",")
@@ -167,7 +228,7 @@ def same_crossings(poly,verbose=False, crossings=None):
             print(k,dic[k])
     return (n,k,dic,ga)        
 
-    
+
 
 def compare(rot0,rot):
     tot = 0
