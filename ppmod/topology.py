@@ -118,7 +118,9 @@ def name_of_topology(top, top_list, verbose=False):
             res.append(str(index)+'R')
 
 
+    
     assert len(res) >= 1, str(res)
+    #due to symmetry there might be more than one solution. Just return the first.
     if len(res) > 1:
         print(res)
     return res[0]    
