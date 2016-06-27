@@ -111,7 +111,7 @@ def name_of_topology(top, top_list, verbose=False):
         if s_form  == s_top:
             res.append(index)
 
-    assert len(res) > 1, str(res)
+    assert len(res) >= 1, str(res)
     return res[0]    
 #####################################
 #####################################
