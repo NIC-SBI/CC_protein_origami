@@ -110,8 +110,17 @@ def name_of_topology(top, top_list, verbose=False):
             print (s_form, s_top)
         if s_form  == s_top:
             res.append(index)
+    
+    #check for reflected
+    for index, row in top_list.iterrows():
+        s_form =  standard(row['segments'][::-1])           
+        if s_form  == s_top:
+            res.append(str(index)+'R')
+
 
     assert len(res) >= 1, str(res)
+    if len(res) > 1:
+        print(res)
     return res[0]    
 #####################################
 #####################################
