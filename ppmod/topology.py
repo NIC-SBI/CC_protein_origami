@@ -127,6 +127,50 @@ def name_of_topology(top, top_list, verbose=False):
 #####################################
 #####################################
 
+########################################
+#Load ply files
+def load_vfaces(ply_file):
+    """Loads a list of vFaces from a ply file."""
+    import plyfile
+    plydata = plyfile.PlyData.read(ply_file)
+    #print(plydata)
+    #convert to list of lists. List of numpy arrays does not work.
+    #Trouble with vertex_index vs vertex_indicies. Just take the first property     
+    vfaces = [list(f[0]) for f in plydata['face']]
+    return vfaces
+    
+
+def convert_vface_to_efaces(vfaces):
+   """Convert faces given by vertices to faces given by strings (edge faces).
+It works for up to 26 edges."""
+   #list of edges   
+   eds = []
+   nA = ord("A")
+   na = ord("a")
+   faces = []
+   for ff in vfaces:
+      #print("ff",ff) 
+      f = ff+[ff[0]]
+      n = len(f)
+      e = ""
+      for i in range(n-1):
+         aa = f[i]
+         bb = f[i+1]
+         a,b = aa,bb 
+         if a > b:
+            a,b = b,a
+         if [a,b] not in eds:
+            eds.append([a,b])
+         i = eds.index([a,b])
+         if aa > bb:
+            e += chr(na+i)
+         else:
+            e += chr(nA+i)
+      faces.append(e)
+   return faces
+############################################         
+         
+
 # Some additions for the Biomathematics afternoon in Ljubljana 2016
 # February 17,2016.
 #bipyramid = ["ahF","Abc","egf","giB","dic","eDh"]
