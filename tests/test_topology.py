@@ -118,3 +118,8 @@ def test_convert_vface_to_efaces():
     #prism
     vfaces = [[0, 1, 2], [3, 4, 5], [0, 1, 4, 3], [1, 2, 5, 4], [0, 2, 5, 3]]
     assert ['ABc', 'DEf', 'AGdh', 'BIeg', 'CIfh']==convert_vface_to_efaces(vfaces)
+    
+def test_load_vfaces():
+    """Tests loding of ply files. Python package plyfile must be installed."""
+    assert load_vfaces( u.relative_to(__file__, 'data/01_tetrahedron.ply'))==\
+           [[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]], "Make sure plyfile is installed-"
