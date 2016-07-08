@@ -105,3 +105,16 @@ def test_name_of_topology():
 
     p33a = "A-B-C-D-A-E-c-F-d-e-B-F".replace("-","")
     assert name_of_topology(p33a, df)=='2.3'
+    
+def test_convert_vface_to_efaces():
+    #tetrahedron    
+    vfaces = [[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]]
+    assert ['Abc', 'CDe', 'Efa', 'BFd']==convert_vface_to_efaces(vfaces)
+    
+    #pyramid
+    vfaces =[[1, 2, 3, 0], [0, 1, 4], [0, 4, 3], [3, 4, 2], [1, 2, 4]]
+    assert ['ABcD', 'DEf', 'Fgc', 'GhB', 'AHe']==convert_vface_to_efaces(vfaces)
+    
+    #prism
+    vfaces = [[0, 1, 2], [3, 4, 5], [0, 1, 4, 3], [1, 2, 5, 4], [0, 2, 5, 3]]
+    assert ['ABc', 'DEf', 'AGdh', 'BIeg', 'CIfh']==convert_vface_to_efaces(vfaces)
