@@ -24,8 +24,6 @@ Other dependencies:
 
 ###**Installation**
 ---------------------------------------
-**PROTEIN ORIGAMI** design software is available as a git repository [ppmod](https://bitbucket.org/l12/poly_modeller). The files can be cloned to any location.
-
 Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribution is recommended as it simplifies installing further dependencies. Modeller, Snakemake and MdTraj can then easily be installed by running
 >$ conda install -c salilab modeller
 >
@@ -34,6 +32,12 @@ Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribu
 >$ conda install -c omnia mdtraj 
 
 respectively. [Chimera](https://www.cgl.ucsf.edu/chimera/download.html) has to be installed separately. 
+
+**PROTEIN ORIGAMI** design software is available as a git repository [ppmod](https://bitbucket.org/l12/poly_modeller). The files can be cloned to any location. Using command *cd* move to the folder poly_modeller and run 
+
+>$ python setup.py install
+
+to install the package.
 
 
 ###**Tests**
@@ -51,8 +55,8 @@ To run the program user needs to provide an input file containing information on
 * **_pairs_**, in this section segment pairing is specified. For every pair the orientation (A for antiparallel and P for parallel) of the CC dimer should be provided, along with the name of CC dimer structure template file and name of the chains in the model structure.
 
 An example of the input file can be found [here](https://bitbucket.org/l12/poly_modeller/src/aaf92e2cd01b7c84ff3a6db5359eefed6fa5d305/examples/APHsh/make_config.py?at=master&fileviewer=file-view-default). Two APH segments are connected by a linker forming a covalently linked CC dimer. 
-The user is provided with a [Snakefile](https://bitbucket.org/l12/poly_modeller/src/aaf92e2cd01b7c84ff3a6db5359eefed6fa5d305/examples/APHsh/Snakefile?at=master&fileviewer=file-view-default) which allows for automatic performance of all the design steps through running *snakemake* in the command line. However, the design can then be carried out stepwise by using appropriate scripts. 
+The user is provided with a [Snakefile](https://bitbucket.org/l12/poly_modeller/src/aaf92e2cd01b7c84ff3a6db5359eefed6fa5d305/examples/APHsh/Snakefile?at=master&fileviewer=file-view-default) which allows for automatic performance of all the design steps through running 
 
-###**Terms of use**
----------------------------------------
-The code is licensed under GPLv3. Copyright (C) 2016 Ajasja Ljubetič, Igor Drobnak, Jana Aupič. In published work which uses this package please cite ...
+>$ snakemake 
+
+in the command line. However, the design can then be carried out stepwise by using appropriate scripts. 
