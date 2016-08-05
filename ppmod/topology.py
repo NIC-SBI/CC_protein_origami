@@ -13,6 +13,20 @@ def get_pairs_from_topology(topology):
     tU = [p.upper() for p in topology]    
         
     return sorted(list(set(list(tU))))
+    
+def get_complete_pairs_dict_from_topology(topology):
+    """Returns the dictionary A-> (A,a), B->(B, B) ... from the topology string or list"""
+    pairs = []    
+    import collections    
+    pair_keys = collections.OrderedDict()    
+        
+    for p in topology:
+        P=p.upper()
+        l = pair_keys.get(P, [])
+        l.append(p)
+        pair_keys[P] = l
+        
+    return pair_keys  
 
 def segment_assignments_to_dict(rep_str):
     """Parses segment_assignments rules into a dictionary. The string is in the form

@@ -3,9 +3,19 @@ import ppmod.utils as u
 from ppmod.topology import *
 import numpy
 
+def get_complete_pairs_dict_from_topology():
+    from collections import OrderedDict
+    assert get_complete_pairs_from_topology("ABCDabcd") == \
+                    OrderedDict([('A', ['A', 'a']),
+                                 ('B', ['B', 'b']),
+                                 ('C', ['C', 'c']),
+                                 ('D', ['D', 'd'])])
+
 def test_get_pairs_from_topology():
     assert(get_pairs_from_topology("ABCDabcd") == ['A', 'B', 'C', 'D'])
     assert(get_pairs_from_topology("A-B-C-D-a-b-c-d".split("-")) == ['A', 'B', 'C', 'D'])
+    
+    
 def test_segment_assignments_to_dict():
     from collections import OrderedDict
 
