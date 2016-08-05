@@ -2,6 +2,7 @@ import ppmod
 import ppmod.utils as u
 from ppmod.topology import *
 import numpy
+from collections import OrderedDict
 
 def get_complete_pairs_dict_from_topology():
     from collections import OrderedDict
@@ -17,7 +18,7 @@ def test_get_pairs_from_topology():
     
     
 def test_segment_assignments_to_dict():
-    from collections import OrderedDict
+    
 
     seg_str="""
     A->SEG1:SEG2
@@ -62,6 +63,10 @@ def test_get_segment_distances():
     [3, 5, 10, 4, 9, 5, 7, 4, 3] 
     assert get_segment_distances(list("cBAaBC")) == \
     [0, 3, 4] 
+    
+def test_get_segment_distances_dict():
+    assert get_segment_distances_dict("ABCDABcd") == \
+            OrderedDict([('A', 4), ('B', 4), ('C', 3), ('D', 3)])
 
 def test_explore_tetrahedron():
     tops = explore(tetrahedron,verbose=False, return_dataframe=False)

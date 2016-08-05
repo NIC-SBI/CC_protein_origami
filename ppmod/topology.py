@@ -17,7 +17,6 @@ def get_pairs_from_topology(topology):
 def get_complete_pairs_dict_from_topology(topology):
     """Returns the dictionary A-> (A,a), B->(B, B) ... from the topology string or list"""
     pairs = []    
-    import collections    
     pair_keys = collections.OrderedDict()    
         
     for p in topology:
@@ -27,6 +26,8 @@ def get_complete_pairs_dict_from_topology(topology):
         pair_keys[P] = l
         
     return pair_keys  
+    
+    
 
 def segment_assignments_to_dict(rep_str):
     """Parses segment_assignments rules into a dictionary. The string is in the form
@@ -34,7 +35,6 @@ def segment_assignments_to_dict(rep_str):
     A->SEG1:SEG2
     B->SEG:SEG    
     """
-    import collections
     rep_str = rep_str.strip(" \n")
     rep_lines = rep_str.split("\n")
     reps = collections.OrderedDict()
@@ -74,16 +74,17 @@ def get_permutation_name(basename, permutation=1):
     Currently does not work for negative"""
     return str(basename)+"."+str(permutation)    
 
-def get_segment_distances(segment_topology):
+
+def get_segment_distances_dict(segment_topology):
     """given an array of char as segments find the distance between pairs in the sequnce.
     Antipralalel are given a shorter distance than parallel."""
-    stl = [c.lower() for c in segment_topology]
+    stl = [c.upper() for c in segment_topology]
     #delete duplicates
     blocks = sorted(list(set(stl)))
     
-    dist = []
+    dist = collections.OrderedDict()
     for block in blocks:
-        inds = [i for i, x in enumerate(segment_topology) if x.lower() == block]
+        inds = [i for i, x in enumerate(segment_topology) if x.upper() == block]
         #print(inds)
         assert len(inds) == 2, block+ " does not have a pair: "+ str(len(inds))
         
@@ -91,10 +92,15 @@ def get_segment_distances(segment_topology):
         #print(segment_topology[inds[0]],segment_topology[inds[1]]) 
         if segment_topology[inds[0]]!=segment_topology[inds[1]]:
             #antiparallel are shorter distance
-            dist.append(abs(inds[1]-inds[0]-1))
+            dist[block]=(abs(inds[1]-inds[0]-1))
         else:
-            dist.append(abs(inds[1]-inds[0]))
+            dist[block]=(abs(inds[1]-inds[0]))
     return dist    
+
+def get_segment_distances(segment_topology):
+    """given an array of char as segments find the distance between pairs in the sequnce.
+    Antipralalel are given a shorter distance than parallel."""
+    return get_segment_distances_dict(segment_topology).values()
 
 
 def name_topologies_and_permutations(top_dataframe):
