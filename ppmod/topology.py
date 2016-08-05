@@ -7,6 +7,38 @@ from __future__ import print_function, division
 import ppmod.utils as u
 
 import collections
+
+def get_pairs_from_topology(topology):
+    """Returns the pairs A, B, C... from the topology string or list"""
+    tU = [p.upper() for p in topology]    
+        
+    return sorted(list(set(list(tU))))
+
+def segment_assignments_to_dict(rep_str):
+    """Parses segment_assignments rules into a dictionary. The string is in the form
+
+    A->SEG1:SEG2
+    B->SEG:SEG    
+    """
+    import collections
+    rep_str = rep_str.strip(" \n")
+    rep_lines = rep_str.split("\n")
+    reps = collections.OrderedDict()
+    for line in rep_lines:     
+        if not "->" in line: 
+            #print("skipping line", line)            
+            continue        
+        k,v = line.split("->")
+        k = k.strip().upper()
+        v = v.strip()
+       
+        v1,v2 = v.split(":")
+        v1 = v1.strip()
+        v2 = v2.strip()
+        reps[k] = [v1,v2]
+    return reps
+
+
 def permute_segment_left(segs, n=1):
     """Permutes a segment to the left for n movements"""
     q = collections.deque(segs)

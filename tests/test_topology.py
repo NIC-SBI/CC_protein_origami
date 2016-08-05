@@ -3,6 +3,36 @@ import ppmod.utils as u
 from ppmod.topology import *
 import numpy
 
+def test_get_pairs_from_topology():
+    assert(get_pairs_from_topology("ABCDabcd") == ['A', 'B', 'C', 'D'])
+    assert(get_pairs_from_topology("A-B-C-D-a-b-c-d".split("-")) == ['A', 'B', 'C', 'D'])
+def test_segment_assignments_to_dict():
+    from collections import OrderedDict
+
+    seg_str="""
+    A->SEG1:SEG2
+    B->SEGA:SEGA    
+    """
+
+    d = segment_assignments_to_dict(seg_str)
+    assert d == OrderedDict([(u'A', [u'SEG1', u'SEG2']), (u'B', [u'SEGA', u'SEGA'])])
+
+    #test spaces and empty lines
+    seg_str="""
+    A -> SEG1:SEG2
+    
+    B->SEGA:SEGA    
+    
+    C-> SEGB : SEGB    
+    """
+    d = segment_assignments_to_dict(seg_str)
+
+    d = segment_assignments_to_dict(seg_str)
+    assert d == OrderedDict([(u'A', [u'SEG1', u'SEG2']),
+                             (u'B', [u'SEGA', u'SEGA']),
+                             (u'C', [u'SEGB', u'SEGB'])])
+
+
 def test_permute_segment_left():
     assert permute_segment_left(['a', 'b', 'c']) == \
                             ['b', 'c', 'a']
@@ -123,3 +153,5 @@ def test_load_vfaces():
     """Tests loding of ply files. Python package plyfile must be installed."""
     assert load_vfaces( u.relative_to(__file__, 'data/01_tetrahedron.ply'))==\
            [[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]], "Make sure plyfile is installed-"
+           
+           
