@@ -5,13 +5,72 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import ipywidgets as widgets
 import ppmod.topology as t
 from collections import OrderedDict, namedtuple
+import ppmod.utils as u
+import collections
 
-parallel_pairs_list_def = ["P1:P2", "P3:P4", "P5:P6","P7:P8","P9:P10","P11:P12", "GCNsh:GCNsh"]
-antiparallel_pairs_list_def =["APHsh:APHsh","BCR:BCR", "APH4:APH4"]
+pairs_parallel_def = ["P1:P2", "P3:P4", "P5:P6","P7:P8","P9:P10","P11:P12", "GCNsh:GCNsh"]
+pairs_antiparallel_def =["APHsh:APHsh","BCR:BCR", "APH4:APH4"]
 #TODO: APH4 is just a guess
 segment_strengths_parallel_def = ["P3:P4", "P1:P2", "P9:P10", "P11:P12", "P5:P6", "GCNsh:GCNsh", "P7:P8"]
 segment_strengths_antiparallel_def = ["APHsh:APHsh", "BCR:BCR", "APH4:APH4"]
 types_list_def = ['SN', 'S', 'A']
+
+def get_pairs_from_topology(topology):
+    """Returns the pairs A, B, C... from the topology string or list"""
+    tU = [p.upper() for p in topology]    
+        
+    return sorted(list(set(list(tU))))
+    
+def get_complete_pairs_dict_from_topology(topology):
+    """Returns the dictionary A-> (A,a), B->(B, B) ... from the topology string or list"""
+    pair_keys = collections.OrderedDict()    
+        
+    for p in topology:
+        P=p.upper()
+        l = pair_keys.get(P, [])
+        l.append(p)
+        pair_keys[P] = l
+        
+    return pair_keys  
+    
+    
+
+def segment_assignments_to_dict(rep_str):
+    """Parses segment_assignments rules into a dictionary. The string is in the form
+
+    A->SEG1:SEG2
+    B->SEG:SEG    
+    """
+    rep_str = rep_str.strip(" \n")
+    rep_lines = rep_str.split("\n")
+    reps = collections.OrderedDict()
+    for line in rep_lines:     
+        if not "->" in line: 
+            #print("skipping line", line)            
+            continue        
+        k,v = line.split("->")
+        k = k.strip().upper()
+        v = v.strip()
+       
+        v1,v2 = v.split(":")
+        v1 = v1.strip()
+        v2 = v2.strip()
+        reps[k] = [v1,v2]
+    return reps
+
+def do_assignment_replacements(topology, assignments):
+    """Replaces topology segments with replacemnt rules. 
+       The first occurance of a name is replaced witht he first element in the list"""
+    if u.is_str(assignments):
+        assignments = replacements_to_dict(assignments) 
+    ret =[]
+    for s in segments:
+        sl = s.upper()
+        if sl in reps:    
+            ret.append(assignments[sl].pop(0))
+        else:
+            ret.append(s)
+    return ret    
 
 
 
@@ -33,9 +92,13 @@ def splice_in_type(pair, type):
 
 GUI_result = namedtuple("GUI_result", "gui pairs_dict pair_dropdowns, type_dropdowns, result_text") 
 
+#TODO
+# - Document
+# - write TCO at the end
+# - add linker input box
 
-def gui(topology, parallel_pairs_list=parallel_pairs_list_def,
-                  antiparallel_pairs_list=antiparallel_pairs_list_def,
+def gui(topology, pairs_parallel=pairs_parallel_def,
+                  pairs_antiparallel=pairs_antiparallel_def,
                   segment_strengths_parallel=segment_strengths_parallel_def,
                   segment_strengths_antiparallel=segment_strengths_antiparallel_def,
                   types_list=types_list_def,
@@ -90,7 +153,7 @@ def gui(topology, parallel_pairs_list=parallel_pairs_list_def,
             print("Warning: las segment has weak binding! It is not advisable to put it at the end of the chain.")              
                   
         try:
-            ass_dict = t.segment_assignments_to_dict(asignment_textbox.value)        
+            t.segment_assignments_to_dict(asignment_textbox.value)        
         except ValueError:
             print("Warning: some segments not assigned!")   
             
@@ -102,9 +165,9 @@ def gui(topology, parallel_pairs_list=parallel_pairs_list_def,
     #Create dropdowns
     for p, pp in pairs.iteritems():
         if is_pair_parallel(pp):
-            option_list = ['None'] + parallel_pairs_list
+            option_list = ['None'] + pairs_parallel
         else:        
-            option_list = ['None'] + antiparallel_pairs_list
+            option_list = ['None'] + pairs_antiparallel
     
         pair_dropdown = widgets.Dropdown(
                         options=option_list,
@@ -130,11 +193,8 @@ def gui(topology, parallel_pairs_list=parallel_pairs_list_def,
     
     gui_list = widgets.VBox([
         widgets.VBox(display_widget_list),
-        automatic_button,
-        save_results_button,
-        asignment_textbox,
-    
-            
+        widgets.HBox([automatic_button, save_results_button, ]),
+        asignment_textbox    
         ])
     
     result = GUI_result(gui=gui_list, pairs_dict = pairs, 

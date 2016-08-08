@@ -45,6 +45,8 @@ def test_is_str():
     assert u.is_str("A string")
     assert u.is_str(u"A string")
     assert not u.is_str({})
+    assert not u.is_str([])
+    assert not u.is_str(1)
     
 
 #TODO: fix test

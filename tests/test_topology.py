@@ -4,44 +4,7 @@ from ppmod.topology import *
 import numpy
 from collections import OrderedDict
 
-def get_complete_pairs_dict_from_topology():
-    from collections import OrderedDict
-    assert get_complete_pairs_from_topology("ABCDabcd") == \
-                    OrderedDict([('A', ['A', 'a']),
-                                 ('B', ['B', 'b']),
-                                 ('C', ['C', 'c']),
-                                 ('D', ['D', 'd'])])
 
-def test_get_pairs_from_topology():
-    assert(get_pairs_from_topology("ABCDabcd") == ['A', 'B', 'C', 'D'])
-    assert(get_pairs_from_topology("A-B-C-D-a-b-c-d".split("-")) == ['A', 'B', 'C', 'D'])
-    
-    
-def test_segment_assignments_to_dict():
-    
-
-    seg_str="""
-    A->SEG1:SEG2
-    B->SEGA:SEGA    
-    """
-
-    d = segment_assignments_to_dict(seg_str)
-    assert d == OrderedDict([(u'A', [u'SEG1', u'SEG2']), (u'B', [u'SEGA', u'SEGA'])])
-
-    #test spaces and empty lines
-    seg_str="""
-    A -> SEG1:SEG2
-    
-    B->SEGA:SEGA    
-    
-    C-> SEGB : SEGB    
-    """
-    d = segment_assignments_to_dict(seg_str)
-
-    d = segment_assignments_to_dict(seg_str)
-    assert d == OrderedDict([(u'A', [u'SEG1', u'SEG2']),
-                             (u'B', [u'SEGA', u'SEGA']),
-                             (u'C', [u'SEGB', u'SEGB'])])
 
 
 def test_permute_segment_left():
