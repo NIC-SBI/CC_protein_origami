@@ -2,6 +2,7 @@
 from __future__ import print_function
 import os
 
+
 class Dotable(dict):
     """Generates nested dotable dicts from a json-like object. This makes is possible to write
     a.b[0].c
@@ -33,6 +34,16 @@ def byteify(input):
         return input.encode('utf-8')
     else:
         return input        
+    
+
+#taken from http://stackoverflow.com/a/11301781/952600
+try:
+    basestring  # attempt to evaluate basestring
+    def is_str(s):
+        return isinstance(s, basestring)
+except NameError:
+    def is_str(s):
+        return isinstance(s, str)
     
 def load_json_data(file_name):
     """Loads data from json and returns a dotable dict with ascii strings"""

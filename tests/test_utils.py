@@ -40,6 +40,12 @@ def test_find_pair():
 def test_score():
   score = u.score('KKLLLVQEI', 'LEELLEQEK')
   assert score == 4
+  
+def test_is_str():
+    assert u.is_str("A string")
+    assert u.is_str(u"A string")
+    assert not u.is_str({})
+    
 
 #TODO: fix test
 def writepdb():
