@@ -62,18 +62,80 @@ def do_assignment_replacements(topology, assignments):
     """Replaces topology segments with replacemnt rules. 
        The first occurance of a name is replaced witht he first element in the list"""
     if u.is_str(assignments):
-        assignments = replacements_to_dict(assignments) 
+        assignments = segment_assignments_to_dict(assignments) 
+    else:
+        assignments = assignments.copy()
+    
+    keys = assignments.keys()    
     ret =[]
-    for s in segments:
+    for s in topology:
         sl = s.upper()
-        if sl in reps:    
+        if sl in keys:    
             ret.append(assignments[sl].pop(0))
         else:
             ret.append(s)
     return ret    
 
+def seq_to_seq_map(dict_or_file_or_dataframe):
+    """Takes a dictionary (in which case it does not modify it) or a dataframe, 
+    or an excel file name and returns a dict mapping segment names to sequences.
+    Columns must be PID and Sequence"""
+    import pandas as pd
+    #if is dictionary just return it
+    if isinstance(dict_or_file_or_dataframe, dict):
+        return dict_or_file_or_dataframe
+        
+    #if is file, load it to a dataframe
+    if u.is_str(dict_or_file_or_dataframe):     
+        df = pd.read_excel(dict_or_file_or_dataframe)
+    else:
+        df = dict_or_file_or_dataframe
+    #else it must be a dataframe. Do your magic:)
+    df=df.dropna()
+    
+    #cleanup whitespace
+    df.PID=df.PID.str.strip()
+    
+    peps = {}
+    for n, pep in df.iterrows():
 
+        peps[pep.PID] = pep.Sequence.replace('-', '').strip()
+    return peps
+    
+    
+def get_annotated_sequence(segments, seg_to_seq, linkers="SGPGS", N_tag="", C_tag=""):
+    """Returns an anottated amino acid sequnce of the poylhedra.
+    Linkers can be a single string or an array of string with the required number of linkers.
+    N_tag, C_tag - are appended to the left and right side of the string"""
 
+    seg_to_seq = seq_to_seq_map(seg_to_seq)
+    N = len(segments)    
+    if u.is_str(linkers):
+        linkers = [linkers]*(N-1)
+        
+    assert len(linkers)==N-1, ("Length of linkers must be one less than the number of segments."+
+                               "Is {NL}, but should be {N}".format(NL=len(linkers), N=N))
+                               
+    aa_segments = [seg_to_seq[s]  +"\t|"+s for s in segments]
+    
+    lines = [N_tag] + list(u.roundrobin(aa_segments, linkers)) + [C_tag]
+    lines = "\n".join(lines)
+    return lines
+    
+def deannotate_sequnce(annotated_seq, remove_whitespace=False):
+    """Deletes the annotation of segments. Optionally removes whitespace.
+    Either a tab or a | are sufficent, both are also acceptable"""
+    import re    
+    #mathces from a tab or | or both to the end of line.    
+    reg_exp = re.compile(r"\s*(\t|\||\t\s*\|).*\n", re.MULTILINE) 
+    res = re.sub(reg_exp,"\n",annotated_seq)    
+    
+    if remove_whitespace:
+        res=res.replace(" ","")
+        res=res.replace("\n","")
+        res=res.replace("\t","")
+    return res
+    
 def is_pair_parallel(pair):
     return pair[0]==pair[1]
 

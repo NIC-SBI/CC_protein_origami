@@ -87,3 +87,8 @@ def test_mdtraj_to_fasta_bcr():
     
     assert chain_A=="DIEQELERAKASIRRLEQEVNQERFRMIYLQTLLAK"
     assert chain_B=="DIEQELERAKASIRRLEQEVNQERFRMIYLQTLLAK"
+
+
+def test_roundrobin():
+    assert list(u.roundrobin('ABC', 'D', 'EF'))==list("ADEBFC")
+    assert list(u.roundrobin('ABCD', '---'))==list("A-B-C-D")
