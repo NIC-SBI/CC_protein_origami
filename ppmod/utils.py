@@ -1,5 +1,5 @@
 #taken from http://hayd.github.io/2013/dotable-dictionaries/
-from __future__ import print_function
+from __future__ import print_function, division, absolute_import, unicode_literals
 import os
 
 
