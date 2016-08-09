@@ -4,6 +4,7 @@ from __future__ import print_function, division
 #####################################
 ###Ajasja Ljubetic (ajasja.ljubetic@gmail.com) ##################
 ###utilities for dealing with topologies
+from __future__ import print_function, division, absolute_import, unicode_literals
 import ppmod.utils as u
 
 import collections
@@ -55,7 +56,7 @@ def get_segment_distances_dict(segment_topology):
 def get_segment_distances(segment_topology):
     """given an array of char as segments find the distance between pairs in the sequnce.
     Antipralalel are given a shorter distance than parallel."""
-    return get_segment_distances_dict(segment_topology).values()
+    return list(get_segment_distances_dict(segment_topology).values())
 
 
 def name_topologies_and_permutations(top_dataframe):
@@ -92,6 +93,8 @@ def calculate_TCO(top_dataframe):
     for n, (name, row) in enumerate(top_dataframe.iterrows()):
         s = list(row['segments'])
         dist = get_segment_distances(s)
+        print("HERE")        
+        print(dist)
         
         df.loc[name, 'min'] = np.min(dist)
         df.loc[name, 'max'] = np.max(dist)

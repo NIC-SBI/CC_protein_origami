@@ -3,8 +3,8 @@
 """
 Tools to generate a json file with infomration about segments.
 """
-from __future__ import print_function
-import utils as u
+from __future__ import print_function, division, absolute_import, unicode_literals
+import ppmod.utils as u
 import yaml
 import re
 

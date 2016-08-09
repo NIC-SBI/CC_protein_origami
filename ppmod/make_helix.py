@@ -7,9 +7,9 @@ Chimera needs to be installed and available on the path
 
 #names of columns, that have the fraction of native contacts for each cc segment
 
-from __future__ import print_function
-import pandas as pd
-import numpy as np
+from __future__ import print_function, division, absolute_import, unicode_literals
+import ppmod.utils as u
+
 #command line arguments handling 
 import argparse 
 import os
@@ -47,7 +47,6 @@ a = parser.parse_args()
 
 
 if not a.json is None:
-    import utils as u
     d = u.load_json_data(a.json)
     a.seq = d.entire_sequence
 

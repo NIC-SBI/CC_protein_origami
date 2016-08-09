@@ -7,10 +7,10 @@ The raw model is then polished by homology modeling. In this step structures of 
 to generate the final model. Multiple models are generated and evaluated according to their DOPE score and modeller
 objective function. It is assumed that the model with the lowest DOPE score is the best.
 """
-from __future__ import print_function
+from __future__ import print_function, division, absolute_import, unicode_literals
+import ppmod.utils as u
 import argparse
 import os
-import utils as u
 from modeller import *
 from modeller.scripts import complete_pdb
 from modeller.optimizers import conjugate_gradients, molecular_dynamics, quasi_newton, actions

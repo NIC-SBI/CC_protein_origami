@@ -3,10 +3,11 @@
 
 Requires: SciPy v0.17.0
 """
+from __future__ import print_function, division, absolute_import, unicode_literals
+import ppmod.utils as u
 from scipy.spatial import ConvexHull
 import numpy as np
 import mdtraj as md
-import utils as u
 import argparse
 
 parser = argparse.ArgumentParser(description="Script for calculating approximate volume of the polyhedra")

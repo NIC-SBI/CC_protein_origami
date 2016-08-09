@@ -90,5 +90,5 @@ def test_mdtraj_to_fasta_bcr():
 
 
 def test_roundrobin():
-    assert list(u.roundrobin('ABC', 'D', 'EF'))==list("ADEBFC")
-    assert list(u.roundrobin('ABCD', '---'))==list("A-B-C-D")
+    assert list(u.roundrobin(list('ABC'), list('D'), list('EF'))) == list("ADEBFC")
+    assert list(u.roundrobin(list('ABCD'), list('---'))) == list("A-B-C-D")

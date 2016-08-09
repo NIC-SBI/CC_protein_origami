@@ -2,8 +2,8 @@
 """
 Given a JSON file generate scripts for coloring the representation in Chimera and VMD.
 """
-from __future__ import print_function
-import utils as u
+from __future__ import print_function, division, absolute_import, unicode_literals
+import ppmod.utils as u
 
 def print_and_write(line, file, verbose=True):
     """prints to std out and also writes to file. Only printed if verbose us True"""

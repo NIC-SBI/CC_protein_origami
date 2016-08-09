@@ -7,10 +7,10 @@ Json, alignment files and an initial model of the protein should be prepared bef
 in the form of an alpha helix. Initially the program treats segments as rigid bodies. 
 Several md runs are carried out in combination with harmonic restraints to bring the protein in roughly correct polyhedral shape.
 """
-from __future__ import print_function
+from __future__ import print_function, division, absolute_import, unicode_literals
+import ppmod.utils as u
 import argparse
 import os
-import utils as u
 from modeller import *
 from modeller.scripts import complete_pdb
 from modeller.optimizers import conjugate_gradients, molecular_dynamics, quasi_newton, actions
