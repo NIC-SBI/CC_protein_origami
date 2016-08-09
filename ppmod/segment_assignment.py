@@ -122,7 +122,7 @@ def get_annotated_sequence(segments, seg_to_seq, linkers="SGPGS", N_tag="", C_ta
     lines = "\n".join(lines)
     return lines
     
-def deannotate_sequnce(annotated_seq, remove_whitespace=False):
+def deannotate_sequence(annotated_seq, remove_whitespace=False):
     """Deletes the annotation of segments. Optionally removes whitespace.
     Either a tab or a | are sufficent, both are also acceptable"""
     import re    
@@ -159,7 +159,7 @@ GUI_result = namedtuple("GUI_result", "gui pairs_dict pair_dropdowns, type_dropd
 # - write TCO at the end
 # - add linker input box
 
-def gui(topology, pairs_parallel=pairs_parallel_def,
+def segment_assignment_gui(topology, pairs_parallel=pairs_parallel_def,
                   pairs_antiparallel=pairs_antiparallel_def,
                   segment_strengths_parallel=segment_strengths_parallel_def,
                   segment_strengths_antiparallel=segment_strengths_antiparallel_def,
@@ -170,7 +170,7 @@ def gui(topology, pairs_parallel=pairs_parallel_def,
        to a topology and a has dictionary with the most important widgets"""                
     
     #initialization
-    pairs = t.get_complete_pairs_dict_from_topology(topology)
+    pairs = get_complete_pairs_dict_from_topology(topology)
     
     
     
@@ -215,7 +215,7 @@ def gui(topology, pairs_parallel=pairs_parallel_def,
             print("Warning: las segment has weak binding! It is not advisable to put it at the end of the chain.")              
                   
         try:
-            t.segment_assignments_to_dict(asignment_textbox.value)        
+            segment_assignments_to_dict(asignment_textbox.value)        
         except ValueError:
             print("Warning: some segments not assigned!")   
             
@@ -273,3 +273,83 @@ def gui(topology, pairs_parallel=pairs_parallel_def,
         
         
     return result
+   
+#GUI_text_result = namedtuple("GUI_text_result", "gui result_text") 
+   
+def text_edit_gui(text="",caption="", auto_display=True):
+    """IPython widget GUI to edit a block of text. Returns the text area wiget""" 
+        
+        
+    textbox = widgets.Textarea(text)
+    caption = widgets.HTML(caption)    
+    gui = widgets.VBox([caption, textbox])    
+    #V 5 of ipywigets is needed for this    
+    #gui.layout.width  = '100%'    
+    #gui.layout.height = '200px'
+    if auto_display:
+        from IPython.display import display
+        display(gui)
+    return textbox
+    
+#TODO test
+def get_included_pairs_info(excel_name, sheetname='pairs', included_pairs=None):
+    import pandas as pd
+
+    all_pairs = pd.read_excel(excel_name, sheetname=sheetname).dropna(how='all')
+        
+    
+    pairs_info = all_pairs[all_pairs.pair.isin(included_pairs)]
+    pairs_info = pairs_info.sort_values(by='strength', ascending=False)
+    
+
+    pairs_dict = [OrderedDict(row) for i, row in pairs_info.iterrows()]
+    import yaml
+    
+    #taken from http://stackoverflow.com/a/16782282/952600
+    #Support  for pretty printnig of OrderedDict    
+    def represent_ordereddict(dumper, data):
+        value = []
+    
+        for item_key, item_value in data.items():
+            node_key = dumper.represent_data(item_key)
+            node_value = dumper.represent_data(item_value)
+    
+            value.append((node_key, node_value))
+    
+        return yaml.nodes.MappingNode(u'tag:yaml.org,2002:map', value)
+    
+    yaml.add_representer(OrderedDict, represent_ordereddict)
+    return yaml.dump(pairs_dict, encoding=None).replace("!!python/unicode ","")
+    
+make_config_template ='''\
+model_name = "{model_name}"
+annotated_sequence = """
+{annotated_sequence}
+"""
+
+pairs_info = """
+{pairs_info}     
+"""   
+
+if __name__ == "__main__":
+    import ppmod.make_json as mj   
+    import ppmod.segment_assignment as sa
+    entire_sequence = sa.deannotate_sequence(annotated_sequence, remove_whitespace=True)  
+    pairs = mj.load_pairs(pairs_info)    
+    mj.generate_json(model_name, entire_sequence, annotated_sequence, pairs)
+
+'''
+
+#TODO test
+def write_make_config(model_name, annotated_sequence, pairs_info, 
+                      out_name='make_config.py'):
+    """Writes the make_config file. If outname is None return the string"""
+    data = make_config_template.format(model_name=model_name, 
+    annotated_sequence=annotated_sequence,
+    pairs_info=pairs_info)
+    
+    if out_name is None:
+        return data
+    else:
+        with open(out_name, "w") as text_file:
+            text_file.write(data)

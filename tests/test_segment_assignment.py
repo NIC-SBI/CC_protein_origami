@@ -82,14 +82,14 @@ LEHHHHHHHH"""
     assert get_annotated_sequence("P1SN-P3SN-P4SN-P2SN".split("-"), 
               xls_file, N_tag="M",C_tag="LEHHHHHHHH") == result
               
-              
-def test_deannotate_sequnce():
+               
+def test_deannotate_sequence():
     annotated_sequence="""M
 SPED EIRQLEQ ENSQLER ENQRLEQ EIYQLER\t|P1SN
 SGPGS
 SPED EIQQLEE EISQLEQ KNSELKE KNQELKY\t  |P3SN
 SGPGS
-SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY\t|  P4SN
+SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY\t\t\t\t|  P4SN
 SGPGS
 SPED KIEELKE KNSQLKE KNEELKQ KIYELKE  |  P2SN
 LEHHHHHHHH"""
@@ -104,9 +104,9 @@ SGPGS
 SPED KIEELKE KNSQLKE KNEELKQ KIYELKE
 LEHHHHHHHH"""
 
-    assert deannotate_sequnce(annotated_sequence)==result
+    assert deannotate_sequence(annotated_sequence)==result
     
-    assert deannotate_sequnce(annotated_sequence, remove_whitespace=True) ==\
+    assert deannotate_sequence(annotated_sequence, remove_whitespace=True) ==\
     "MSPEDEIRQLEQENSQLERENQRLEQEIYQLERSGPGSSPEDEIQQLEEEISQLEQKNSELKEKNQELKYSGPGSSPEDKISQLKEKIQQLKQENQQLEEENSQLEYSGPGSSPEDKIEELKEKNSQLKEKNEELKQKIYELKELEHHHHHHHH"
     
     
