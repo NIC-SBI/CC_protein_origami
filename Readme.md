@@ -23,35 +23,42 @@ Other dependencies:
 * [Chimera](https://www.cgl.ucsf.edu/chimera)
 * [Snakemake](https://bitbucket.org/snakemake/snakemake/wiki/Home) (only python 3+)
 * [MdTraj](http://mdtraj.org)
-* Numpy, Scipy, pandas
+* [plyfile](https://github.com/dranjan/python-plyfile)
+* Numpy, Scipy, pandas, ipython, ipywidgets
 
 Testing:
+
 * [py.test](http://docs.pytest.org/en/latest/)
+* [pytest-xdist](https://pypi.python.org/pypi/pytest-xdist) (optional)
 
 ###**Installation**
 ---------------------------------------
 Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribution is recommended as it simplifies installing further dependencies. Modeller, Snakemake and MdTraj can then easily be installed by running
 
 	
-	conda install numpy scipy pandas
+
+	conda install numpy scipy pandas ipython ipywidgets pyyaml
 	conda install -c salilab modeller
-	conda install -c bioconda snakemake
 	conda install -c omnia mdtraj 
+	pip install plyfile snakemake #not available in conda
 
 
 respectively. [Chimera](https://www.cgl.ucsf.edu/chimera/download.html) has to be installed separately. Chimera must be available on the system path.
 
 **PROTEIN ORIGAMI** design software is available as a git repository [protein origami](https://github.com/NIC-SBI/protein_origami). The files can be cloned to any location. Using command *cd* move to the folder poly_modeller and run 
 
+	git clone https://github.com/NIC-SBI/protein_origami.git	
+	cd protein_origami
 	python setup.py install
 
 to install the package.
-
 
 ###**Tests**
 ---------------------------------------
 Installation can be tested by executing `py.test`, which checks if core modules of the software are working appropriately and all dependencies have been installed.
 
+	conda install pytest
+	py.test	
 
 ###**Jump start**
 ---------------------------------------

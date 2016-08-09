@@ -418,16 +418,26 @@ def vertex_to_segmet(vt):
     
     return r
     
+#def roundrobin(*iterables):
+#    "roundrobin('ABC', 'D', 'EF') --> A D E B F C"
+#    from itertools import cycle, islice    
+#    # Recipe credited to George Sakkis
+#    pending = len(iterables)
+#    nexts = cycle(iter(it).next for it in iterables)
+#    while pending:
+#        try:
+#            for next in nexts:
+#                yield next()
+#        except StopIteration:
+#            pending -= 1
+#            nexts = cycle(islice(nexts, pending))    
+            
+#taken from http://stackoverflow.com/a/28476097/952600            
 def roundrobin(*iterables):
-    "roundrobin('ABC', 'D', 'EF') --> A D E B F C"
-    from itertools import cycle, islice    
-    # Recipe credited to George Sakkis
-    pending = len(iterables)
-    nexts = cycle(iter(it).next for it in iterables)
-    while pending:
-        try:
-            for next in nexts:
-                yield next()
-        except StopIteration:
-            pending -= 1
-            nexts = cycle(islice(nexts, pending))    
+    sentinel = object()
+    from itertools import chain
+    try:
+        from itertools import izip_longest as zip_longest
+    except:
+        from itertools import zip_longest 
+    return (x for x in chain(*zip_longest(fillvalue=sentinel, *iterables)) if x is not sentinel)            
