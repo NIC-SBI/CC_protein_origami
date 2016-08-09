@@ -254,6 +254,7 @@ def segment_assignment_gui(topology, pairs_parallel=pairs_parallel_def,
     
     
     gui_list = widgets.VBox([
+        widgets.HTML("Topology: "+topology),        
         widgets.VBox(display_widget_list),
         widgets.HBox([automatic_button, save_results_button, ]),
         asignment_textbox    
