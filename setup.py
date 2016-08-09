@@ -30,7 +30,7 @@ setup(
     # Project uses reStructuredText, so ensure that the docutils get
     # installed or upgraded on the target machine
     install_requires=[
-        "numpy",
+        #"numpy", numpy is best installed via conda etc...
     ],
 
     package_data={
