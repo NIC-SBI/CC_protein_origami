@@ -93,8 +93,6 @@ def calculate_TCO(top_dataframe):
     for n, (name, row) in enumerate(top_dataframe.iterrows()):
         s = list(row['segments'])
         dist = get_segment_distances(s)
-        print("HERE")        
-        print(dist)
         
         df.loc[name, 'min'] = np.min(dist)
         df.loc[name, 'max'] = np.max(dist)
