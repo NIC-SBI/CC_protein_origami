@@ -1,0 +1,12 @@
+mdtraj>=1.7.2
+numpy
+pandas
+plyfile
+ipython>=4
+Midas>=0.2.12
+chimera>=0.4.7
+ipywidgets>=4
+scipy>=0.18.0
+PyYAML>=3.11
+biopython
+xlrd

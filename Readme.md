@@ -37,7 +37,7 @@ Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribu
 
 	
 
-	conda install numpy scipy pandas ipython ipywidgets pyyaml
+	conda install numpy scipy pandas ipython ipywidgets pyyaml xlrd
 	conda install -c salilab modeller
 	conda install -c omnia mdtraj 
 	pip install plyfile snakemake #not available in conda
