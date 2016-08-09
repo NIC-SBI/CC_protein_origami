@@ -139,7 +139,7 @@ def name_of_topology(top, top_list, verbose=False):
 def load_vfaces(ply_file):
     """Loads a list of vFaces from a ply file."""
     import plyfile
-    plydata = plyfile.PlyData.read(open(ply_file))
+    plydata = plyfile.PlyData.read(ply_file)
     #print(plydata)
     #convert to list of lists. List of numpy arrays does not work.
     #Trouble with vertex_index vs vertex_indicies. Just take the first property     
