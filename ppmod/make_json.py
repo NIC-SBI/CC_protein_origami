@@ -6,7 +6,6 @@ Tools to generate a json file with infomration about segments.
 from __future__ import print_function
 import utils as u
 import yaml
-import six
 import re
 
 def load_pairs(yaml_str):
@@ -16,13 +15,13 @@ def load_pairs(yaml_str):
     #split the pairs and chains if they are seperated by a colon    
     for n in range(len(pairs)):
         #if it's a calumn split it        
-        if isinstance(pairs[n]['pair'], six.string_types):    
+        if u.is_str(pairs[n]['pair']):    
             pairs[n]['pair']= pairs[n]['pair'].split(':')
         #strip whitespace    
         pairs[n]['pair'] = [p.strip() for p in pairs[n]['pair']]
         
         #do the same for chains
-        if isinstance(pairs[n]['chains'], six.string_types):                            
+        if u.is_str(pairs[n]['chains']):                            
             pairs[n]['chains']= pairs[n]['chains'].split(':')
             
         #strip whitespace    
