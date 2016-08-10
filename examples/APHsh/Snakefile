@@ -1,13 +1,19 @@
-MODEL = "APHsh"
-
 N_fold = 1
 N_homology = 3 
 TMPDIR = "out/"
-#script directory 
-SDIR = "../../ppmod"
+
+from make_config import model_name
+import os
+import ppmod
+MODEL = model_name
+SDIR = os.path.dirname(ppmod.__file__)
+print(SDIR)
+print(os.getcwd())
+
+#shell.prefix = "source ~/.bashrc"
 
 OUTPUT = ["{m}-{nf:02}/03-homology-model-{nh:02}.pdb".format(nf=nf, nh=nh, m=MODEL) for nf in range(N_fold) for nh in range(N_homology)]
-print(OUTPUT)
+#print(OUTPUT)
 
 def ws(cmd):
     """Warps shell comands into bash -c \"{cmd}\""""
@@ -24,8 +30,8 @@ rule make_config:
         "make_config.py"
     output:
         MODEL+".json"
-    run:
-        shell("python make_config.py")    
+    run: 
+        shell("python {input}")
 
 rule make_helix:
     input:
@@ -36,9 +42,7 @@ rule make_helix:
         shell(ws("python {SDIR}/make_helix.py --json {input} --out-file {output}".format(
             SDIR=SDIR,input=input[0], output=output[0])
             ))
-#       shell(ws("echo {input}>{output}"))    
 
-#how to multiply a given task?
 
 rule make_alignment:
     input:
@@ -47,7 +51,6 @@ rule make_alignment:
         MODEL+".ali"
     run: 
         shell(ws("python {SDIR}/make_alignment.py --json {input} -aln {output} > out.log"))
-#       shell(ws("echo {input}>{output}"))  
 
 rule make_initial_models:
     input:
@@ -59,8 +62,8 @@ rule make_initial_models:
     run: 
         shell("bash -c 'mkdir -p {wildcards.model}-{wildcards.num}'")
         shell("python {SDIR}/make_initial_model.py --json {wildcards.model}.json --helix {input} \
-            --mdsteps 10000 --out-dir {wildcards.model}-{wildcards.num} > {log}")
-        #shell(ws("echo {input}>{output}"))
+            --mean 8 --stdev 0.1 \
+            --mdsteps 20000 --temp 1200 --shift 2 --out-dir {wildcards.model}-{wildcards.num} > {log}")
 
 rule make_homology_models:
     input:
@@ -72,7 +75,7 @@ rule make_homology_models:
         "{model}-{num}/03-homology-model-{hnum}.log"  
     run: 
         shell("python {SDIR}/make_homology_model.py --json {wildcards.model}.json --alnfile {input[0]} --initial-model {input[1]} \
-         -emi {wildcards.hnum} -smi {wildcards.hnum} -nr 3 -md fast --out-dir {wildcards.model}-{wildcards.num} > {log}")
+         -emi {wildcards.hnum} -smi {wildcards.hnum} -nr 1 -md fast --out-dir {wildcards.model}-{wildcards.num} > {log}")
         
         
 
