@@ -1,8 +1,8 @@
-(This is a place holder. Code will be released after the method is published.)
+(This is a place holder. Code will be released after publication of the method.)
 
 #**PROTEIN ORIGAMI**                                 
 ##Platform for the design of single chain protein topological polyhedral cages 
----------------------------------------
+
 The computational platform is capable of designing amino-acid sequences and building 3D models for arbitrary polyhedral meshes constructed from a single polypeptide chain. The edges of the polyhedron are realized as coiled-coil dimer building modules. The design strategy consists of several steps:
 
 1. Specify the polyhedral geometry
@@ -11,31 +11,33 @@ The computational platform is capable of designing amino-acid sequences and buil
 4. Building 3D model 
 5. Refinement/validation of the models via folding simulations 
 
-**PROTEIN ORIGAMI** computational platform performs the first four steps of the design process. Scripts are provided for automatic execution of all the steps, however the design process can be carried out step by step.
+**PROTEIN ORIGAMI** computational platform performs the first four steps of the design process. Scripts are provided for automatic execution of all the steps, for maximum flexibility the package functionality is also available from python code.
 
-###**Dependencies**
+###**Jump start/Tutorial**
 ---------------------------------------
-Scripts require Python 2.7 or Python 3.3+ with numpy and pandas.
+Two full examples are provided in the [examples](examples/) subfolder. 
+#### TET
+The first 
 
-Other dependencies:
 
-* [Modeller](https://salilab.org/modeller/)
-* [Chimera](https://www.cgl.ucsf.edu/chimera)
-* [Snakemake](https://bitbucket.org/snakemake/snakemake/wiki/Home) (only python 3+)
-* [MdTraj](http://mdtraj.org)
-* [plyfile](https://github.com/dranjan/python-plyfile)
-* Numpy, Scipy, pandas, ipython, ipywidgets
+#### APHsh
+The second, [APHsh](examples/APHsh) is centered on building models and also serves as an integration test. An antiparallel APH segment is built  The second 
+To run the program user needs to provide an input file (`make_config.py`) containing information on the sequence of the protein origami design. The input consists of four sections:
 
-Testing:
+* **model_name**, specifying the name of the protein origami design 
+* **annotaded_sequence**, where the sequence is broke down into individual CC segments and linkers, for every CC segment a name should be provided
+* **pairs_info**, in this section segment pairing is specified. For every pair the orientation (A for antiparallel and P for parallel) of the CC dimer should be provided, along with the name of CC dimer structure template file and name of the chains in the model structure.
 
-* [py.test](http://docs.pytest.org/en/latest/)
-* [pytest-xdist](https://pypi.python.org/pypi/pytest-xdist) (optional)
+An example of the input file can be found under (examples/APHsh/make_config.py)[examples/APHsh/make_config.py]. Two APH segments are connected by a linker forming a covalently linked CC dimer. 
+The user is provided with a snake-file which can be run by typing
+
+	snakemake 
+
+in the command line. However, the design can then be carried out stepwise by using appropriate scripts. 
 
 ###**Installation**
 ---------------------------------------
-Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribution is recommended as it simplifies installing further dependencies. Modeller, Snakemake and MdTraj can then easily be installed by running
-
-	
+Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribution is recommended as it simplifies installing further dependencies. Dependencies can then easily be installed by running:
 
 	conda install numpy scipy pandas ipython ipywidgets pyyaml xlrd
 	conda install -c salilab modeller
@@ -53,6 +55,25 @@ respectively. [Chimera](https://www.cgl.ucsf.edu/chimera/download.html) has to b
 
 to install the package.
 
+###**Dependencies**
+---------------------------------------
+The package requires Python 2.7 or Python 3.3+ with numpy and pandas and works on Windows and Linux. On Windows a bash enviorment is recommended and can be obtained by installing [git for windows](https://git-scm.com/download/win).  
+
+Other dependencies:
+
+* [Modeller](https://salilab.org/modeller/)
+* [Chimera](https://www.cgl.ucsf.edu/chimera)
+* [Snakemake](https://bitbucket.org/snakemake/snakemake/wiki/Home) (only python 3+)
+* [MdTraj](http://mdtraj.org)
+* [plyfile](https://github.com/dranjan/python-plyfile)
+* Numpy, Scipy, pandas, ipython, ipywidgets
+
+Testing:
+
+* [py.test](http://docs.pytest.org/en/latest/)
+* [pytest-xdist](https://pypi.python.org/pypi/pytest-xdist) (optional)
+
+
 ###**Tests**
 ---------------------------------------
 Installation can be tested by executing `py.test`, which checks if core modules of the software are working appropriately and all dependencies have been installed.
@@ -60,18 +81,4 @@ Installation can be tested by executing `py.test`, which checks if core modules 
 	conda install pytest
 	py.test	
 
-###**Jump start**
----------------------------------------
-To run the program user needs to provide an input file containing information on the sequence of the protein origami design. The input consists of four sections:
 
-* **_name_**, specifying the name of the protein origami design 
-* **_entire\_sequence_**, where the polypeptide sequence should be inserted 
-* **_segments_**, where the sequence is broke down into individual CC segments and linkers, for every CC segment a name should be provided
-* **_pairs_**, in this section segment pairing is specified. For every pair the orientation (A for antiparallel and P for parallel) of the CC dimer should be provided, along with the name of CC dimer structure template file and name of the chains in the model structure.
-
-An example of the input file can be found under `examples/APHsh/make_config.py`. Two APH segments are connected by a linker forming a covalently linked CC dimer. 
-The user is provided with a snake-file which can be run by typing
-
->snakemake 
-
-in the command line. However, the design can then be carried out stepwise by using appropriate scripts. 
