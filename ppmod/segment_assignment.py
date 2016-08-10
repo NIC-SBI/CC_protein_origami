@@ -1,6 +1,6 @@
 """Module that contains a Jupyter interactive GUI for assigning segments 
 to a topology"""
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 import ipywidgets as widgets
 import ppmod.topology as t

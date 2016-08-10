@@ -2,7 +2,7 @@
 """
 Given a JSON file generate scripts for coloring the representation in Chimera and VMD.
 """
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 import ppmod.utils as u
 
 def print_and_write(line, file, verbose=True):
