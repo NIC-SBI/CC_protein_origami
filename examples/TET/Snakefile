@@ -1,0 +1,82 @@
+N_fold = 1
+N_homology = 3 
+TMPDIR = "out/"
+
+from make_config import model_name
+import os
+import ppmod
+MODEL = model_name
+SDIR = os.path.dirname(ppmod.__file__)
+print(SDIR)
+print(os.getcwd())
+
+#shell.prefix = "source ~/.bashrc"
+
+OUTPUT = ["{m}-{nf:02}/03-homology-model-{nh:02}.pdb".format(nf=nf, nh=nh, m=MODEL) for nf in range(N_fold) for nh in range(N_homology)]
+#print(OUTPUT)
+
+def ws(cmd):
+    """Warps shell comands into bash -c \"{cmd}\""""
+    #cmd = "bash -c \" {cmd} \" ".format(cmd=cmd)
+    print(cmd)
+    return cmd
+
+rule models:
+    input:
+        OUTPUT
+
+rule make_config:
+    input:
+        "make_config.py"
+    output:
+        MODEL+".json"
+    run: 
+        shell("python {input}")
+
+rule make_helix:
+    input:
+        MODEL+".json"
+    output:
+        MODEL+"-helix.pdb"
+    run: 
+        shell(ws("python {SDIR}/make_helix.py --json {input} --out-file {output}".format(
+            SDIR=SDIR,input=input[0], output=output[0])
+            ))
+
+
+rule make_alignment:
+    input:
+        MODEL+".json"
+    output:
+        MODEL+".ali"
+    run: 
+        shell(ws("python {SDIR}/make_alignment.py --json {input} -aln {output} > out.log"))
+
+rule make_initial_models:
+    input:
+        MODEL+"-helix.pdb"
+    output:
+        "{model}-{num}/02-final-initial-min.pdb"
+    log:
+        "{model}-{num}/01-initial-model.log"    
+    run: 
+        shell("bash -c 'mkdir -p {wildcards.model}-{wildcards.num}'")
+        shell("python {SDIR}/make_initial_model.py --json {wildcards.model}.json --helix {input} \
+            --mean 8 --stdev 0.1 \
+            --mdsteps 20000 --temp 1200 --shift 2 --out-dir {wildcards.model}-{wildcards.num} > {log}")
+
+rule make_homology_models:
+    input:
+        MODEL+".ali",
+        "{model}-{num}/02-final-initial-min.pdb"
+    output:
+        "{model}-{num}/03-homology-model-{hnum}.pdb"
+    log:
+        "{model}-{num}/03-homology-model-{hnum}.log"  
+    run: 
+        shell("python {SDIR}/make_homology_model.py --json {wildcards.model}.json --alnfile {input[0]} --initial-model {input[1]} \
+         -emi {wildcards.hnum} -smi {wildcards.hnum} -nr 1 -md fast --out-dir {wildcards.model}-{wildcards.num} > {log}")
+        
+        
+
+
