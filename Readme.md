@@ -1,27 +1,31 @@
-(This is a place holder. Code will be released after publication of the method.)
+(This is a place holder. Code will be released after publication)
 
 #**PROTEIN ORIGAMI**                                 
 ##Platform for the design of single chain protein topological polyhedral cages 
 
+![Images of designed protein origami](images/for-readme.png)
+
 The computational platform is capable of designing amino-acid sequences and building 3D models for arbitrary polyhedral meshes constructed from a single polypeptide chain. The edges of the polyhedron are realized as coiled-coil dimer building modules. The design strategy consists of several steps:
 
-1. Specify the polyhedral geometry
-2. Routing the chain
-3. Selection of  the optimal topology and circular permutation 
-4. Building 3D model 
-5. Refinement/validation of the models via folding simulations 
+1.	**Specifying the polyhedral geometry**
+2.	**Routing the chain**
+3.	**Selecting the optimal topology and circular permutation** 
+4.	**Selecting the building modules from the CC toolkit **
+5.	**Building the 3D model**
+6.	**Refining/validating the models via folding simulations** 
 
-**PROTEIN ORIGAMI** computational platform performs the first four steps of the design process. Scripts are provided for automatic execution of all the steps, for maximum flexibility the package functionality is also available from python code.
+**PROTEIN ORIGAMI** computational platform performs the first five steps of the design process.  Scripts are provided for automatic execution of all the steps, for maximum flexibility the package functionality is also available from python code.
+
+When using this platform please cite: (TBA).
 
 ###**Jump start/Tutorial**
 ---------------------------------------
 Two full examples are provided in the [examples](examples/) subfolder. 
 #### TET
-The first 
-
+The [first example](examples/TET/) contains a complete tutorial on designing protein origami polyhedral. The tutorial is presented in the from of a python notebook.  The demonstrated steps include loading a geometry (ply) file, enumerating all the typologies and circular permutations, choosing the best topology and constructing and evaluating 3D models.  
 
 #### APHsh
-The second, [APHsh](examples/APHsh) is centered on building models and also serves as an integration test. An antiparallel APH segment is built  The second 
+The second, [APHsh](examples/APHsh/make_config.py) is centered on building models and also serves as an integration test. An antiparallel APH segment is built  The second 
 To run the program user needs to provide an input file (`make_config.py`) containing information on the sequence of the protein origami design. The input consists of four sections:
 
 * **model_name**, specifying the name of the protein origami design 
@@ -29,11 +33,12 @@ To run the program user needs to provide an input file (`make_config.py`) contai
 * **pairs_info**, in this section segment pairing is specified. For every pair the orientation (A for antiparallel and P for parallel) of the CC dimer should be provided, along with the name of CC dimer structure template file and name of the chains in the model structure.
 
 An example of the input file can be found under (examples/APHsh/make_config.py)[examples/APHsh/make_config.py]. Two APH segments are connected by a linker forming a covalently linked CC dimer. 
-The user is provided with a snake-file which can be run by typing
+The models can be built and viewed by by typing in the terminal
 
-	snakemake 
-
-in the command line. However, the design can then be carried out stepwise by using appropriate scripts. 
+	cd *path to APHsh folder*	
+	snakemake -j3
+	chimera */03-*.pdb
+	 
 
 ###**Installation**
 ---------------------------------------
