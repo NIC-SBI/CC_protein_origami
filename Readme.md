@@ -52,7 +52,7 @@ Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribu
 
 respectively. [Chimera](https://www.cgl.ucsf.edu/chimera/download.html) has to be installed separately. Chimera must be available on the system path.
 
-**PROTEIN ORIGAMI** design software is available as a git repository [protein origami](https://github.com/NIC-SBI/protein_origami). The files can be cloned to any location. Using command *cd* move to the folder poly_modeller and run 
+**PROTEIN ORIGAMI** design software is available as a git repository [protein origami](https://github.com/NIC-SBI/protein_origami). The files can be cloned to any location. 
 
 	git clone https://github.com/NIC-SBI/protein_origami.git	
 	cd protein_origami
