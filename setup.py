@@ -23,7 +23,7 @@ class PyTest(TestCommand):
 
 setup(
     name="ppmod",
-    version="1.0.0-beta",
+    version="1.0.0b0",
     packages=find_packages('ppmod'),
     scripts=[],
 
@@ -38,7 +38,7 @@ setup(
         '': 'ppmod',
         '': ['*.txt', '*.md'],
         '': 'examples',
-        '': 'building-blocks',
+        '': 'building_blocks',
         '': 'notebooks'
         # And include any *.msg files found in the 'hello' package, too:
         #'hello': ['*.msg'],
