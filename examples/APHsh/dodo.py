@@ -15,8 +15,8 @@ DOIT_CONFIG = {'default_tasks': ['make_homology_models']}
 from doit.tools import create_folder
 from doit import get_var
 
-N_fold = get_var('N_fold', N_fold)
-N_homology = get_var('N_homology', N_homology) 
+N_fold = int(get_var('N_fold', N_fold))
+N_homology = int(get_var('N_homology', N_homology))
 
 
 def task_make_config():    
