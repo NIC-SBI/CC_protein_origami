@@ -201,7 +201,7 @@ def segment_assignment_gui(topology, pairs_parallel=pairs_parallel_def,
     
     def save_results_click(btn):   
         lines  = []
-        for p, pp in pairs.iteritems():
+        for p, pp in pairs.items():
             pair = widget_dropdown_dict[p].value
             pair = splice_in_type(pair, widget_type_dict[p].value)
             l = "{p}->{pair}".format(p=p, pair=pair)
@@ -225,7 +225,7 @@ def segment_assignment_gui(topology, pairs_parallel=pairs_parallel_def,
     ###########################################################################
     
     #Create dropdowns
-    for p, pp in pairs.iteritems():
+    for p, pp in pairs.items():
         if is_pair_parallel(pp):
             option_list = ['None'] + pairs_parallel
         else:        

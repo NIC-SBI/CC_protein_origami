@@ -112,5 +112,14 @@ LEHHHHHHHH"""
     
 
 
+def test_segment_assignment_gui():
+    """Test the creation of the GUI"""
+    gui = segment_assignment_gui("bDfABCADECFE", auto_display=False)
+    assert gui
+    
+def test_text_edit_gui():
+    """Test the creation of the GUI"""
+    gui = text_edit_gui("A Text", "A caption", auto_display=False)   
+    assert gui
 
         
