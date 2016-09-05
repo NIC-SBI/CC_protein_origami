@@ -1,7 +1,7 @@
 (This is a place holder. Code will be released after publication)
 
 #**CoCoPOD**                                 
-## <b>Co</b>iled-<b>Co</b>il <b>P</b>rotein <b>O</b>rigami <b>D</b>esign platform
+## Coiled-Coil Protein Origami Design platform
 
 ![Images of designed protein origami](images/for-readme.png)
 
@@ -49,7 +49,7 @@ Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribu
 	export KEY_MODELLER=XXXX
 	conda install -c salilab modeller
 	conda install -c omnia mdtraj 
-	pip install plyfile snakemake doit #not available in conda
+	pip install plyfile doit #not available in conda
 
 
 respectively. [Chimera](https://www.cgl.ucsf.edu/chimera/download.html) has to be installed separately. Chimera must be available on the system path.
