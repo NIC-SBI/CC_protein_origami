@@ -390,6 +390,11 @@ def mdtraj_to_fasta(topology, chain=None):
         return [fasta(c) for c in topology._chains]
         
 
+def write_fasta_file(out_name, name, seq):
+    with open(out_name, 'w') as f:
+        f.write(">"+name+"\n")
+        f.write(seq+"\n")
+
 #TODO add tests
 def next_char(char):
     """Returns the next char"""
