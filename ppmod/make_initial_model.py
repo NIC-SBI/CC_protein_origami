@@ -8,7 +8,7 @@ in the form of an alpha helix. Initially the program treats segments as rigid bo
 Several md runs are carried out in combination with harmonic restraints to bring the protein in roughly correct polyhedral shape.
 """
 from __future__ import print_function, division, absolute_import
-import ppmod.utils as u
+import cocopod.utils as u
 import argparse
 import os
 from modeller import *

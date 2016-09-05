@@ -22,9 +22,9 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 setup(
-    name="ppmod",
+    name="cocopod",
     version="1.0.0b0",
-    packages=find_packages('ppmod'),
+    packages=find_packages('cocopod'),
     scripts=[],
 
     # Project uses reStructuredText, so ensure that the docutils get
@@ -35,7 +35,7 @@ setup(
 
     package_data={
         # If any package contains *.txt or *.rst files, include them:
-        '': 'ppmod',
+        '': 'cocopod',
         '': ['*.txt', '*.md'],
         '': 'examples',
         '': 'building_blocks',
@@ -61,10 +61,10 @@ setup(
     author_email="ajasja.ljubetic@gmail.com",
     description="A package to build models of protein polyhedra",
     license="None",
-    keywords="protein polyhedra",
+    keywords="polyhedra coild-coils protein origami",
 
     # project home page, if any
-#    url="https://github.com/SpectralGroup/spectraplotpy"   
+#    url=
 
     # could also include long_description, download_url, classifiers, etc.
 )

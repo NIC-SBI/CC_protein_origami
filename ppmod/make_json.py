@@ -4,7 +4,7 @@
 Tools to generate a json file with infomration about segments.
 """
 from __future__ import print_function, division, absolute_import
-import ppmod.utils as u
+import cocopod.utils as u
 import yaml
 import re
 

@@ -11,7 +11,7 @@ It is advised to check the file before use in subsequent modelling.
 from __future__ import print_function, absolute_import
 import mdtraj as md
 import argparse
-import ppmod.utils as u
+import cocopod.utils as u
 import os
 from modeller import *
 

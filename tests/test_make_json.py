@@ -1,5 +1,5 @@
-import ppmod.make_json as mj
-import ppmod.utils as u
+import cocopod.make_json as mj
+import cocopod.utils as u
 import tempfile
 import os
     

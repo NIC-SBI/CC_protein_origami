@@ -1,5 +1,5 @@
-import ppmod
-import ppmod.utils as u
+import cocopod
+import cocopod.utils as u
 
 def test_relative_to():
   """Test file name handling"""

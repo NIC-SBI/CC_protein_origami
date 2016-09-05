@@ -4,7 +4,7 @@
 Requires: SciPy v0.17.0
 """
 from __future__ import print_function, division, absolute_import
-import ppmod.utils as u
+import cocopod.utils as u
 from scipy.spatial import ConvexHull
 import numpy as np
 import mdtraj as md

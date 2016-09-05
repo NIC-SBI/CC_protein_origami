@@ -1,6 +1,6 @@
-import ppmod
-import ppmod.utils as u
-from ppmod.segment_assignment import *
+import cocopod
+import cocopod.utils as u
+from cocopod.segment_assignment import *
 
 from collections import OrderedDict
 

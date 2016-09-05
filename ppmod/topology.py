@@ -5,7 +5,7 @@ from __future__ import print_function, division
 ###Ajasja Ljubetic (ajasja.ljubetic@gmail.com) ##################
 ###utilities for dealing with topologies
 from __future__ import print_function, division, absolute_import
-import ppmod.utils as u
+import cocopod.utils as u
 
 import collections
 

@@ -8,7 +8,7 @@ Chimera needs to be installed and available on the path
 #names of columns, that have the fraction of native contacts for each cc segment
 
 from __future__ import print_function, division, absolute_import
-import ppmod.utils as u
+import cocopod.utils as u
 
 #command line arguments handling 
 import argparse 

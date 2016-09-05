@@ -1,12 +1,12 @@
-import ppmod
-import ppmod.utils as u 
+import cocopod
+import cocopod.utils as u 
 
 #TODO: fix test
 def test_make_alignemnt():
     import subprocess
     import filecmp
     import Bio.SeqIO
-    cmd_line = "python ../ppmod/make_alignment.py --json data/APHsh.json -aln data/APHtest.ali > out.log"
+    cmd_line = "python ../cocopod/make_alignment.py --json data/APHsh.json -aln data/APHtest.ali > out.log"
     subprocess.call(cmd_line, shell=True)
     alnf = u.relative_to(__file__, 'data/APHtest.ali')
     with open(alnf, 'r') as f1:

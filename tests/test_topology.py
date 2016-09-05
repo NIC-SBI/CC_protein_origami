@@ -1,7 +1,7 @@
 from __future__ import print_function, division, absolute_import
 
-import ppmod.utils as u
-from ppmod.topology import *
+import cocopod.utils as u
+from cocopod.topology import *
 import numpy
 from collections import OrderedDict
 

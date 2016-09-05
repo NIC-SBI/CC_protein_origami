@@ -3,9 +3,9 @@ to a topology"""
 from __future__ import print_function, division, absolute_import
 
 import ipywidgets as widgets
-import ppmod.topology as t
+import cocopod.topology as t
 from collections import OrderedDict, namedtuple
-import ppmod.utils as u
+import cocopod.utils as u
 import collections
 
 pairs_parallel_def = ["P1:P2", "P3:P4", "P5:P6","P7:P8","P9:P10","P11:P12", "GCNsh:GCNsh"]
@@ -333,8 +333,8 @@ pairs_info = """
 """   
 
 if __name__ == "__main__":
-    import ppmod.make_json as mj   
-    import ppmod.segment_assignment as sa
+    import cocopod.make_json as mj   
+    import cocopod.segment_assignment as sa
     entire_sequence = sa.deannotate_sequence(annotated_sequence, remove_whitespace=True)  
     pairs = mj.load_pairs(pairs_info)    
     mj.generate_json(model_name, entire_sequence, annotated_sequence, pairs)

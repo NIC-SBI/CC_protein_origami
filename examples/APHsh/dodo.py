@@ -4,9 +4,9 @@ N_homology = 3
 
 from make_config import model_name
 import os
-import ppmod
+import cocopod
 MODEL = model_name
-SDIR = os.path.dirname(ppmod.__file__)
+SDIR = os.path.dirname(cocopod.__file__)
 print(SDIR)
 print(os.getcwd())
 
