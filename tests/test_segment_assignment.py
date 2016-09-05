@@ -121,11 +121,11 @@ def test_segment_assignment_gui():
         pass
     #assert gui
     
-def test_text_edit_gui():
+def test_sequence_edit_gui():
     """Test the creation of the GUI"""
     import traitlets    
     try:
-        gui = text_edit_gui("A Text", "A caption", auto_display=False)   
+        gui = sequence_edit_gui("A Text", "A caption", auto_display=False)   
     except traitlets.traitlets.TraitError:
         pass
         

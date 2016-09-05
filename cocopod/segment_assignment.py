@@ -247,14 +247,14 @@ def segment_assignment_gui(topology, pairs_parallel=pairs_parallel_def,
     save_results_button = widgets.Button(description='Print assignment')
     save_results_button.on_click(save_results_click)
     
-    asignment_textbox = widgets.Textarea()
+    asignment_textbox = widgets.Textarea(height='150px', font_family='Lucida Console')
     
     automatic_button = widgets.Button(description="Automatic asignment")   
     automatic_button.on_click(automatic_assignment_click)
     
     
     gui_list = widgets.VBox([
-        widgets.HTML("Topology: "+topology),        
+        widgets.HTML("Topology: <b>"+topology+"</b>"),        
         widgets.VBox(display_widget_list),
         widgets.HBox([automatic_button, save_results_button, ]),
         asignment_textbox    
@@ -277,19 +277,39 @@ def segment_assignment_gui(topology, pairs_parallel=pairs_parallel_def,
    
 #GUI_text_result = namedtuple("GUI_text_result", "gui result_text") 
    
-def text_edit_gui(text="",caption="", auto_display=True):
+
+def sequence_edit_gui(text="",caption="", model_name=None, auto_display=True):
     """IPython widget GUI to edit a block of text. Returns the text area wiget""" 
         
+    if model_name is None:
+        model_name = "Seq"
+    textbox = widgets.Textarea(text, width='600px', height='300px',
+                               font_family='Lucida Console', font_size=14)
+    outbox = widgets.Textarea(text, width='600px', height='300px',
+                               font_family='Lucida Console', font_size=14)
+    outbox.visible=False                               
+    caption = widgets.HTML("<b>"+caption+"<b>")  
+    
+    show_button = widgets.Button(description="Show only sequence", margin='3px')  
+    whitespace_checkbox = widgets.Checkbox(description="Remove whitespace", margin='3px')    
+    fasta_checkbox = widgets.Checkbox(description="Fasta format", margin='3px')      
+    def show_button_click(btn):
+        seq = deannotate_sequence(textbox.value, remove_whitespace=whitespace_checkbox.value)
+        if fasta_checkbox.value:
+            seq=">"+model_name + "\n" + seq
+        outbox.value = seq
+        outbox.visible = True
         
-    textbox = widgets.Textarea(text)
-    caption = widgets.HTML(caption)    
-    gui = widgets.VBox([caption, textbox])    
-    #V 5 of ipywigets is needed for this    
-    #gui.layout.width  = '100%'    
-    #gui.layout.height = '200px'
+    show_button.on_click(show_button_click)    
+    
+    gui = widgets.VBox([caption, 
+                        textbox, 
+                        widgets.HBox([show_button, whitespace_checkbox, fasta_checkbox]),
+                        outbox])    
+
     if auto_display:
         from IPython.display import display
-        display(gui)
+        display(gui)   
     return textbox
     
 #TODO test
