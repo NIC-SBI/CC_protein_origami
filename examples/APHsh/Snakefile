@@ -4,16 +4,21 @@ TMPDIR = "out/"
 
 from make_config import model_name
 import os
-import ppmod
+import cocopod
 MODEL = model_name
-SDIR = os.path.dirname(ppmod.__file__)
+SDIR = os.path.dirname(cocopod.__file__)
 print(SDIR)
 print(os.getcwd())
 
 #shell.prefix = "source ~/.bashrc"
 
+N_fold = int(config.get('N_fold', N_fold))
+N_homology = int(config.get('N_homology', N_homology))
+
+
 OUTPUT = ["{m}-{nf:02}/03-homology-model-{nh:02}.pdb".format(nf=nf, nh=nh, m=MODEL) for nf in range(N_fold) for nh in range(N_homology)]
-#print(OUTPUT)
+print(OUTPUT)
+
 
 def ws(cmd):
     """Warps shell comands into bash -c \"{cmd}\""""
@@ -50,7 +55,7 @@ rule make_alignment:
     output:
         MODEL+".ali"
     run: 
-        shell(ws("python {SDIR}/make_alignment.py --json {input} -aln {output} > out.log"))
+        shell(ws("python {SDIR}/make_alignment.py --json {input} -aln {output}"))
 
 rule make_initial_models:
     input:
@@ -75,7 +80,7 @@ rule make_homology_models:
         "{model}-{num}/03-homology-model-{hnum}.log"  
     run: 
         shell("python {SDIR}/make_homology_model.py --json {wildcards.model}.json --alnfile {input[0]} --initial-model {input[1]} \
-         -emi {wildcards.hnum} -smi {wildcards.hnum} -nr 1 -md fast --out-dir {wildcards.model}-{wildcards.num} > {log}")
+         --start-index {wildcards.hnum} --end-index {wildcards.hnum} --repeat 1 --md-level fast --out-dir {wildcards.model}-{wildcards.num} > {log}")
         
         
 

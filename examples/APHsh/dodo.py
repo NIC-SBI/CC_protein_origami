@@ -4,13 +4,16 @@ N_homology = 3
 
 from make_config import model_name
 import os
+import multiprocessing
 import cocopod
+
+
 MODEL = model_name
 SDIR = os.path.dirname(cocopod.__file__)
 print(SDIR)
 print(os.getcwd())
 
-DOIT_CONFIG = {'default_tasks': ['make_homology_models']}
+DOIT_CONFIG = {'default_tasks': ['make_homology_models'], 'num_process': multiprocessing.cpu_count(), 'par_type':'thread',}
 
 from doit.tools import create_folder
 from doit import get_var
@@ -67,9 +70,10 @@ def task_make_homology_models():
         out_file = "{m}-{nf:02}/03-homology-model-{nh:02}.pdb".format(nf=nf, nh=nh, m=MODEL) 
         log_file = "{m}-{nf:02}/03-homology-model-{nh:02}.log".format(nf=nf, nh=nh, m=MODEL) 
         name_dir =  "{m}-{nf:02}".format(nf=nf, m=MODEL)          
-        name =  "{m}-{nh:02}".format(nf=nf, nh=nh,  m=MODEL)  
+        name =  "{m}-{nf:02}-{nh:02}".format(nf=nf, nh=nh,  m=MODEL)  
         cmd_str =  "python {SDIR}/make_homology_model.py --json {json} --alnfile {aln} --initial-model {init} \
-         -emi {nh} -nr 1 -md fast --out-dir {name_dir} > {log}".format(
+         --start-index {nh} --end-index {nh}         \
+         --repeat 1 --md-level fast --out-dir {name_dir} > {log}".format(
                                   m=MODEL, nf=nf, nh=nh, json=json_file, helix=helix_file, aln=aln_file,
                                   init=init_file, name_dir=name_dir, log=log_file, SDIR=SDIR)       
         yield     {
