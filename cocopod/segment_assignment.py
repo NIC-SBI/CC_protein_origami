@@ -103,7 +103,7 @@ def seq_to_seq_map(dict_or_file_or_dataframe):
     return peps
     
     
-def get_annotated_sequence(segments, seg_to_seq, linkers="SGPGS", N_tag="", C_tag=""):
+def get_annotated_sequence(segments, seg_to_seq, linkers="GSGPG", N_tag="", C_tag=""):
     """Returns an anottated amino acid sequnce of the poylhedra.
     Linkers can be a single string or an array of string with the required number of linkers.
     N_tag, C_tag - are appended to the left and right side of the string"""
@@ -116,7 +116,9 @@ def get_annotated_sequence(segments, seg_to_seq, linkers="SGPGS", N_tag="", C_ta
     assert len(linkers)==N-1, ("Length of linkers must be one less than the number of segments."+
                                "Is {NL}, but should be {N}".format(NL=len(linkers), N=N))
                                
-    aa_segments = [seg_to_seq[s]  +"\t|"+s for s in segments]
+    max_seg_len = max([len(seg_to_seq[s]) for s in segments])
+                           
+    aa_segments = [seg_to_seq[s].ljust(max_seg_len)  +"\t|"+s for s in segments]
     
     lines = [N_tag] + list(u.roundrobin(aa_segments, linkers)) + [C_tag]
     lines = "\n".join(lines)
