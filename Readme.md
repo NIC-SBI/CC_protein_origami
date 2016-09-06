@@ -21,11 +21,8 @@ When using this platform please cite: (TBA).
 ###**Jump start/Tutorial**
 ---------------------------------------
 Two full examples are provided in the [examples](examples/) subfolder. 
-#### TET
-The [first example](examples/TET/TET.ipynb) contains a complete tutorial on designing protein origami polyhedral. The tutorial is presented in the from of a python notebook.  The demonstrated steps include loading a geometry (ply) file, enumerating all the typologies and circular permutations, choosing the best topology and constructing and evaluating 3D models.  
-
 #### APHsh
-The second, [APHsh](examples/APHsh/make_config.py) is centered on building models and also serves as an integration test. An antiparallel APH segment is built  The second 
+[APHsh](examples/APHsh/make_config.py) is centered on building models and also serves as an integration test. An antiparallel APH segment is built  The second 
 To run the program user needs to provide an input file (`make_config.py`) containing information on the sequence of the protein origami design. The input consists of four sections:
 
 * **model_name**, specifying the name of the protein origami design 
@@ -35,14 +32,20 @@ To run the program user needs to provide an input file (`make_config.py`) contai
 An example of the input file can be found under (examples/APHsh/make_config.py)[examples/APHsh/make_config.py]. Two APH segments are connected by a linker forming a covalently linked CC dimer. 
 The models can be built and viewed by by typing in the terminal
 
-	cd *path to APHsh folder*	
-	snakemake -j3
+	cd cocopod/examples/APHsh	
+	doit
 	chimera */03-*.pdb
-	 
+
+#### TET
+The [TET example](examples/TET/TET.ipynb) contains a complete tutorial on designing protein origami polyhedral. The tutorial is presented in the from of a python notebook.  The demonstrated steps include loading a geometry (ply) file, enumerating all the typologies and circular permutations, choosing the best topology and constructing and evaluating 3D models. The notebook can be opened by:
+
+	cd cocopod/examples/TET	
+	jupyter notebook TET.ipynb
+		 
 
 ###**Installation**
 ---------------------------------------
-Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribution is recommended as it simplifies installing further dependencies. Dependencies can then easily be installed by running:
+Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribution is recommended as it simplifies installing further dependencies. [Miniconda](http://conda.pydata.org/miniconda.html) also works nicely. Dependencies can be installed by running:
 
 	conda install numpy scipy pandas ipython ipython-notebook ipywidgets pyyaml xlrd biopython
 	#set the modeller liscence key
@@ -55,13 +58,15 @@ Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribu
 respectively. [Chimera](https://www.cgl.ucsf.edu/chimera/download.html) has to be installed separately. Chimera must be available on the system path.
 Note: Currently there are some problems installing Modeller via conda on windows. In case of problems use the [standalone installer](https://salilab.org/modeller/download_installation.html).
 
-**PROTEIN ORIGAMI** design software is available as a git repository [protein origami](https://github.com/NIC-SBI/protein_origami). The files can be cloned to any location.
+**CoCoPOD** is available on [github](https://github.com/NIC-SBI/protein_origami). The files can be cloned to any location. To install the package run:
 
-	git clone https://github.com/NIC-SBI/protein_origami.git	
-	cd protein_origami
+	git clone https://github.com/NIC-SBI/protein_origami.git cocopod	
+	cd cocopod
 	python setup.py develop
 
-to install the package.
+Alternatively a zip file can be download, extracted and installed with `python setup.py develop`.
+
+
 
 ###**Dependencies**
 ---------------------------------------
@@ -81,12 +86,13 @@ Testing:
 * [py.test](http://docs.pytest.org/en/latest/)
 * [pytest-xdist](https://pypi.python.org/pypi/pytest-xdist) (optional)
 
-
 ###**Tests**
 ---------------------------------------
 Installation can be tested by executing `py.test`, which checks if core modules of the software are working appropriately and all dependencies have been installed.
 
 	conda install pytest
+	cd cocopod	
 	py.test	
+
 
 
