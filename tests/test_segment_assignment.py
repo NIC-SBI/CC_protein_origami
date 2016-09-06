@@ -64,24 +64,44 @@ def test_seq_to_seq_map():
           {u'P1SN': u'SPED EIRQLEQ ENSQLER ENQRLEQ EIYQLER',
            u'P2SN': u'SPED KIEELKE KNSQLKE KNEELKQ KIYELKE',
            u'P3SN': u'SPED EIQQLEE EISQLEQ KNSELKE KNQELKY',
-           u'P4SN': u'SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY'}
+           u'P4SN': u'SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY',
+           u'longTE': u'SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY ENQQLEE ENSQLEY'}
 
 def test_get_annotated_sequence():
     xls_file = u.relative_to(__file__, 'data/segments.xlsx')    
     #TODO increase readibility    
     result="""M
 SPED EIRQLEQ ENSQLER ENQRLEQ EIYQLER\t|P1SN
-SGPGS
+GSGPG
 SPED EIQQLEE EISQLEQ KNSELKE KNQELKY\t|P3SN
-SGPGS
+GSGPG
 SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY\t|P4SN
-SGPGS
+GSGPG
 SPED KIEELKE KNSQLKE KNEELKQ KIYELKE\t|P2SN
 LEHHHHHHHH"""
 
-    assert get_annotated_sequence("P1SN-P3SN-P4SN-P2SN".split("-"), 
-              xls_file, N_tag="M",C_tag="LEHHHHHHHH") == result
-              
+    annotated_seq = get_annotated_sequence("P1SN-P3SN-P4SN-P2SN".split("-"), 
+                    xls_file, linkers="GSGPG", N_tag="M",C_tag="LEHHHHHHHH")     
+    assert  annotated_seq == result
+     
+
+def test_get_annotated_sequence_alignment():
+    xls_file = u.relative_to(__file__, 'data/segments.xlsx')    
+    #TODO increase readibility    
+    result="""M
+SPED EIRQLEQ ENSQLER ENQRLEQ EIYQLER                \t|P1SN
+GSGPG
+SPED EIQQLEE EISQLEQ KNSELKE KNQELKY                \t|P3SN
+GSGPG
+SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY                \t|P4SN
+GSGPG
+SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY ENQQLEE ENSQLEY\t|longTE
+LEHHHHHHHH"""
+
+    annotated_seq = get_annotated_sequence("P1SN-P3SN-P4SN-longTE".split("-"), 
+                    xls_file, linkers="GSGPG", N_tag="M",C_tag="LEHHHHHHHH")    
+    #print(annotated_seq) 
+    assert  annotated_seq == result         
                
 def test_deannotate_sequence():
     annotated_sequence="""M
@@ -103,6 +123,7 @@ SPED KISQLKE KIQQLKQ ENQQLEE ENSQLEY
 SGPGS
 SPED KIEELKE KNSQLKE KNEELKQ KIYELKE
 LEHHHHHHHH"""
+
 
     assert deannotate_sequence(annotated_sequence)==result
     
