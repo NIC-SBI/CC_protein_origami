@@ -16,9 +16,15 @@ CoCoPOD is capable of designing amino-acid sequences and building 3D models for 
 
 **CoCoPOD** performs the first five steps of the design process.  Scripts are provided for automatic execution of all the steps, for maximum flexibility the package functionality is also available from python code.
 
+-  [Jump start/Tutorial](#tut)
+2. [Installation](#install)
+3. [Dependencies](#deps)
+4. [Tests](#tests)
+
 When using this platform please cite: (TBA).
 
-###**Jump start/Tutorial**
+<a name="tut"></a>
+###**Jump start/Tutorial** 
 ---------------------------------------
 Two full examples are provided in the [examples](examples/) subfolder. 
 #### APHsh
@@ -42,10 +48,10 @@ The [TET example](examples/TET/TET.ipynb) contains a complete tutorial on design
 	cd cocopod/examples/TET	
 	jupyter notebook TET.ipynb
 		 
-
+<a name="install"></a>
 ###**Installation**
----------------------------------------
-Using the [Anaconda](https://docs.continuum.io/anaconda/install) python distribution is recommended as it simplifies installing further dependencies. [Miniconda](http://conda.pydata.org/miniconda.html) also works nicely. Dependencies can be installed by running:
+--------------------------------------- 
+Using the [Anaconda](https://www.continuum.io/downloads) python distribution is recommended as it simplifies installing further dependencies. [Miniconda](http://conda.pydata.org/miniconda.html) also works nicely. [Git for windows](https://git-scm.com/download/win) is also recommended. Dependencies can be installed by running:
 
 	conda install numpy scipy pandas ipython ipython-notebook ipywidgets pyyaml xlrd biopython
 	#set the modeller liscence key
@@ -67,7 +73,7 @@ Note: Currently there are some problems installing Modeller via conda on windows
 Alternatively a zip file can be download, extracted and installed with `python setup.py develop`.
 
 
-
+<a name="deps"></a>
 ###**Dependencies**
 ---------------------------------------
 The package requires Python 2.7 or Python 3.3+ with numpy and pandas and works on Windows and Linux. On Windows a bash enviorment is recommended and can be obtained by installing [git for windows](https://git-scm.com/download/win).  
@@ -86,6 +92,7 @@ Testing:
 * [py.test](http://docs.pytest.org/en/latest/)
 * [pytest-xdist](https://pypi.python.org/pypi/pytest-xdist) (optional)
 
+<a name="tests"></a>
 ###**Tests**
 ---------------------------------------
 Installation can be tested by executing `py.test`, which checks if core modules of the software are working appropriately and all dependencies have been installed.
