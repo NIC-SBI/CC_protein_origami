@@ -16,10 +16,10 @@ CoCoPOD is capable of designing amino-acid sequences and building 3D models for 
 
 **CoCoPOD** performs the first five steps of the design process.  Scripts are provided for automatic execution of all the steps, for maximum flexibility the package functionality is also available from python code.
 
--  [Jump start/Tutorial](#tut)
-2. [Installation](#install)
-3. [Dependencies](#deps)
-4. [Tests](#tests)
+- [Jump start/Tutorial](#tut)
+- [Installation](#install)
+- [Dependencies](#deps)
+- [Tests](#tests)
 
 When using this platform please cite: (TBA).
 
@@ -35,12 +35,14 @@ To run the program user needs to provide an input file (`make_config.py`) contai
 * **annotaded_sequence**, where the sequence is broke down into individual CC segments and linkers, for every CC segment a name should be provided
 * **pairs_info**, in this section segment pairing is specified. For every pair the orientation (A for antiparallel and P for parallel) of the CC dimer should be provided, along with the name of CC dimer structure template file and name of the chains in the model structure.
 
-An example of the input file can be found under (examples/APHsh/make_config.py)[examples/APHsh/make_config.py]. Two APH segments are connected by a linker forming a covalently linked CC dimer. 
+An example of the input file can be found under [examples/APHsh/make_config.py](examples/APHsh/make_config.py). Two APH segments are connected by a linker forming a covalently linked CC dimer. 
 The models can be built and viewed by by typing in the terminal
 
 	cd cocopod/examples/APHsh	
-	doit
+	doit N_fold=1 N_homology=3
 	chimera */03-*.pdb
+
+Where `N_fold` is the number of independent folding simulations and `N_homology` the number of independent homology refinements of each folding simulation. The final number of models built thus equals `N_fold`*`N_homology`.
 
 #### TET
 The [TET example](examples/TET/TET.ipynb) contains a complete tutorial on designing protein origami polyhedral. The tutorial is presented in the from of a python notebook.  The demonstrated steps include loading a geometry (ply) file, enumerating all the typologies and circular permutations, choosing the best topology and constructing and evaluating 3D models. The notebook can be opened by:
