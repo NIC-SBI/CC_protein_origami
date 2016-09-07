@@ -80,7 +80,7 @@ def generate_json(name, entire_sequence, segments_str, pairs, out_name=None):
     for n, seg in enumerate(segments):
 
         
-        spl = re.split('[\t|;,]*',seg)        
+        spl = re.split('[\t|;,]+',seg)        
         seq = spl[0].replace(" ","")
         seg_name = spl[-1].strip()
         seq = seq.replace(" ","")        
