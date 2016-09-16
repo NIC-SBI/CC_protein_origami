@@ -16,7 +16,8 @@ CoCoPOD is capable of designing amino-acid sequences and building 3D models for 
 
 **CoCoPOD** performs the first five steps of the design process.  Scripts are provided for automatic execution of all the steps, for maximum flexibility the package functionality is also available from python code.
 
-- [Jump start/Tutorial](#tut)
+- [Quick Start](#tut)
+- [Video Tutorials](#vtut)
 - [Installation](#install)
 - [Dependencies](#deps)
 - [Tests](#tests)
@@ -24,7 +25,7 @@ CoCoPOD is capable of designing amino-acid sequences and building 3D models for 
 When using this platform please cite: (TBA).
 
 <a name="tut"></a>
-###**Jump start/Tutorial** 
+###**Quick Start** 
 ---------------------------------------
 Two full examples are provided in the [examples](examples/) subfolder. 
 #### APHsh
@@ -50,6 +51,27 @@ The [TET example](examples/TET/TET.ipynb) contains a complete tutorial on design
 	cd cocopod/examples/TET	
 	jupyter notebook TET.ipynb
 		 
+
+<a name="vtut"></a>
+###**Quick Start** 
+---------------------------------------
+Several video tutorials (screen casts) demonstrate how to effectively use **CoCoPOD**:
+
+[Part 1: installation](https://www.youtube.com/watch?v=lvTj_qRppME)
+
+[![Part 1: installation](http://img.youtube.com/vi/lvTj_qRppME/2.jpg)](http://www.youtube.com/watch?v=lvTj_qRppME)
+
+[Part 2: APHsh model building](https://www.youtube.com/watch?v=1Qa85p165Bk)
+
+[![Part 2: APHsh model building](http://img.youtube.com/vi/1Qa85p165Bk/3.jpg)](http://www.youtube.com/watch?v=1Qa85p165Bk)
+
+[Part 3: _de novo_ tetrahedron design](https://www.youtube.com/watch?v=-aD7mz4-XeY)
+
+[![Part 3: de novo tetrahedron design](http://img.youtube.com/vi/-aD7mz4-XeY/3.jpg)](http://www.youtube.com/watch?v=-aD7mz4-XeY)
+
+ 
+
+
 <a name="install"></a>
 ###**Installation**
 --------------------------------------- 
