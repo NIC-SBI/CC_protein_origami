@@ -25,10 +25,11 @@ CoCoPOD is capable of designing amino-acid sequences and building 3D models for 
 When using this platform please cite: (TBA).
 
 <a name="tut"></a>
-###**Quick Start** 
----------------------------------------
+##**Quick Start** 
+
+
 Two full examples are provided in the [examples](examples/) subfolder. 
-#### APHsh
+### APHsh
 [APHsh](examples/APHsh/make_config.py) is centered on building models and also serves as an integration test. An antiparallel APH segment is built  The second 
 To run the program user needs to provide an input file (`make_config.py`) containing information on the sequence of the protein origami design. The input consists of four sections:
 
@@ -45,7 +46,7 @@ The models can be built and viewed by by typing in the terminal
 
 Where `N_fold` is the number of independent folding simulations and `N_homology` the number of independent homology refinements of each folding simulation. The final number of models built thus equals `N_fold`*`N_homology`.
 
-#### TET
+### TET
 The [TET example](examples/TET/TET.ipynb) contains a complete tutorial on designing protein origami polyhedral. The tutorial is presented in the from of a python notebook.  The demonstrated steps include loading a geometry (ply) file, enumerating all the typologies and circular permutations, choosing the best topology and constructing and evaluating 3D models. The notebook can be opened by:
 
 	cd cocopod/examples/TET	
@@ -53,8 +54,8 @@ The [TET example](examples/TET/TET.ipynb) contains a complete tutorial on design
 		 
 
 <a name="vtut"></a>
-###**Quick Start** 
----------------------------------------
+##**Video Tutorials** 
+
 Several video tutorials (screen casts) demonstrate how to effectively use **CoCoPOD**:
 
 [Part 1: installation](https://www.youtube.com/watch?v=lvTj_qRppME)
@@ -73,8 +74,8 @@ Several video tutorials (screen casts) demonstrate how to effectively use **CoCo
 
 
 <a name="install"></a>
-###**Installation**
---------------------------------------- 
+##**Installation**
+
 Using the [Anaconda](https://www.continuum.io/downloads) python distribution is recommended as it simplifies installing further dependencies. [Miniconda](http://conda.pydata.org/miniconda.html) also works nicely. [Git for windows](https://git-scm.com/download/win) is also recommended. Dependencies can be installed by running:
 
 	conda install numpy scipy pandas ipython ipython-notebook ipywidgets pyyaml xlrd biopython
@@ -98,8 +99,7 @@ Alternatively a zip file can be download, extracted and installed with `python s
 
 
 <a name="deps"></a>
-###**Dependencies**
----------------------------------------
+##**Dependencies**
 The package requires Python 2.7 or Python 3.3+ with numpy and pandas and works on Windows and Linux. On Windows a bash enviorment is recommended and can be obtained by installing [git for windows](https://git-scm.com/download/win).  
 
 Other dependencies:
@@ -117,8 +117,7 @@ Testing:
 * [pytest-xdist](https://pypi.python.org/pypi/pytest-xdist) (optional)
 
 <a name="tests"></a>
-###**Tests**
----------------------------------------
+##**Tests**
 Installation can be tested by executing `py.test`, which checks if core modules of the software are working appropriately and all dependencies have been installed.
 
 	conda install pytest
