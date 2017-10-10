@@ -1,6 +1,4 @@
-(This is a place holder. Code will be released after publication)
-
-#**CoCoPOD**                                 
+# **CoCoPOD**                                 
 ## Coiled-Coil Protein Origami Design platform
 
 ![Images of designed protein origami](images/for-readme.png)
@@ -22,10 +20,14 @@ CoCoPOD is capable of designing amino-acid sequences and building 3D models for 
 - [Dependencies](#deps)
 - [Tests](#tests)
 
-When using this platform please cite: (TBA).
+## Citing CoCoPOD
+
+When using this platform in publications please cite:
+
+[A. Ljubetič, F. Lapenta ... R. Jerala; *Design of coiled-coil protein origami cages that self-assemble in vitro and in vivo*; Nature Biotechnology, 2017, http://dx.doi.org/10.1038/nbt.3994](http://dx.doi.org/10.1038/nbt.3994)  
 
 <a name="tut"></a>
-##**Quick Start** 
+## Quick Start
 
 
 Two full examples are provided in the [examples](examples/) subfolder. 
@@ -74,7 +76,7 @@ Several video tutorials (screen casts) demonstrate how to effectively use **CoCo
 
 
 <a name="install"></a>
-##**Installation**
+## Installation
 
 Using the [Anaconda](https://www.continuum.io/downloads) python distribution is recommended as it simplifies installing further dependencies. [Miniconda](http://conda.pydata.org/miniconda.html) also works nicely. [Git for windows](https://git-scm.com/download/win) is also recommended. Dependencies can be installed by running:
 
@@ -117,7 +119,7 @@ Testing:
 * [pytest-xdist](https://pypi.python.org/pypi/pytest-xdist) (optional)
 
 <a name="tests"></a>
-##**Tests**
+## Tests
 Installation can be tested by executing `py.test`, which checks if core modules of the software are working appropriately and all dependencies have been installed.
 
 	conda install pytest
