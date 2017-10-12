@@ -36,7 +36,7 @@ Two full examples are provided in the [examples](examples/) subfolder.
 To run the program user needs to provide an input file (`make_config.py`) containing information on the sequence of the protein origami design. The input consists of four sections:
 
 * **model_name**, specifying the name of the protein origami design 
-* **annotaded_sequence**, where the sequence is broke down into individual CC segments and linkers, for every CC segment a name should be provided
+* **annotated_sequence**, where the sequence is broke down into individual CC segments and linkers, for every CC segment a name should be provided
 * **pairs_info**, in this section segment pairing is specified. For every pair the orientation (A for antiparallel and P for parallel) of the CC dimer should be provided, along with the name of CC dimer structure template file and name of the chains in the model structure.
 
 An example of the input file can be found under [examples/APHsh/make_config.py](examples/APHsh/make_config.py). Two APH segments are connected by a linker forming a covalently linked CC dimer. 
@@ -56,7 +56,7 @@ The [TET example](examples/TET/TET.ipynb) contains a complete tutorial on design
 		 
 
 <a name="vtut"></a>
-##**Video Tutorials** 
+## Video Tutorials
 
 Several video tutorials (screen casts) demonstrate how to effectively use **CoCoPOD**:
 
